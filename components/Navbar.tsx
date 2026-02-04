@@ -16,10 +16,10 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "./ui/navigation-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import img from "@/public/avatar.png"
+import img from "@/public/avatar.png";
 import Image from "next/image";
+import { Avatar, AvatarFallback } from "./ui/avatar";
+import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "./ui/navigation-menu";
 
 export default function Navbar() {
   const { setTheme } = useTheme();
@@ -35,16 +35,16 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <section className="hidden md:flex items-center gap-6 w-full justify-center">
-          <Link href="/products" className="text-sm font-medium hover:text-primary">
+          <a href="#work" className="text-sm font-medium hover:text-primary">
             work
-          </Link>
-          <Link href="/categories" className="text-sm font-medium hover:text-primary">
+          </a>
+          <Link href="#skills" className="text-sm font-medium hover:text-primary">
             skills
           </Link>
-          <Link href="/offers" className="text-sm font-medium hover:text-primary">
+          <Link href="#experience" className="text-sm font-medium hover:text-primary">
             experience
           </Link>
-          <Link href="/contact us" className="text-sm font-medium hover:text-primary">
+          <Link href="#testimonials" className="text-sm font-medium hover:text-primary">
             testimonials
           </Link>
         </section>
@@ -94,10 +94,10 @@ export default function Navbar() {
 
             <SheetContent side="right">
               <section className="flex flex-col gap-4 mt-6 p-4">
-                <Link href="/products">work</Link>
-                <Link href="/categories">skills</Link>
-                <Link href="/offers">experience</Link>
-                <Link href="/offers">testimonials</Link>
+                <Link href="#work">work</Link>
+                <Link href="#skills">skills</Link>
+                <Link href="#experience">experience</Link>
+                <Link href="#testimonials">testimonials</Link>
               </section>
             </SheetContent>
           </Sheet>
