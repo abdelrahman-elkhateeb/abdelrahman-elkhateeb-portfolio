@@ -17,6 +17,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "./ui/navigation-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import img from "@/public/avatar.png"
+import Image from "next/image";
 
 export default function Navbar() {
   const { setTheme } = useTheme();
@@ -24,6 +27,11 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full bg-background">
       <div className="container mx-auto flex h-16 items-center md:justify-between px-4 justify-end">
+
+      <Avatar>
+          <Image src={img} alt="user profile"/>
+          <AvatarFallback>AK</AvatarFallback>
+      </Avatar>
 
         {/* Desktop Navigation */}
         <section className="hidden md:flex items-center gap-6 w-full justify-center">
