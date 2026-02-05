@@ -13,11 +13,15 @@ export default function MilestonesCard() {
         return (
           <Card key={index} className="group transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
             <CardHeader>
-              <CardTitle>{item.label}</CardTitle>
+              <CardTitle>
+                {item.label}
+              </CardTitle>
+
               <CardAction>
                 {<Icon className="w-8 h-8 text-primary group-hover:scale-110 transition-transform" />}
               </CardAction>
             </CardHeader>
+
             <CardContent>
               <div className="text-4xl font-bold sm:text-5xl text-primary">
                 <CountUp

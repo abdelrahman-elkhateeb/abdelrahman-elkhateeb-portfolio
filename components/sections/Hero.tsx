@@ -1,6 +1,7 @@
 
 import HeroExperience from "../HeroModels/HeroExperience"
 import HeroText from "../HeroText"
+import TypeWriterAnimation from "../TypeWriterAnimation"
 import { Button } from "../ui/button"
 
 export default function Hero() {
@@ -12,9 +13,7 @@ export default function Hero() {
           <div>
             <HeroText />
 
-            <p className="text-white-50 md:text-xl relative pointer-events-none">
-              Hi, I&apos;m Abdelrahman Elkhateeb, a Frontend Engineer.
-            </p>
+            <TypeWriterAnimation text="Hi, I&apos;m Abdelrahman Elkhateeb, a Frontend Engineer." className="md:text-xl pointer-events-none" tagType="p"/>
 
             <a href="#work">
               <Button variant="link" className="p-0 text-lg">see my work</Button>
