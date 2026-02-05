@@ -6,28 +6,28 @@ import { Button } from "../ui/button"
 export default function Hero() {
   return (
     <section className="hero-gaming-bg h-[90vh]">
-      <div className="relative isolate grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8 items-center container mx-auto px-4 h-full">
+      <div className="relative isolate flex flex-col-reverse md:flex-row items-center container mx-auto px-4 h-full">
         {/* hero text */}
-        <div className="relative z-10 flex flex-col justify-center gap-7 md:py-10">
+        <div className="flex flex-col justify-center flex-1">
           <div>
             <HeroText />
 
-            <p className="text-white-50 md:text-xl relative z-10 pointer-events-none">
+            <p className="text-white-50 md:text-xl relative pointer-events-none">
               Hi, I&apos;m Abdelrahman Elkhateeb, a Frontend Engineer.
             </p>
 
             <a href="#work">
-              <Button variant="link" className="p-0 mt-5 text-lg">see my work</Button>
+              <Button variant="link" className="p-0 text-lg">see my work</Button>
             </a>
           </div>
         </div>
-        
+
         {/* hero model */}
-        <div className="relative z-10 h-full">
-          <figure className="w-full h-full">
+        <figure className="md:flex-1 w-full relative min-h-100 md:min-h-200">
+          <div className=" w-full h-full absolute inset-0">
             <HeroExperience />
-          </figure>
-        </div>
+          </div>
+        </figure>
       </div>
     </section>
   )
