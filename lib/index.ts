@@ -1,3 +1,5 @@
+import { Briefcase, FolderCheck, Users } from "lucide-react";
+
 const navLinks = [
   {
     name: "Work",
@@ -29,9 +31,24 @@ const words = [
 ];
 
 const counterItems = [
-  { value: 3, suffix: "+", label: "Years of Experience" },
-  { value: 15, suffix: "+", label: "Completed Projects" },
-  { value: 90, suffix: "%", label: "Client Retention Rate" },
+  {
+    value: 3,
+    suffix: "+",
+    label: "Years of Experience",
+    icon: Briefcase,
+  },
+  {
+    value: 15,
+    suffix: "+",
+    label: "Completed Projects",
+    icon: FolderCheck,
+  },
+  {
+    value: 90,
+    suffix: "%",
+    label: "Client Retention Rate",
+    icon: Users,
+  },
 ];
 
 const logoIconsList = [

@@ -1,30 +1,35 @@
+'use client'
+
 import { counterItems } from "@/lib";
-import { Card, CardContent } from "./ui/card";
+import CountUp from "react-countup";
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 export default function MilestonesCard() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-      {counterItems.map((item, index) => (
-        <Card
-          key={index}
-          className="group transition-all duration-300 hover:border-primary/50 hover:shadow-lg"
-        >
-          <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-2">
-            {/* The Big Number */}
-            <div className="text-4xl font-bold tracking-tighter sm:text-5xl">
-              <span className="text-primary group-hover:animate-pulse">
-                {item.value}
-              </span>
-              <span>{item.suffix}</span>
-            </div>
+      {counterItems.map((item, index) => {
+        const Icon = item.icon;
 
-            {/* The Label */}
-            <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">
-              {item.label}
-            </p>
-          </CardContent>
-        </Card>
-      ))}
+        return (
+          <Card key={index} className="group transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
+            <CardHeader>
+              <CardTitle>{item.label}</CardTitle>
+              <CardAction>
+                {<Icon className="w-8 h-8 text-primary group-hover:scale-110 transition-transform" />}
+              </CardAction>
+            </CardHeader>
+            <CardContent>
+              <div className="text-4xl font-bold sm:text-5xl text-primary">
+                <CountUp
+                  end={item.value}
+                  suffix={item.suffix}
+                  enableScrollSpy
+                />
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })}
     </div>
   );
 }
