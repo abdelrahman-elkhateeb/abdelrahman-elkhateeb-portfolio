@@ -38,7 +38,7 @@ export default function RootLayout({
           <nav>
             <Navbar />
           </nav>
-          <main className="container mx-auto px-4">
+          <main>
             {children}
           </main>
         </ThemeProvider>

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -113,13 +115,101 @@
   --sidebar-ring: oklch(0.38 0.189 293.745);
 }
 
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "VT323", monospace;
   }
 }
 
+@layer utilities {
+  .hero-gaming-bg {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-gaming-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(
+        65rem circle at 18% 12%,
+        color-mix(in oklch, var(--primary) 46%, transparent),
+        transparent 55%
+      ),
+      radial-gradient(
+        50rem circle at 82% 60%,
+        color-mix(in oklch, var(--ring) 34%, transparent),
+        transparent 60%
+      ),
+      linear-gradient(
+        180deg,
+        color-mix(in oklch, var(--background) 65%, transparent),
+        var(--background)
+      );
+    filter: saturate(1.15);
+    opacity: 0.95;
+  }
+
+  .hero-gaming-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      repeating-linear-gradient(
+        90deg,
+        color-mix(in oklch, var(--primary) 18%, transparent) 0 1px,
+        transparent 1px 52px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        color-mix(in oklch, var(--primary) 12%, transparent) 0 1px,
+        transparent 1px 52px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent 0 2px,
+        color-mix(in oklch, var(--foreground) 6%, transparent) 2px 3px
+      );
+    background-size:
+      52px 52px,
+      52px 52px,
+      100% 100%;
+    background-position:
+      0 0,
+      0 0,
+      0 0;
+    opacity: 0.38;
+    mask-image: radial-gradient(circle at 50% 30%, #000 0%, transparent 68%);
+    animation: heroGridPan 18s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-gaming-bg::after {
+      animation: none;
+    }
+  }
+}
+
+@keyframes heroGridPan {
+  from {
+    background-position:
+      0 0,
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      156px 78px,
+      78px 156px,
+      0 0;
+  }
+}
