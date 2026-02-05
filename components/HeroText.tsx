@@ -62,7 +62,7 @@ export default function HeroText() {
                 alt={word.text}
                 width={100}
                 height={100}
-                className="xl:size-12 md:size-10 size-7 rounded-full bg-white-50 p-1"
+                className="xl:size-12 md:size-10 size-7 rounded-full dark:bg-white p-1"
               />
               <span className="whitespace-nowrap">{word.text}</span>
             </span>
