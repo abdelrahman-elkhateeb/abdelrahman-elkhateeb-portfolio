@@ -15,7 +15,7 @@ const HeroExperience = () => {
 
   return (
     <Canvas
-      camera={{ position: [0, 0, 20], fov: 45 }}
+      camera={{ position: [0, 15, 20], fov: 45 }}
     >
       <HeroLights />
       <OrbitControls
