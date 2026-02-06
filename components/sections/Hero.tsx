@@ -6,7 +6,7 @@ import { Button } from "../ui/button"
 
 export default function Hero() {
   return (
-    <section className="hero-gaming-bg h-[90vh]">
+    <section className="hero-gaming-bg h-[95vh]">
       <div className="relative isolate flex flex-col-reverse xl:flex-row items-center container mx-auto px-4 h-full">
         {/* hero text */}
         <div className="flex flex-col justify-center flex-1">
