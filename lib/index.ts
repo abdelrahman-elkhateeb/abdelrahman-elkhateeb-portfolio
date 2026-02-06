@@ -47,6 +47,50 @@ const counterItems = [
   },
 ];
 
+// Import your images
+import proj1 from "@/public/images/project (1).png"
+import proj2 from "@/public/images/project (2).png"
+import proj3 from "@/public/images/project (3).png"
+
+const projectsData = [
+  {
+    title: "Lumina",
+    description: "Full-stack MERN e-learning platform featuring secure auth, Stripe payments, and an in-browser IDE.",
+    details: [
+      "Built a full-stack MERN e-learning platform with secure backend authentication, Google OAuth, and role-based access control (Admin, Instructor, Student), providing tailored dashboards and permissions.",
+      "Enabled secure course purchasing through Stripe API integration, allowing students to enroll seamlessly while giving admins full control over course content, structure, and pricing.",
+      "Delivered an interactive learning experience by integrating a live in-browser IDE, a chatbot assistant, and a placement test system to guide course decisions, with instructors managing full CRUD operations."
+    ],
+    image: proj1,
+    link: "https://github.com/abdelrahman-elkhateeb/Lumina",
+    type: "GitHub"
+  },
+  {
+    title: "Admin Dashboard (ShadCN UI)",
+    description: "A scalable, production-ready admin interface built with Shadcn UI and interactive data visualizations.",
+    details: [
+      "Addressed the complexity of admin workflows by building a clear, scalable dashboard interface with intuitive navigation, a collapsible sidebar, and dark mode support.",
+      "Enabled faster, data-driven decisions by transforming complex datasets into actionable visual insights using interactive charts and advanced data tables.",
+      "Improved usability, reliability, and maintainability through reusable UI components, validated forms, and accessibility-first patterns—making the dashboard production-ready."
+    ],
+    image: proj2,
+    link: "https://shadcn-dashboard-two-lovat.vercel.app/",
+    type: "Live Demo"
+  },
+  {
+    title: "Student Guide",
+    description: "Mobile-first platform for academic resources, scheduling, and GPA tracking with 98+ Lighthouse performance.",
+    details: [
+      "Built a responsive, mobile-first student platform that brings together locations, TA information, schedules, courses, and key resources in one place, achieving 98+ Lighthouse performance.",
+      "Helped students track their academic progress by providing easy-to-use grade and GPA calculators for faster and more accurate planning.",
+      "Delivered a simple and intuitive interface that centralized academic tools and peer-guided course resources, adopted by 100+ students as a daily reference."
+    ],
+    image: proj3,
+    link: "https://github.com/AhmedHosny2/Student-Guide",
+    type: "GitHub"
+  }
+];
+
 const logoIconsList = [
   {
     imgPath: "/images/logos/company-logo-1.png",
@@ -287,4 +331,5 @@ export {
   techStackIcons,
   techStackImgs,
   navLinks,
+  projectsData
 };

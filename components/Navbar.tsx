@@ -38,15 +38,18 @@ export default function Navbar() {
           <a href="#work" className="text-sm font-medium hover:text-primary">
             work
           </a>
-          <Link href="#skills" className="text-sm font-medium hover:text-primary">
+          <a href="#projects" className="text-sm font-medium hover:text-primary">
+            Projects
+          </a>
+          <a href="#skills" className="text-sm font-medium hover:text-primary">
             skills
-          </Link>
-          <Link href="#experience" className="text-sm font-medium hover:text-primary">
+          </a>
+          <a href="#experience" className="text-sm font-medium hover:text-primary">
             experience
-          </Link>
-          <Link href="#testimonials" className="text-sm font-medium hover:text-primary">
+          </a>
+          <a href="#testimonials" className="text-sm font-medium hover:text-primary">
             testimonials
-          </Link>
+          </a>
         </section>
 
         {/* Actions */}
@@ -94,10 +97,21 @@ export default function Navbar() {
 
             <SheetContent side="right">
               <section className="flex flex-col gap-4 mt-6 p-4">
-                <Link href="#work">work</Link>
-                <Link href="#skills">skills</Link>
-                <Link href="#experience">experience</Link>
-                <Link href="#testimonials">testimonials</Link>
+                <a href="#work">
+                  work
+                </a>
+                <a href="#projects">
+                  Projects
+                </a>
+                <a href="#skills">
+                  skills
+                </a>
+                <a href="#experience">
+                  experience
+                </a>
+                <a href="#testimonials">
+                  testimonials
+                </a>
               </section>
             </SheetContent>
           </Sheet>

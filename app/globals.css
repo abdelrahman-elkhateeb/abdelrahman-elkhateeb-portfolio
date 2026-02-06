@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -215,4 +215,39 @@ body {
       78px 156px,
       0 0;
   }
+}
+
+/* projects section */
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .grid-layout {
+    grid-template-areas:
+      "pro1 pro1 pro2"
+      "pro1 pro1 pro3";
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    align-items: start;
+  }
+
+  .project1 {
+    grid-area: pro1;
+  }
+
+  .project2 {
+    grid-area: pro2;
+  }
+  .project3 {
+    grid-area: pro3;
+  }
+}
+
+.project1,
+.project2,
+.project3 {
+  transition: opacity 0.3s ease;
 }
