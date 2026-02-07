@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  easeInOut,
-  easeOut,
-  motion,
-  useReducedMotion,
-  type Variants,
-} from "framer-motion";
+import { motion } from "framer-motion";
 
 const MotionTags = {
   h1: motion.h1,
@@ -22,8 +16,8 @@ type MotionTag = keyof typeof MotionTags;
 type TextAnimationProps = {
   text: string;
   className?: string;
-  startDelaySeconds?: number;
   tagType?: MotionTag;
+  startDelaySeconds?: number;
 };
 
 export default function TypeWriterAnimation({
@@ -32,81 +26,49 @@ export default function TypeWriterAnimation({
   tagType = "h1",
   startDelaySeconds = 0,
 }: TextAnimationProps) {
-  const shouldReduceMotion = useReducedMotion();
+  const MotionComponent = MotionTags[tagType];
+  const letters = text.split("");
 
-  const Tag = MotionTags[tagType];
-
-  const letterDelaySeconds = 0.015;
-  const letterDurationSeconds = 0.25;
-  const boxFadeDurationSeconds = 0.15;
-
-  if (shouldReduceMotion) {
-    return <Tag className={className}>{text}</Tag>;
-  }
-
-  const containerVariants: Variants = {
-    hidden: {},
-    visible: {
-      transition: {
-        delayChildren: startDelaySeconds,
-        staggerChildren: letterDelaySeconds,
-      },
-    },
-  };
-
-  const letterVariants: Variants = {
-    hidden: { opacity: 0, y: "0.25em", filter: "blur(4px)" },
-    visible: {
-      opacity: 1,
-      y: "0em",
-      filter: "blur(0px)",
-      transition: { duration: letterDurationSeconds, ease: easeOut },
-    },
-  };
-
-  const boxVariants: Variants = {
+  const container = {
     hidden: { opacity: 0 },
     visible: {
-      opacity: [0, 1, 0],
+      opacity: 1,
       transition: {
-        duration: boxFadeDurationSeconds,
-        times: [0, 0.2, 1],
-        ease: easeInOut,
+        staggerChildren: 0.05,
+        delayChildren: startDelaySeconds,
       },
+    },
+  };
+
+  const child = {
+    visible: {
+      opacity: 1,
+      display: "inline",
+    },
+    hidden: {
+      opacity: 0,
+      display: "none",
     },
   };
 
   return (
-    <Tag
-      className={`${className} mb-5`}
+    <MotionComponent
+      variants={container}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: "all" }}
-      variants={containerVariants}
+      viewport={{ once: true }}
+      className={className}
     >
-      {text.split("").map((char, index) => {
-        const displayedChar = char === " " ? "\u00A0" : char;
-
-        return (
-          <motion.span
-            key={`${index}-${char}`}
-            className="relative inline-block"
-          >
-            <motion.span
-              className="inline-block whitespace-pre"
-              variants={letterVariants}
-            >
-              {displayedChar}
-            </motion.span>
-
-            <motion.span
-              aria-hidden
-              className="pointer-events-none absolute inset-y-0 left-0 right-0 bg-current opacity-70"
-              variants={boxVariants}
-            />
-          </motion.span>
-        );
-      })}
-    </Tag>
+      {letters.map((letter, index) => (
+        <motion.span variants={child} key={index}>
+          {letter === " " ? "\u00A0" : letter}
+        </motion.span>
+      ))}
+      <motion.span
+        animate={{ opacity: [0, 1, 0] }}
+        transition={{ repeat: Infinity, duration: 0.8 }}
+        className="inline-block w-[2px] h-[0.8em] bg-current ml-1 align-baseline"
+      />
+    </MotionComponent>
   );
 }
