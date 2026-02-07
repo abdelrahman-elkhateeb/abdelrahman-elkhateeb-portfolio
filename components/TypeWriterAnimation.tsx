@@ -27,7 +27,7 @@ export default function TypeWriterAnimation({
   startDelaySeconds = 0,
 }: TextAnimationProps) {
   const MotionComponent = MotionTags[tagType];
-  const letters = text.split("");
+  const words = text.split(" ");
 
   const container = {
     hidden: { opacity: 0 },
@@ -40,15 +40,9 @@ export default function TypeWriterAnimation({
     },
   };
 
-  const child = {
-    visible: {
-      opacity: 1,
-      display: "inline",
-    },
-    hidden: {
-      opacity: 0,
-      display: "none",
-    },
+  const letterVariant = {
+    visible: { opacity: 1, display: "inline" },
+    hidden: { opacity: 0, display: "none" },
   };
 
   return (
@@ -57,17 +51,23 @@ export default function TypeWriterAnimation({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className={className}
+      className={`${className} flex flex-wrap`}
     >
-      {letters.map((letter, index) => (
-        <motion.span variants={child} key={index}>
-          {letter === " " ? "\u00A0" : letter}
-        </motion.span>
+      {words.map((word, wordIndex) => (
+        <span key={wordIndex} className="inline-block whitespace-nowrap">
+          {word.split("").map((char, charIndex) => (
+            <motion.span variants={letterVariant} key={charIndex}>
+              {char}
+            </motion.span>
+          ))}
+          {wordIndex !== words.length - 1 && <span>&nbsp;</span>}
+        </span>
       ))}
+
       <motion.span
         animate={{ opacity: [0, 1, 0] }}
         transition={{ repeat: Infinity, duration: 0.8 }}
-        className="inline-block w-[2px] h-[0.8em] bg-current ml-1 align-baseline"
+        className="inline-block w-0.5 bg-current ml-1 align-baseline"
       />
     </MotionComponent>
   );

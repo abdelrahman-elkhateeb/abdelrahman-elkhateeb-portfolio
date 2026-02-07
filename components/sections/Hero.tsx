@@ -13,7 +13,7 @@ export default function Hero() {
           <div>
             <HeroText />
 
-            <TypeWriterAnimation text="Hi, I&apos;m Abdelrahman Elkhateeb, a Frontend Engineer." className="md:text-xl pointer-events-none" tagType="p"/>
+            <TypeWriterAnimation text="Hi, I&apos;m Abdelrahman Elkhateeb, a Frontend Engineer." className="md:text-xl" tagType="p" />
 
             <a href="#work">
               <Button variant="link" className="p-0 text-lg">see my work</Button>
