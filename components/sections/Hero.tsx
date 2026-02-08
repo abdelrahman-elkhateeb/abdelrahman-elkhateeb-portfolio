@@ -15,7 +15,7 @@ export default function Hero() {
 
             <TypeWriterAnimation text="Hi, I&apos;m Abdelrahman Elkhateeb, a Frontend Engineer." className="md:text-xl" tagType="p" />
 
-            <a href="#work">
+            <a href="#projects">
               <Button variant="link" className="p-0 text-lg">see my work</Button>
             </a>
           </div>

@@ -35,20 +35,14 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <section className="hidden md:flex items-center gap-6 w-full justify-center">
-          <a href="#work" className="text-sm font-medium hover:text-primary">
-            work
+          <a href="#milestone" className="text-sm font-medium hover:text-primary">
+            milestones
           </a>
           <a href="#projects" className="text-sm font-medium hover:text-primary">
             Projects
           </a>
-          <a href="#skills" className="text-sm font-medium hover:text-primary">
-            skills
-          </a>
           <a href="#experience" className="text-sm font-medium hover:text-primary">
             experience
-          </a>
-          <a href="#testimonials" className="text-sm font-medium hover:text-primary">
-            testimonials
           </a>
         </section>
 
@@ -97,20 +91,14 @@ export default function Navbar() {
 
             <SheetContent side="right">
               <section className="flex flex-col gap-4 mt-6 p-4">
-                <a href="#work">
-                  work
+                <a href="#milestone">
+                  milestones
                 </a>
                 <a href="#projects">
                   Projects
                 </a>
-                <a href="#skills">
-                  skills
-                </a>
                 <a href="#experience">
                   experience
-                </a>
-                <a href="#testimonials">
-                  testimonials
                 </a>
               </section>
             </SheetContent>

@@ -1,3 +1,4 @@
+import Experience from "@/components/sections/Experience";
 import Hero from "@/components/sections/Hero";
 import Milestones from "@/components/sections/Milestones";
 import Projects from "@/components/sections/Projects";
@@ -8,6 +9,7 @@ export default function Home() {
       <Hero />
       <Milestones />
       <Projects />
+      <Experience />
     </>
   );
 }
