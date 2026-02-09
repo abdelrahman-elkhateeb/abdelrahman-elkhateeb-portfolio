@@ -42,20 +42,6 @@ export default function MilestonesCard() {
                 />
               </div>
             </div>
-
-            <div className="mt-6 flex items-center gap-2">
-              <div className="h-[2px] flex-grow bg-white/5 overflow-hidden">
-                <motion.div
-                  initial={{ x: '-100%' }}
-                  whileInView={{ x: '100%' }}
-                  transition={{ repeat: Infinity, duration: 3, ease: "linear", delay: index * 0.5 }}
-                  className="h-full w-1/2 bg-gradient-to-r from-transparent via-primary/50 to-transparent"
-                />
-              </div>
-              <span className="font-mono text-[8px] text-muted-foreground/30">L_STAT: OK</span>
-            </div>
-
-            <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_2px,3px_100%] opacity-20" />
           </div>
         );
       })}
