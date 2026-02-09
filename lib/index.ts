@@ -9,7 +9,7 @@ const words = [
 
 const counterItems = [
   {
-    value: 3,
+    value: 1,
     suffix: "+",
     label: "Years of Experience",
     icon: Briefcase,
