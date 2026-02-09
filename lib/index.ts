@@ -15,7 +15,7 @@ const counterItems = [
     icon: Briefcase,
   },
   {
-    value: 15,
+    value: 6,
     suffix: "+",
     label: "Completed Projects",
     icon: FolderCheck,
