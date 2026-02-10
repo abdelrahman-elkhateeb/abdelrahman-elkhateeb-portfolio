@@ -2,7 +2,6 @@
 
 import { Menu, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -28,7 +27,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full bg-background">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
 
-        <Avatar>
+        <Avatar size="lg">
           <Image src={img} alt="user profile" />
           <AvatarFallback>AK</AvatarFallback>
         </Avatar>
