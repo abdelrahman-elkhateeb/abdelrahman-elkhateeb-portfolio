@@ -300,6 +300,46 @@ const socialImgs = [
   },
 ];
 
+const milestones = [
+  {
+    id: 1,
+    role: "Frontend Developer",
+    title: "Student Guide Platform",
+    techStack: ["HTML", "CSS", "JavaScript"],
+    description:
+      "Built a centralized academic platform to simplify access to Computer Science department resources.",
+    highlights: [
+      "Developed Office and TA directories with structured contact and scheduling data.",
+      "Created a Courses hub with organized peer-guided resources.",
+      "Implemented schedule viewer for all CS department timetables.",
+      "Built dynamic Grade and GPA calculators.",
+      "Centralized essential academic tools in a single interface."
+    ]
+  },
+  {
+    id: 2,
+    role: "MERN Stack Developer",
+    title: "Task Tracker – Project Management System",
+    organization: "Digital Egypt Pioneers Initiative (DEPI)",
+    techStack: [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Tailwind CSS"
+    ],
+    description:
+      "Developed a full-stack task and project management system with secure authentication and role-based access control.",
+    highlights: [
+      "Implemented user authentication and RBAC permissions.",
+      "Designed RESTful APIs and structured MongoDB schemas.",
+      "Built project role system (Owner, Manager, Contributor, Viewer).",
+      "Added filtering, sorting, search, and priority management.",
+      "Delivered responsive UI with dark mode support."
+    ]
+  }
+]
+
 export {
   words,
   abilities,
@@ -311,5 +351,6 @@ export {
   socialImgs,
   techStackIcons,
   techStackImgs,
-  projectsData
+  projectsData,
+  milestones
 };

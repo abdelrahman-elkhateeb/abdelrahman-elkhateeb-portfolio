@@ -1,9 +1,8 @@
 "use client"
 
 import { counterItems } from "@/lib";
-import CountUp from "react-countup";
-import { motion } from "framer-motion";
 import { Terminal } from "lucide-react";
+import CountUp from "react-countup";
 
 export default function MilestonesCard() {
   return (

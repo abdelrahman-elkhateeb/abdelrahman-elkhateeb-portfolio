@@ -23,7 +23,7 @@ export default function ProjectCard() {
             {/* The "Scanner" line effect on hover */}
             <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
 
-            <div>
+            <div className="flex justify-between flex-col h-full">
               {/* IMAGE CONTAINER with "Angular Clip" */}
               <div className="relative overflow-hidden aspect-video lg:aspect-square border border-white/10 group-hover:border-primary/50 transition-colors">
                 {/* Decorative HUD Corners */}
