@@ -4,10 +4,10 @@ import { milestones } from "@/lib";
 import { Terminal, ChevronRight, ArrowDown, AlertCircle, CheckCircle2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 export default function ExperienceCard() {
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -17,7 +17,7 @@ export default function ExperienceCard() {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
@@ -88,7 +88,7 @@ export default function ExperienceCard() {
                   <div className="bg-destructive/5 p-3 border-l-4 border-destructive/50">
                     <div className="flex items-center gap-2 mb-1">
                       <AlertCircle size={14} className="text-destructive" />
-                      <span className="text-[10px] font-bold uppercase text-destructive tracking-widest">The_Challenge</span>
+                      <span className="text-[10px] font-bold uppercase text-destructive tracking-widest">Challenge</span>
                     </div>
                     <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
                       {item.problem}
@@ -99,7 +99,7 @@ export default function ExperienceCard() {
                   <div className="bg-primary/5 p-3 border-l-4 border-primary/50">
                     <div className="flex items-center gap-2 mb-1">
                       <CheckCircle2 size={14} className="text-primary" />
-                      <span className="text-[10px] font-bold uppercase text-primary tracking-widest">The_Solution</span>
+                      <span className="text-[10px] font-bold uppercase text-primary tracking-widest">Solution</span>
                     </div>
                     <p className="text-xs md:text-sm text-foreground/90 leading-relaxed font-medium italic">
                       {item.solution}
@@ -110,7 +110,7 @@ export default function ExperienceCard() {
                 {/* --- Section: Highlights --- */}
                 <div className="space-y-2 pl-4">
                   <p className="text-[10px] font-bold text-muted-foreground uppercase mb-2 tracking-[0.2em] px-2 opacity-70">
-                    &gt; Key_Impact_Metrics
+                    &gt; Key_Achievements
                   </p>
                   {item.highlights.map((highlight, idx) => (
                     <div key={idx} className="flex items-start gap-2 group text-sm">
@@ -145,7 +145,7 @@ export default function ExperienceCard() {
               >
                 <ArrowDown size={20} strokeWidth={3} />
               </motion.div>
-              <span className="text-[9px] font-bold tracking-[0.3em] uppercase">Scroll_For_More</span>
+              <span className="text-[9px] font-bold tracking-[0.3em] uppercase">Next_Milestone</span>
             </motion.div>
           )}
         </div>
