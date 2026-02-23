@@ -306,14 +306,13 @@ const milestones = [
     role: "Frontend Developer",
     title: "Student Guide Platform",
     techStack: ["HTML", "CSS", "JavaScript"],
-    description:
-      "Built a centralized academic platform to simplify access to Computer Science department resources.",
+    problem: "Students faced fragmented access to academic resources, leading to confusion and wasted time searching for schedules and GPA tools.",
+    solution: "Engineered a centralized digital hub to consolidate all CS department tools and directories into a single, intuitive interface.",
     highlights: [
-      "Developed Office and TA directories with structured contact and scheduling data.",
-      "Created a Courses hub with organized peer-guided resources.",
-      "Implemented schedule viewer for all CS department timetables.",
-      "Built dynamic Grade and GPA calculators.",
-      "Centralized essential academic tools in a single interface."
+      "Eliminated manual GPA calculations by building a dynamic calculator with 100% accuracy.",
+      "Streamlined student-faculty communication by centralizing TA and Office directories.",
+      "Resolved schedule conflicts by implementing a real-time departmental timetable viewer.",
+      "Simplified resource discovery through an organized, peer-guided courses hub."
     ]
   },
   {
@@ -321,24 +320,45 @@ const milestones = [
     role: "MERN Stack Developer",
     title: "Task Tracker – Project Management System",
     organization: "Digital Egypt Pioneers Initiative (DEPI)",
-    techStack: [
-      "React.js",
-      "Node.js",
-      "Express.js",
-      "MongoDB",
-      "Tailwind CSS"
-    ],
-    description:
-      "Developed a full-stack task and project management system with secure authentication and role-based access control.",
+    techStack: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
+    problem: "Lack of structured oversight in team projects led to unauthorized data access and difficulty in tracking task priorities.",
+    solution: "Developed a secure, role-based project management system to enforce data integrity and improve team workflow visibility.",
     highlights: [
-      "Implemented user authentication and RBAC permissions.",
-      "Designed RESTful APIs and structured MongoDB schemas.",
-      "Built project role system (Owner, Manager, Contributor, Viewer).",
-      "Added filtering, sorting, search, and priority management.",
-      "Delivered responsive UI with dark mode support."
+      "Secured sensitive project data by implementing a robust RBAC (Role-Based Access Control) system.",
+      "Optimized database performance by designing structured MongoDB schemas for complex task relations.",
+      "Enhanced decision-making by adding advanced filtering, search, and priority-based sorting.",
+      "Boosted user retention with a responsive UI and high-performance dark mode support."
+    ]
+  },
+  {
+    id: 3,
+    role: "Full-Stack Developer",
+    title: "Lumina – E-Learning Platform",
+    techStack: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
+    problem: "Traditional e-learning lacks hands-on practice and personalized tracking, resulting in low course completion rates.",
+    solution: "Architecting a scalable platform that integrates interactive coding environments and data-driven learning paths.",
+    highlights: [
+      "Bridged the gap between theory and practice by integrating a live, browser-based coding environment.",
+      "Automated personalized learning using placement-based logic for course enrollment.",
+      "Empowered instructors with real-time analytics dashboards to track student progress and quiz performance.",
+      "Prioritized long-term maintainability through a clean, accessible UI architecture."
+    ]
+  },
+  {
+    id: 4,
+    role: "Frontend Developer",
+    title: "EVIM",
+    techStack: ["React.js", "Fluent UI", "TypeScript"],
+    problem: "Enterprise clients struggled with rigid SharePoint interfaces and complex content management for non-technical staff.",
+    solution: "Delivered highly customizable SPFx solutions that simplified internal operations and improved the authoring experience.",
+    highlights: [
+      "Scaled frontend delivery by developing 36+ high-performance React WebParts for diverse enterprise needs.",
+      "Reduced development time for future modules by building a library of reusable Fluent UI components.",
+      "Simplified complex configurations by designing intuitive, advanced SPFx property panes.",
+      "Enabled non-technical users to manage professional content without needing IT intervention."
     ]
   }
-]
+];
 
 export {
   words,

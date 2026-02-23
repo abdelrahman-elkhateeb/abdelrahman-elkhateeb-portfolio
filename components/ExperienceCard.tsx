@@ -1,7 +1,7 @@
 "use client";
 
 import { milestones } from "@/lib";
-import { Terminal, ChevronRight, ArrowDown } from "lucide-react"; // ضفنا سهم للأسفل
+import { Terminal, ChevronRight, ArrowDown, AlertCircle, CheckCircle2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
@@ -12,7 +12,7 @@ export default function ExperienceCard() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3, // زوّدنا الوقت شوية عشان نلحق نشوف تتابع الأسهم
+        staggerChildren: 0.3,
       },
     },
   };
@@ -40,7 +40,6 @@ export default function ExperienceCard() {
       {milestones.map((item, index) => (
         <div key={item.id} className="w-full flex flex-col items-center">
 
-          {/* الكرت الأساسي */}
           <motion.div variants={itemVariants} className="w-full">
             <Card className="font-mono bg-card border-2 border-border shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_0px_var(--primary)] overflow-hidden transition-all hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none">
 
@@ -82,15 +81,37 @@ export default function ExperienceCard() {
                 </div>
               </CardHeader>
 
-              <CardContent className="space-y-4">
-                <div className="bg-muted/40 p-3 border-l-4 border-primary/50 mx-2">
-                  <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
-                    <span className="text-primary/70 font-bold font-sans"># </span>
-                    {item.description}
-                  </p>
+              <CardContent className="space-y-6">
+                {/* --- Section: Problem & Solution --- */}
+                <div className="grid gap-3 mx-2">
+                  {/* Problem Block */}
+                  <div className="bg-destructive/5 p-3 border-l-4 border-destructive/50">
+                    <div className="flex items-center gap-2 mb-1">
+                      <AlertCircle size={14} className="text-destructive" />
+                      <span className="text-[10px] font-bold uppercase text-destructive tracking-widest">The_Challenge</span>
+                    </div>
+                    <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
+                      {item.problem}
+                    </p>
+                  </div>
+
+                  {/* Solution Block */}
+                  <div className="bg-primary/5 p-3 border-l-4 border-primary/50">
+                    <div className="flex items-center gap-2 mb-1">
+                      <CheckCircle2 size={14} className="text-primary" />
+                      <span className="text-[10px] font-bold uppercase text-primary tracking-widest">The_Solution</span>
+                    </div>
+                    <p className="text-xs md:text-sm text-foreground/90 leading-relaxed font-medium italic">
+                      {item.solution}
+                    </p>
+                  </div>
                 </div>
 
+                {/* --- Section: Highlights --- */}
                 <div className="space-y-2 pl-4">
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase mb-2 tracking-[0.2em] px-2 opacity-70">
+                    &gt; Key_Impact_Metrics
+                  </p>
                   {item.highlights.map((highlight, idx) => (
                     <div key={idx} className="flex items-start gap-2 group text-sm">
                       <ChevronRight size={14} className="mt-1 text-primary shrink-0 opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
@@ -99,8 +120,9 @@ export default function ExperienceCard() {
                   ))}
                 </div>
 
+                {/* Terminal Footer */}
                 <div className="flex items-center gap-2 pt-2 pl-2 border-t border-border/30 opacity-60">
-                  <span className="text-[10px] text-primary font-bold">root@portfolio:~$</span>
+                  <span className="text-[10px] text-primary font-bold">root@portfolio:~$ execute --success</span>
                   <motion.span
                     animate={{ opacity: [0, 1, 0] }}
                     transition={{ repeat: Infinity, duration: 0.8 }}
@@ -111,19 +133,19 @@ export default function ExperienceCard() {
             </Card>
           </motion.div>
 
-          {/* سهم التسلسل - يظهر فقط لو مش آخر عنصر */}
+          {/* Spacer / Arrow between cards */}
           {index !== milestones.length - 1 && (
             <motion.div
               variants={itemVariants}
-              className="py-4 flex flex-col items-center gap-1 opacity-50 text-primary"
+              className="py-6 flex flex-col items-center gap-1 opacity-40 text-primary"
             >
               <motion.div
-                animate={{ y: [0, 5, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
+                animate={{ y: [0, 8, 0] }}
+                transition={{ repeat: Infinity, duration: 2 }}
               >
-                <ArrowDown size={24} strokeWidth={3} />
+                <ArrowDown size={20} strokeWidth={3} />
               </motion.div>
-              <span className="text-[10px] font-bold tracking-widest uppercase">Next_Step</span>
+              <span className="text-[9px] font-bold tracking-[0.3em] uppercase">Scroll_For_More</span>
             </motion.div>
           )}
         </div>
