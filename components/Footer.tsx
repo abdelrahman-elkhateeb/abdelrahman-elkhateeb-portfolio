@@ -38,7 +38,6 @@ export default function ExperienceFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-3 py-1.5 border border-border bg-card hover:bg-primary hover:text-primary-foreground transition-colors group shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_0px_var(--primary)]"
-                // التعديل هنا: استخدام boxShadow بدل shadow
                 whileHover={{ y: -2, x: -2, boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)" }}
               >
                 <span className="opacity-70 group-hover:opacity-100">{link.icon}</span>

@@ -305,59 +305,59 @@ const milestones = [
     id: 1,
     role: "Frontend Developer",
     title: "Student Guide Platform",
-    techStack: ["HTML", "CSS", "JavaScript"],
-    problem: "Students faced fragmented access to academic resources, leading to confusion and wasted time searching for schedules and GPA tools.",
-    solution: "Engineered a centralized digital hub to consolidate all CS department tools and directories into a single, intuitive interface.",
+    techStack: ["React.js", "JavaScript", "Mobile-First Design"],
+    problem: "Students faced fragmented access to academic resources, leading to confusion and wasted time searching for tools.",
+    solution: "Engineered a centralized digital hub to consolidate all department tools into a single, high-performance interface.",
     highlights: [
-      "Eliminated manual GPA calculations by building a dynamic calculator with 100% accuracy.",
-      "Streamlined student-faculty communication by centralizing TA and Office directories.",
-      "Resolved schedule conflicts by implementing a real-time departmental timetable viewer.",
-      "Simplified resource discovery through an organized, peer-guided courses hub."
+      "Achieved a 98+ Lighthouse performance score through optimized asset loading and clean architecture.",
+      "Automated GPA calculations with a 100% accurate dynamic engine for academic planning.",
+      "Centralized academic resources and peer-guided tools, reaching 100+ daily active student users.",
+      "Prioritized UX by delivering a responsive, mobile-first design for on-the-go access."
     ]
   },
   {
     id: 2,
-    role: "MERN Stack Developer",
-    title: "Task Tracker – Project Management System",
+    role: "MERN Stack Developer & Team Leader",
+    title: "TaskTrackr – Project Management System",
     organization: "Digital Egypt Pioneers Initiative (DEPI)",
-    techStack: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
-    problem: "Lack of structured oversight in team projects led to unauthorized data access and difficulty in tracking task priorities.",
+    techStack: ["React.js", "Node.js", "MongoDB", "Tailwind CSS", "Jest"],
+    problem: "Lack of structured oversight in team projects led to unauthorized data access and difficulty in tracking mission priorities.",
     solution: "Developed a secure, role-based project management system to enforce data integrity and improve team workflow visibility.",
     highlights: [
-      "Secured sensitive project data by implementing a robust RBAC (Role-Based Access Control) system.",
-      "Optimized database performance by designing structured MongoDB schemas for complex task relations.",
-      "Enhanced decision-making by adding advanced filtering, search, and priority-based sorting.",
-      "Boosted user retention with a responsive UI and high-performance dark mode support."
+      "Awarded 2nd Place in a national competition for delivering a high-quality React graduation project.",
+      "Led a development team to ship a production-ready system with secure RBAC (Role-Based Access Control).",
+      "Enhanced decision-making by implementing advanced filtering, real-time notifications, and priority-based sorting.",
+      "Ensured reliability by applying Unit Testing using Jest and React Testing Library to critical components."
     ]
   },
   {
     id: 3,
     role: "Full-Stack Developer",
     title: "Lumina – E-Learning Platform",
-    techStack: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
-    problem: "Traditional e-learning lacks hands-on practice and personalized tracking, resulting in low course completion rates.",
-    solution: "Architecting a scalable platform that integrates interactive coding environments and data-driven learning paths.",
+    techStack: ["React.js", "Node.js", "MongoDB", "Redux Toolkit"],
+    problem: "Traditional e-learning lacks hands-on practice and personalized tracking, resulting in lower student engagement.",
+    solution: "Architecting a scalable MERN ecosystem featuring live coding environments and data-driven learning paths.",
     highlights: [
-      "Bridged the gap between theory and practice by integrating a live, browser-based coding environment.",
-      "Automated personalized learning using placement-based logic for course enrollment.",
-      "Empowered instructors with real-time analytics dashboards to track student progress and quiz performance.",
-      "Prioritized long-term maintainability through a clean, accessible UI architecture."
+      "Bridged the gap between theory and practice by integrating a live, browser-based IDE for students.",
+      "Optimized global state management and data flow between client and REST API using Redux Toolkit.",
+      "Automated personalized learning flows using placement-based logic for course enrollment.",
+      "Empowered instructors with full CRUD operations and real-time analytics dashboards."
     ]
   },
   {
     id: 4,
-    role: "Frontend Developer",
-    title: "EVIM",
-    techStack: ["React.js", "Fluent UI", "TypeScript"],
+    role: "Frontend Developer (Contract / Remote)",
+    title: "EVIM - Enterprise Solutions",
+    techStack: ["React.js", "TypeScript", "Fluent UI", "SPFx"],
     problem: "Enterprise clients struggled with rigid SharePoint interfaces and complex content management for non-technical staff.",
     solution: "Delivered highly customizable SPFx solutions that simplified internal operations and improved the authoring experience.",
     highlights: [
-      "Scaled frontend delivery by developing 36+ high-performance React WebParts for diverse enterprise needs.",
-      "Reduced development time for future modules by building a library of reusable Fluent UI components.",
-      "Simplified complex configurations by designing intuitive, advanced SPFx property panes.",
-      "Enabled non-technical users to manage professional content without needing IT intervention."
+      "Scaled frontend delivery by developing 36+ high-performance React WebParts optimized for complex enterprise environments.",
+      "Accelerated development cycles by building a library of reusable UI components using React and Fluent UI.",
+      "Simplified complex configurations by designing advanced SPFx property panes for non-technical users.",
+      "Ensured long-term maintainability through clean code practices and consistent UI patterns."
     ]
-  }
+  },
 ];
 
 export {
