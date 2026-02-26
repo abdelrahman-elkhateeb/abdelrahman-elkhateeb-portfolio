@@ -346,6 +346,20 @@ const milestones = [
   },
   {
     id: 4,
+    role: "Frontend Developer (Freelance)",
+    title: "IPS Wirings - Corporate Website",
+    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Shadcn UI"],
+    problem: "The company needed a high-end digital presence to showcase their industrial wiring solutions and attract premium clients through a modern, trustworthy interface.",
+    solution: "Developed a high-performance, visually engaging corporate website focusing on conversion-driven design and seamless cross-platform accessibility.",
+    highlights: [
+      "Engineered a modern, responsive UI using Next.js and Shadcn UI, resulting in a premium look and feel that aligns with the brand's identity.",
+      "Optimized Core Web Vitals and image delivery to ensure fast loading speeds, crucial for retaining potential B2B clients.",
+      "Implemented a mobile-first architectural approach, ensuring 100% cross-browser and cross-device compatibility.",
+      "Focused on UX execution by creating intuitive navigation paths to the company's portfolio and services."
+    ]
+  },
+  {
+    id: 5,
     role: "Frontend Developer (Contract / Remote)",
     title: "EVIM - Enterprise Solutions",
     techStack: ["React.js", "TypeScript", "Fluent UI", "SPFx"],
