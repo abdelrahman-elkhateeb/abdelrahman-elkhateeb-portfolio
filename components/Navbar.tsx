@@ -35,13 +35,13 @@ export default function Navbar() {
         {/* Desktop Navigation */}
         <section className="hidden md:flex items-center gap-6 w-full justify-center">
           <a href="#milestone" className="text-sm font-medium hover:text-primary">
-            milestones
+            Milestones
           </a>
           <a href="#projects" className="text-sm font-medium hover:text-primary">
             Projects
           </a>
           <a href="#experience" className="text-sm font-medium hover:text-primary">
-            experience
+            Experience
           </a>
         </section>
 
@@ -91,13 +91,13 @@ export default function Navbar() {
             <SheetContent side="right">
               <section className="flex flex-col gap-4 mt-6 p-4">
                 <a href="#milestone">
-                  milestones
+                  Milestones
                 </a>
                 <a href="#projects">
                   Projects
                 </a>
                 <a href="#experience">
-                  experience
+                  Experience
                 </a>
               </section>
             </SheetContent>
