@@ -302,6 +302,20 @@ const socialImgs = [
 
 const milestones = [
   {
+    id: 5,
+    role: "Frontend Developer (Contract / Remote)",
+    title: "EVIM - Enterprise Solutions (Germany Company) 🇩🇪",
+    techStack: ["React.js", "TypeScript", "Fluent UI", "SPFx"],
+    problem: "Enterprise clients struggled with rigid SharePoint interfaces and complex content management for non-technical staff.",
+    solution: "Delivered highly customizable SPFx solutions for German enterprise clients, simplifying internal operations and improving the authoring experience.",
+    highlights: [
+      "Scaled frontend delivery by developing 36+ high-performance React WebParts optimized for complex enterprise environments.",
+      "Accelerated development cycles by building a library of reusable UI components using React and Fluent UI.",
+      "Simplified complex configurations by designing advanced SPFx property panes for non-technical users.",
+      "Ensured long-term maintainability through clean code practices and consistent UI patterns."
+    ]
+  },
+  {
     id: 1,
     role: "Frontend Developer",
     title: "Student Guide Platform",
@@ -313,6 +327,20 @@ const milestones = [
       "Automated GPA calculations with a 100% accurate dynamic engine for academic planning.",
       "Centralized academic resources and peer-guided tools, reaching 100+ daily active student users.",
       "Prioritized UX by delivering a responsive, mobile-first design for on-the-go access."
+    ]
+  },
+  {
+    id: 3,
+    role: "Full-Stack Developer",
+    title: "Lumina – E-Learning Platform",
+    techStack: ["React.js", "Node.js", "MongoDB", "Redux Toolkit"],
+    problem: "Traditional e-learning lacks hands-on practice and personalized tracking, resulting in lower student engagement.",
+    solution: "Architecting a scalable MERN ecosystem featuring live coding environments and data-driven learning paths.",
+    highlights: [
+      "Bridged the gap between theory and practice by integrating a live, browser-based IDE for students.",
+      "Optimized global state management and data flow between client and REST API using Redux Toolkit.",
+      "Automated personalized learning flows using placement-based logic for course enrollment.",
+      "Empowered instructors with full CRUD operations and real-time analytics dashboards."
     ]
   },
   {
@@ -331,20 +359,6 @@ const milestones = [
     ]
   },
   {
-    id: 3,
-    role: "Full-Stack Developer",
-    title: "Lumina – E-Learning Platform",
-    techStack: ["React.js", "Node.js", "MongoDB", "Redux Toolkit"],
-    problem: "Traditional e-learning lacks hands-on practice and personalized tracking, resulting in lower student engagement.",
-    solution: "Architecting a scalable MERN ecosystem featuring live coding environments and data-driven learning paths.",
-    highlights: [
-      "Bridged the gap between theory and practice by integrating a live, browser-based IDE for students.",
-      "Optimized global state management and data flow between client and REST API using Redux Toolkit.",
-      "Automated personalized learning flows using placement-based logic for course enrollment.",
-      "Empowered instructors with full CRUD operations and real-time analytics dashboards."
-    ]
-  },
-  {
     id: 4,
     role: "Frontend Developer (Freelance)",
     title: "IPS Wirings - Corporate Website",
@@ -356,20 +370,6 @@ const milestones = [
       "Optimized Core Web Vitals and image delivery to ensure fast loading speeds, crucial for retaining potential B2B clients.",
       "Implemented a mobile-first architectural approach, ensuring 100% cross-browser and cross-device compatibility.",
       "Focused on UX execution by creating intuitive navigation paths to the company's portfolio and services."
-    ]
-  },
-  {
-    id: 5,
-    role: "Frontend Developer (Contract / Remote)",
-    title: "EVIM - Enterprise Solutions",
-    techStack: ["React.js", "TypeScript", "Fluent UI", "SPFx"],
-    problem: "Enterprise clients struggled with rigid SharePoint interfaces and complex content management for non-technical staff.",
-    solution: "Delivered highly customizable SPFx solutions that simplified internal operations and improved the authoring experience.",
-    highlights: [
-      "Scaled frontend delivery by developing 36+ high-performance React WebParts optimized for complex enterprise environments.",
-      "Accelerated development cycles by building a library of reusable UI components using React and Fluent UI.",
-      "Simplified complex configurations by designing advanced SPFx property panes for non-technical users.",
-      "Ensured long-term maintainability through clean code practices and consistent UI patterns."
     ]
   },
 ];
