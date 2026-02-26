@@ -8,8 +8,8 @@ export default function Home() {
     <>
       <Hero />
       {/* <Milestones /> */}
-      <Projects />
       <Experience />
+      <Projects />
     </>
   );
 }
