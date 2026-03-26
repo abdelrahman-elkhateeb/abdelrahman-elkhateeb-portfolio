@@ -1,5 +1,5 @@
 
-import { ExternalLink, Github, Linkedin } from "lucide-react"
+import { Code, ExternalLink, Github, Linkedin } from "lucide-react"
 import HeroExperience from "../HeroModels/HeroExperience"
 import HeroText from "../HeroText"
 import TypeWriterAnimation from "../TypeWriterAnimation"
@@ -7,7 +7,7 @@ import { Button } from "../ui/button"
 
 export default function Hero() {
   return (
-    <section className="hero-gaming-bg h-[95vh]">
+    <section className="hero-gaming-bg h-[150vh] md:h-[95vh]">
       <div className="relative isolate flex flex-col-reverse xl:flex-row items-center container mx-auto px-4 h-full">
         {/* hero text */}
         <div className="flex flex-col justify-center flex-1">
@@ -44,12 +44,25 @@ export default function Hero() {
                 </span>
                 <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block" />
               </a>
+
+              {/* Frontend Mentor Button - NEW */}
+              <a
+                href="https://www.frontendmentor.io/profile/abdelrahman-elkhateeb"
+                target="_blank"
+                className="group flex items-center justify-center gap-2 bg-transparent text-foreground px-4 py-3 md:px-6 md:py-3 border-2 border-border hover:border-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_0px_var(--primary)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all w-full sm:w-auto"
+              >
+                <Code size={20} className="text-primary shrink-0" />
+                <span className="font-bold uppercase tracking-widest text-xs md:text-sm whitespace-nowrap">
+                  View_Frontend_Mentor_Profile
+                </span>
+                <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block" />
+              </a>
             </div>
           </div>
         </div>
 
         {/* hero model */}
-        <figure className="md:flex-1 w-full relative min-h-50 md:min-h-200">
+        <figure className="md:flex-1 w-full relative h-full">
           <div className=" w-full h-full absolute inset-0">
             <HeroExperience />
           </div>
