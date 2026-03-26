@@ -49,7 +49,7 @@ export default function Hero() {
         </div>
 
         {/* hero model */}
-        <figure className="md:flex-1 w-full relative min-h-100 md:min-h-200">
+        <figure className="md:flex-1 w-full relative min-h-50 md:min-h-200">
           <div className=" w-full h-full absolute inset-0">
             <HeroExperience />
           </div>
