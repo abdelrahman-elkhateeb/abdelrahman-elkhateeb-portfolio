@@ -34,9 +34,3 @@ src/
  ├── hooks/          # Custom animation and logic hooks
  └── styles/         # Global themes and Tailwind configurations
 ```
-
----
-"The best way to predict the future is to create it." - Driven by code and creativity.
-```
-
-إيه رأيك في الـ Style ده؟ لو عايز نغير أي جملة أو نركز على تكنولوجيا معينة (زي الـ SPFx اللي اشتغلت بيها مع EVIM) قولي وأعدلهولك فوراً.
