@@ -34,9 +34,9 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <section className="hidden md:flex items-center gap-6 w-full justify-center">
-          <a href="#milestone" className="text-sm font-medium hover:text-primary">
+          {/* <a href="#milestone" className="text-sm font-medium hover:text-primary">
             Milestones
-          </a>
+          </a> */}
           <a href="#projects" className="text-sm font-medium hover:text-primary">
             Projects
           </a>
@@ -90,9 +90,9 @@ export default function Navbar() {
 
             <SheetContent side="right">
               <section className="flex flex-col gap-4 mt-6 p-4">
-                <a href="#milestone">
+                {/* <a href="#milestone">
                   Milestones
-                </a>
+                </a> */}
                 <a href="#projects">
                   Projects
                 </a>
