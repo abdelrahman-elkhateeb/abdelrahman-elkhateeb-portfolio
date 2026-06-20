@@ -30,48 +30,64 @@ const counterItems = [
 
 // Import your images
 import proj1 from "@/public/images/project (1).png"
-import proj2 from "@/public/images/project (2).png"
+import proj2 from "@/public/images/project (2).jpg"
 import proj3 from "@/public/images/project (3).png"
+import proj4 from "@/public/images/project (4).png"
 
 const projectsData = [
   {
-    title: "Lumina",
-    description: "Full-stack MERN e-learning platform featuring secure auth, Stripe payments, and an in-browser IDE.",
+    title: "Lumina – E-Learning Platform",
+    description:
+      "Full-stack MERN e-learning platform with role-based dashboards, Stripe payments, Google OAuth, placement tests, and an in-browser IDE.",
     details: [
-      "Built a full-stack MERN e-learning platform with secure backend authentication, Google OAuth, and role-based access control (Admin, Instructor, Student), providing tailored dashboards and permissions.",
-      "Enabled secure course purchasing through Stripe API integration, allowing students to enroll seamlessly while giving admins full control over course content, structure, and pricing.",
-      "Delivered an interactive learning experience by integrating a live in-browser IDE, a chatbot assistant, and a placement test system to guide course decisions, with instructors managing full CRUD operations."
+      "Built a complete MERN e-learning platform with secure authentication, Google OAuth, and role-based access for Admin, Instructor, and Student users.",
+      "Integrated Stripe payments to enable secure course purchases and automated enrollment after successful checkout.",
+      "Delivered an interactive learning experience with a browser-based IDE, placement-test logic, course management, and instructor dashboards.",
     ],
     image: proj1,
     link: "https://github.com/abdelrahman-elkhateeb/Lumina",
-    type: "GitHub"
+    type: "GitHub",
   },
   {
-    title: "Admin Dashboard (ShadCN UI)",
-    description: "A scalable, production-ready admin interface built with Shadcn UI and interactive data visualizations.",
+    title: "Weather Now",
+    description:
+      "Modern weather app focused on clean state separation using TanStack Query for server state and Zustand for client preferences.",
     details: [
-      "Addressed the complexity of admin workflows by building a clear, scalable dashboard interface with intuitive navigation, a collapsible sidebar, and dark mode support.",
-      "Enabled faster, data-driven decisions by transforming complex datasets into actionable visual insights using interactive charts and advanced data tables.",
-      "Improved usability, reliability, and maintainability through reusable UI components, validated forms, and accessibility-first patterns—making the dashboard production-ready."
+      "Built a responsive weather application with city search, geocoding, current weather, hourly forecasts, and unit switching.",
+      "Separated server state and client state by using TanStack Query for API data fetching and Zustand for selected city, units, and UI preferences.",
+      "Improved UX with loading states, reusable weather view models, formatted dates, weather-code mapping, and scalable component structure.",
     ],
     image: proj2,
-    link: "https://shadcn-dashboard-two-lovat.vercel.app/",
-    type: "Live Demo"
+    link: "https://weather-now-phi-ecru.vercel.app/",
+    type: "Live Demo",
   },
   {
-    title: "Student Guide",
-    description: "Mobile-first platform for academic resources, scheduling, and GPA tracking with 98+ Lighthouse performance.",
+    title: "Student Guide Platform",
+    description:
+      "Mobile-first academic platform that centralizes schedules, course resources, locations, TA information, and GPA tracking tools.",
     details: [
-      "Built a responsive, mobile-first student platform that brings together locations, TA information, schedules, courses, and key resources in one place, achieving 98+ Lighthouse performance.",
-      "Helped students track their academic progress by providing easy-to-use grade and GPA calculators for faster and more accurate planning.",
-      "Delivered a simple and intuitive interface that centralized academic tools and peer-guided course resources, adopted by 100+ students as a daily reference."
+      "Built a responsive student platform that brings academic schedules, locations, TA information, courses, and key resources into one centralized interface.",
+      "Implemented grade and GPA calculators to help students track academic progress and plan more accurately.",
+      "Achieved 98+ Lighthouse performance and delivered a simple mobile-first experience used by 100+ students.",
     ],
     image: proj3,
     link: "https://github.com/AhmedHosny2/Student-Guide",
-    type: "GitHub"
-  }
+    type: "GitHub",
+  },
+  {
+    title: "The Wild Oasis – Hotel Management Dashboard",
+    description:
+      "Internal hotel management dashboard built with React, Supabase, TanStack Query, and advanced reusable component patterns.",
+    details: [
+      "Built a feature-rich hotel management dashboard with booking workflows, cabin management, check-in/check-out flows, and global hotel settings.",
+      "Used TanStack Query with Supabase to handle server state, caching, mutations, authentication, and real-time database interactions.",
+      "Applied professional React patterns including compound components, custom hooks, reusable UI architecture, and form handling with React Hook Form.",
+    ],
+    image: proj4,
+    link: "https://the-wild-oasis-dashboard-peach.vercel.app",
+    type: "Live Demo",
+  },
 ];
-
 const logoIconsList = [
   {
     imgPath: "/images/logos/company-logo-1.png",
@@ -300,77 +316,41 @@ const socialImgs = [
   },
 ];
 
-const milestones = [
-  {
-    id: 5,
-    role: "Frontend Developer (Contract / Remote)",
-    title: "EVIM - Enterprise Solutions (Germany Company) 🇩🇪",
-    techStack: ["React.js", "TypeScript", "Fluent UI", "SPFx"],
-    problem: "Enterprise clients struggled with rigid SharePoint interfaces and complex content management for non-technical staff.",
-    solution: "Delivered highly customizable SPFx solutions for German enterprise clients, simplifying internal operations and improving the authoring experience.",
-    highlights: [
-      "Scaled frontend delivery by developing 36+ high-performance React WebParts optimized for complex enterprise environments.",
-      "Accelerated development cycles by building a library of reusable UI components using React and Fluent UI.",
-      "Simplified complex configurations by designing advanced SPFx property panes for non-technical users.",
-      "Ensured long-term maintainability through clean code practices and consistent UI patterns."
-    ]
-  },
+const experiences = [
   {
     id: 1,
+    company: "EVIM",
+    location: "Berlin, Germany",
     role: "Frontend Developer",
-    title: "Student Guide Platform",
-    techStack: ["React.js", "JavaScript", "Mobile-First Design"],
-    problem: "Students faced fragmented access to academic resources, leading to confusion and wasted time searching for tools.",
-    solution: "Engineered a centralized digital hub to consolidate all department tools into a single, high-performance interface.",
-    highlights: [
-      "Achieved a 98+ Lighthouse performance score through optimized asset loading and clean architecture.",
-      "Automated GPA calculations with a 100% accurate dynamic engine for academic planning.",
-      "Centralized academic resources and peer-guided tools, reaching 100+ daily active student users.",
-      "Prioritized UX by delivering a responsive, mobile-first design for on-the-go access."
-    ]
+    employmentType: "Contract / Remote",
+    period: "Jul 2025 – May 2026",
+    techStack: ["React.js", "TypeScript", "Fluent UI", "SPFx"],
+    summary:
+      "Built enterprise-grade SharePoint solutions for German clients, focusing on reusable UI systems, advanced property panes, and scalable frontend architecture.",
+    achievements: [
+      "Developed 36+ SPFx React WebParts for enterprise SharePoint environments.",
+      "Built reusable React and Fluent UI components to accelerate delivery across multiple solutions.",
+      "Designed advanced SPFx property panes that simplified content management for non-technical users.",
+      "Collaborated with cross-functional teams to deliver scalable and maintainable frontend solutions.",
+    ],
   },
-  {
-    id: 3,
-    role: "Full-Stack Developer",
-    title: "Lumina – E-Learning Platform",
-    techStack: ["React.js", "Node.js", "MongoDB", "Redux Toolkit"],
-    problem: "Traditional e-learning lacks hands-on practice and personalized tracking, resulting in lower student engagement.",
-    solution: "Architecting a scalable MERN ecosystem featuring live coding environments and data-driven learning paths.",
-    highlights: [
-      "Bridged the gap between theory and practice by integrating a live, browser-based IDE for students.",
-      "Optimized global state management and data flow between client and REST API using Redux Toolkit.",
-      "Automated personalized learning flows using placement-based logic for course enrollment.",
-      "Empowered instructors with full CRUD operations and real-time analytics dashboards."
-    ]
-  },
+
   {
     id: 2,
-    role: "MERN Stack Developer & Team Leader",
-    title: "TaskTrackr – Project Management System",
-    organization: "Digital Egypt Pioneers Initiative (DEPI)",
-    techStack: ["React.js", "Node.js", "MongoDB", "Tailwind CSS", "Jest"],
-    problem: "Lack of structured oversight in team projects led to unauthorized data access and difficulty in tracking mission priorities.",
-    solution: "Developed a secure, role-based project management system to enforce data integrity and improve team workflow visibility.",
-    highlights: [
-      "Awarded 2nd Place in a national competition for delivering a high-quality React graduation project.",
-      "Led a development team to ship a production-ready system with secure RBAC (Role-Based Access Control).",
-      "Enhanced decision-making by implementing advanced filtering, real-time notifications, and priority-based sorting.",
-      "Ensured reliability by applying Unit Testing using Jest and React Testing Library to critical components."
-    ]
-  },
-  {
-    id: 4,
-    role: "Frontend Developer (Freelance)",
-    title: "IPS Wirings - Corporate Website",
+    company: "IPS Wirings",
+    location: "Egypt",
+    role: "Frontend Developer",
+    employmentType: "Freelance",
+    period: "2026",
     techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Shadcn UI"],
-    problem: "The company needed a high-end digital presence to showcase their industrial wiring solutions and attract premium clients through a modern, trustworthy interface.",
-    solution: "Developed a high-performance, visually engaging corporate website focusing on conversion-driven design and seamless cross-platform accessibility.",
-    highlights: [
-      "Engineered a modern, responsive UI using Next.js and Shadcn UI, resulting in a premium look and feel that aligns with the brand's identity.",
-      "Optimized Core Web Vitals and image delivery to ensure fast loading speeds, crucial for retaining potential B2B clients.",
-      "Implemented a mobile-first architectural approach, ensuring 100% cross-browser and cross-device compatibility.",
-      "Focused on UX execution by creating intuitive navigation paths to the company's portfolio and services."
-    ]
+    summary:
+      "Designed and developed a modern corporate website that showcases the company's industrial wiring solutions while providing a fast and professional user experience.",
+    achievements: [
+      "Built a responsive corporate website using Next.js and TypeScript.",
+      "Implemented modern UI components with Shadcn UI and Tailwind CSS.",
+      "Optimized performance and Core Web Vitals for faster page loads.",
+      "Delivered a mobile-first experience across all major devices and browsers.",
+    ],
   },
 ];
 
@@ -386,5 +366,5 @@ export {
   techStackIcons,
   techStackImgs,
   projectsData,
-  milestones
+  experiences
 };
