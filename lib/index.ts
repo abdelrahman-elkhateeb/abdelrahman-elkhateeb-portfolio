@@ -140,7 +140,56 @@ const tech = [
   "MongoDB",
 ];
 
+const skillGroups = [
+  {
+    title: "Frontend",
+    code: "FRONTEND_MODULE",
+    skills: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "JavaScript",
+      "Tailwind CSS",
+      "Shadcn UI",
+      "Redux Toolkit",
+      "Zustand",
+      "TanStack Query",
+    ],
+  },
+
+  {
+    title: "Backend",
+    code: "BACKEND_MODULE",
+    skills: [
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Supabase",
+      "Firebase",
+    ],
+  },
+
+  {
+    title: "Tools",
+    code: "DEV_TOOLS",
+    skills: [
+      "Git",
+      "GitHub",
+      "Postman",
+      "Vercel",
+      "Figma",
+      "VS Code",
+    ],
+  },
+
+  {
+    title: "Learning",
+    code: "LOADING...",
+    skills: ["C#", "ASP.NET", "Frontend System Design"],
+  },
+];
+
 export {
-  experiences, projectsData, words, stats, tech
+  experiences, projectsData, words, stats, tech, skillGroups
 };
 
