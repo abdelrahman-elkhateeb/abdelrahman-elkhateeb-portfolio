@@ -144,52 +144,42 @@ const skillGroups = [
   {
     title: "Frontend",
     code: "FRONTEND_MODULE",
+    status: "ACTIVE",
     skills: [
       "React",
       "Next.js",
       "TypeScript",
       "JavaScript",
-      "Tailwind CSS",
+      "Tailwind",
       "Shadcn UI",
       "Redux Toolkit",
       "Zustand",
       "TanStack Query",
     ],
   },
-
   {
     title: "Backend",
     code: "BACKEND_MODULE",
-    skills: [
-      "Node.js",
-      "Express.js",
-      "MongoDB",
-      "Supabase",
-      "Firebase",
-    ],
+    status: "ONLINE",
+    skills: ["Node.js", "Express", "MongoDB", "Supabase"],
   },
-
   {
     title: "Tools",
-    code: "DEV_TOOLS",
-    skills: [
-      "Git",
-      "GitHub",
-      "Postman",
-      "Vercel",
-      "Figma",
-      "VS Code",
-    ],
-  },
-
-  {
-    title: "Learning",
-    code: "LOADING...",
-    skills: ["C#", "ASP.NET", "Frontend System Design"],
+    code: "DEV_TOOLKIT",
+    status: "READY",
+    skills: ["GitHub", "Postman", "Vercel", "VS Code"],
   },
 ];
 
+const systemStatus = [
+  "SYSTEM_READY",
+  "SYSTEM_ONLINE",
+  "SYSTEM_STABLE",
+  "SYSTEM_DEPLOYED",
+];
+
+
 export {
-  experiences, projectsData, words, stats, tech, skillGroups
+  experiences, projectsData, words, stats, tech, skillGroups, systemStatus
 };
 

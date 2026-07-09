@@ -43,6 +43,9 @@ export default function Navbar() {
           <a href="#experience" className="text-sm font-medium hover:text-primary">
             Experience
           </a>
+          <a href="#skills" className="text-sm font-medium hover:text-primary">
+            Skills
+          </a>
           <a href="#contact" className="text-sm font-medium hover:text-primary">
             Contact me
           </a>
@@ -98,6 +101,9 @@ export default function Navbar() {
                 </a>
                 <a href="#about">
                   about me
+                </a>
+                <a href="#skills">
+                  skills
                 </a>
                 <a href="#experience">
                   Experience
