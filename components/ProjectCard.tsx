@@ -1,86 +1,74 @@
-"use client"
-
 import { projectsData } from "@/lib"
-import { motion } from "framer-motion"
-import { ExternalLink, Github, Terminal } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
+import { Fragment } from "react"
 
-export default function ProjectCard() {
+type Project = (typeof projectsData)[number]
+
+export default function ProjectCard({ project }: { project: Project }) {
   return (
-    <>
-      {projectsData.map((project, index) => {
+    <a
+      href={project.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="nx-card flex flex-col items-start gap-5 rounded-lg px-4 py-4 md:flex-row md:gap-8 md:px-[18px] md:py-4"
+      style={{ color: "#e9e9ed", fontFamily: "Inter, system-ui, sans-serif" }}
+    >
+      <div
+        className="relative aspect-video w-full flex-none overflow-hidden rounded-lg md:aspect-auto md:h-[250px] md:w-[400px]"
+        style={{ background: "#0f111c" }}
+      >
+        <Image src={project.image} alt={project.title} fill className="object-cover" />
+      </div>
 
-        return (
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            viewport={{ once: true }}
-            key={index}
-            className={`group relative p-4 mb-12 border-l-2 border-primary/30 hover:border-primary transition-all duration-500`}
+      <div className="flex min-w-0 flex-1 flex-col gap-[13px] md:pt-[2px]">
+        <div className="flex items-center justify-between gap-5">
+          <h3 className="nx-card-title m-0 text-[20px] font-medium leading-[1.1] tracking-[-0.02em] md:text-[27px]">
+            {project.title}
+          </h3>
+          <svg
+            className="nx-card-arrow flex-none"
+            width="18"
+            height="18"
+            viewBox="0 0 256 256"
+            fill="#9184d9"
           >
-            {/* The "Scanner" line effect on hover */}
-            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
+            <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z" />
+          </svg>
+        </div>
 
-            <div className="flex justify-between flex-col h-full">
-              {/* IMAGE CONTAINER with "Angular Clip" */}
-              <div className="relative overflow-hidden aspect-video lg:aspect-square border border-white/10 group-hover:border-primary/50 transition-colors">
-                {/* Decorative HUD Corners */}
-                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary z-10" />
-                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary z-10" />
+        <p className="m-0 text-[14px] leading-[1.6] md:text-[15px]" style={{ color: "rgba(233,233,237,0.6)" }}>
+          {project.description}
+        </p>
 
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 grayscale-[50%] group-hover:grayscale-0"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-              </div>
+        <div className="flex items-baseline gap-[14px] pt-px">
+          <span
+            className="flex-none uppercase"
+            style={{
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: "10px",
+              letterSpacing: "0.2em",
+              color: "#9184d9",
+            }}
+          >
+            Hard part
+          </span>
+          <span className="text-[14px] leading-[1.5] md:text-[15.5px]" style={{ color: "#dedaf7" }}>
+            {project.hardPart}
+          </span>
+        </div>
 
-              {/* CONTENT SECTION */}
-              <div className="flex flex-col space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-col">
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-primary mb-1 font-mono">Project_Log_{index + 1}</span>
-                    <h3 className={`font-orbitron text-2xl font-bold tracking-tighter text-foreground group-hover:text-primary transition-colors`}>
-                      {project.title}
-                    </h3>
-                  </div>
-
-                  <Link href={project.link} target="_blank" className="p-2 border border-primary/20 hover:bg-primary/10 transition-all rounded-sm">
-                    {project.type === "GitHub" ? <Github size={20} /> : <ExternalLink size={20} />}
-                  </Link>
-                </div>
-
-                {/* PROJECT DETAILS as "Data Points" */}
-                <ul className="space-y-4">
-                  {project.details.map((point, i) => (
-                    <li key={i} className="relative pl-6 text-sm text-muted-foreground font-mono uppercase tracking-tight leading-relaxed border-b border-white/5 pb-2">
-                      <Terminal size={12} className="absolute left-0 top-1 text-primary opacity-70" />
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Bottom Status Bar Decal */}
-                <div className="pt-4 flex items-center gap-4">
-                  <div className="h-1 w-20 bg-primary/20 overflow-hidden">
-                    <motion.div
-                      initial={{ x: '-100%' }}
-                      whileInView={{ x: '100%' }}
-                      transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
-                      className="h-full w-full bg-primary"
-                    />
-                  </div>
-                  <span className="text-[10px] font-mono text-muted-foreground/50">SYSTEM_READY</span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        );
-      })}
-    </>
+        <div
+          className="flex flex-wrap gap-[14px] pt-[5px] text-[12px] md:text-[13px]"
+          style={{ color: "rgba(233,233,237,0.45)" }}
+        >
+          {project.tech.map((t, i) => (
+            <Fragment key={t}>
+              <span>{t}</span>
+              {i !== project.tech.length - 1 && <span style={{ opacity: 0.4 }}>·</span>}
+            </Fragment>
+          ))}
+        </div>
+      </div>
+    </a>
   )
 }

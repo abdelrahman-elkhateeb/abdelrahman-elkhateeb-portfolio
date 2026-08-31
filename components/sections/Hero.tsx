@@ -1,72 +1,124 @@
-
-import { Code, ExternalLink, Github, Linkedin } from "lucide-react"
+import { Github, Linkedin, Code } from "lucide-react"
 import HeroExperience from "../HeroModels/HeroExperience"
-import HeroText from "../HeroText"
-import TypeWriterAnimation from "../TypeWriterAnimation"
-import { Button } from "../ui/button"
+
+const TICKER_ITEMS = [
+  "System_ready",
+  "36 enterprise components shipped",
+  "System_online",
+  "Open to mid-level frontend roles",
+  "System_stable",
+  "Lighthouse 98+",
+  "System_deployed",
+  "Cairo, remote-friendly",
+]
+
+function TickerTrack() {
+  return (
+    <div className="flex flex-none gap-11 whitespace-nowrap pr-11">
+      {TICKER_ITEMS.map((item, i) => (
+        <span key={i} className="flex items-center gap-11">
+          <span>{item}</span>
+          <span style={{ color: "rgba(210,206,253,0.4)" }}>/</span>
+        </span>
+      ))}
+    </div>
+  )
+}
 
 export default function Hero() {
   return (
-    <section className="hero-gaming-bg h-screen md:h-[95vh]">
-      <div className="relative isolate flex flex-col-reverse xl:flex-row items-center container mx-auto px-4 h-full">
-        {/* hero text */}
-        <div className="flex flex-col justify-center flex-1">
-          <div>
-            <HeroText />
+    <section
+      className="nx-hero relative w-full h-screen min-h-[560px] overflow-hidden"
+      style={{ background: "#0b0c14", color: "#e9e9ed", fontFamily: "Inter, system-ui, sans-serif" }}
+    >
+      {/* model layer — reserves the ticker band at the bottom */}
+      <div className="absolute inset-x-0 top-0 bottom-11 md:bottom-12">
+        <div className="nx-glow-accent pointer-events-none absolute inset-0" />
+        <div className="nx-glow-black pointer-events-none absolute inset-0" />
+        <HeroExperience />
+      </div>
 
-            <TypeWriterAnimation text="Hi, I&apos;m Abdelrahman Elkhateeb, a Frontend Engineer." className="md:text-xl" tagType="p" />
+      {/* legibility scrim — above the model, below the name/nav, never intercepts orbit drags */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 bottom-11 md:bottom-12">
+        <div className="nx-scrim-bottom absolute inset-0" />
+        <div className="nx-scrim-left absolute inset-0" />
+      </div>
 
-            <a href="#projects">
-              <Button variant="link" className="p-0 text-lg">see my work</Button>
-            </a>
-            <div className="flex flex-col sm:flex-row flex-wrap gap-4 font-mono mt-6">
-              {/* GitHub Button */}
-              <a
-                href="https://github.com/abdelrahman-elkhateeb"
-                target="_blank"
-                className="group relative flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-3 md:px-6 md:py-3 border-2 border-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_white] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all w-full sm:w-auto"
-              >
-                <Github size={20} className="shrink-0" />
-                <span className="font-bold uppercase tracking-widest text-xs md:text-sm whitespace-nowrap">
-                  Execute_GitHub
-                </span>
-              </a>
+      {/* name + subline + ctas */}
+      <div className="absolute left-5 right-5 bottom-[114px] flex flex-col gap-[18px] md:left-10 md:right-auto md:bottom-[178px] md:max-w-[720px]">
+        <h1
+          className="m-0 font-medium uppercase text-[46px] leading-[0.94] tracking-[-0.04em] md:text-[104px] md:leading-[0.92] md:tracking-[-0.045em]"
+          style={{ color: "#e9e9ed", textShadow: "0 1px 34px rgba(8,9,15,0.5)" }}
+        >
+          Abdelrahman
+          <br />
+          Elkhateeb
+        </h1>
 
-              {/* LinkedIn Button */}
-              <a
-                href="https://www.linkedin.com/in/abdelrahman-elkhateeb"
-                target="_blank"
-                className="group flex items-center justify-center gap-2 bg-transparent text-foreground px-4 py-3 md:px-6 md:py-3 border-2 border-border hover:border-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_0px_var(--primary)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all w-full sm:w-auto"
-              >
-                <Linkedin size={20} className="text-primary shrink-0" />
-                <span className="font-bold uppercase tracking-widest text-xs md:text-sm whitespace-nowrap">
-                  Connect_LinkedIn
-                </span>
-                <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block" />
-              </a>
-
-              {/* Frontend Mentor Button - NEW */}
-              <a
-                href="https://www.frontendmentor.io/profile/abdelrahman-elkhateeb"
-                target="_blank"
-                className="group flex items-center justify-center gap-2 bg-transparent text-foreground px-4 py-3 md:px-6 md:py-3 border-2 border-border hover:border-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_0px_var(--primary)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all w-full sm:w-auto"
-              >
-                <Code size={20} className="text-primary shrink-0" />
-                <span className="font-bold uppercase tracking-widest text-xs md:text-sm whitespace-nowrap">
-                  View_Frontend_Mentor_Profile
-                </span>
-                <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block" />
-              </a>
-            </div>
-          </div>
+        <div
+          className="flex flex-wrap items-center gap-3 text-[14px] md:gap-4 md:text-[16px]"
+          style={{ color: "rgba(233,233,237,0.78)" }}
+        >
+          <span>Frontend engineer</span>
+          <span className="h-px w-11" style={{ background: "#9184d9" }} />
+          <span>React · Next.js · TypeScript</span>
+          <span className="hidden h-px w-11 md:block" style={{ background: "#9184d9" }} />
+          <span className="hidden md:inline">Cairo</span>
         </div>
 
-        {/* hero model */}
-        <figure className="md:flex-1 w-full relative h-full">
-          <div className=" w-full h-full absolute inset-0">
-            <HeroExperience />
-          </div>
-        </figure>
+        <div className="mt-[6px] flex flex-wrap gap-3">
+          <a
+            href="#projects"
+            className="nx-hero-btn-primary inline-flex h-12 items-center justify-center gap-2 rounded-lg px-6 text-[15px] font-medium tracking-[0.02em] no-underline"
+          >
+            See the work
+            <svg width="15" height="15" viewBox="0 0 256 256" fill="currentColor">
+              <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z" />
+            </svg>
+          </a>
+          <a
+            href="https://github.com/abdelrahman-elkhateeb"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            className="nx-icon-btn flex h-12 w-12 items-center justify-center rounded-lg"
+          >
+            <Github size={19} />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/abdelrahman-elkhateeb"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            className="nx-icon-btn flex h-12 w-12 items-center justify-center rounded-lg"
+          >
+            <Linkedin size={19} />
+          </a>
+          <a
+            href="https://www.frontendmentor.io/profile/abdelrahman-elkhateeb"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Frontend Mentor profile"
+            className="nx-icon-btn flex h-12 w-12 items-center justify-center rounded-lg"
+          >
+            <Code size={19} />
+          </a>
+        </div>
+      </div>
+
+      {/* the one loud band */}
+      <div
+        className="absolute inset-x-0 bottom-0 flex h-11 items-center overflow-hidden text-[11px] uppercase tracking-[0.22em] md:h-12 md:text-[12px] md:tracking-[0.24em]"
+        style={{
+          background: "#262a60",
+          color: "#d2cefd",
+          fontFamily: "'Share Tech Mono', monospace",
+        }}
+      >
+        <div className="nx-ticker-track flex w-max flex-none" style={{ fontSize: "inherit", letterSpacing: "inherit" }}>
+          <TickerTrack />
+          <TickerTrack />
+        </div>
       </div>
     </section>
   )

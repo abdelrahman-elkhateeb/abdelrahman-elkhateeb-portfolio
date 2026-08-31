@@ -11,13 +11,15 @@ import proj1 from "@/public/images/project (1).png";
 import proj2 from "@/public/images/project (2).jpg";
 import proj3 from "@/public/images/project (3).png";
 import proj4 from "@/public/images/project (4).png";
-import { Briefcase, Code2, GraduationCap, MapPin } from "lucide-react";
 
 const projectsData = [
   {
-    title: "Lumina – E-Learning Platform",
+    title: "Lumina — e-learning platform",
     description:
-      "Full-stack MERN e-learning platform with role-based dashboards, Stripe payments, Google OAuth, placement tests, and an in-browser IDE.",
+      "Role-based dashboards for admins, instructors and students, Stripe checkout that enrols on success, and an in-browser IDE for exercises.",
+    hardPart:
+      "Enrolment had to survive a Stripe webhook landing before the student got back, so payment, enrolment and access all resolve from one source of truth.",
+    tech: ["MongoDB", "Express", "React", "Stripe", "OAuth"],
     details: [
       "Built a complete MERN e-learning platform with secure authentication, Google OAuth, and role-based access for Admin, Instructor, and Student users.",
       "Integrated Stripe payments to enable secure course purchases and automated enrollment after successful checkout.",
@@ -30,7 +32,10 @@ const projectsData = [
   {
     title: "Weather Now",
     description:
-      "Modern weather app focused on clean state separation using TanStack Query for server state and Zustand for client preferences.",
+      "City search and geocoding, current conditions, hourly forecasts and unit switching, in a layout that stays readable on a phone.",
+    hardPart:
+      "Cached forecast data and user preferences age at different rates, so they had to live in separate stores — otherwise stale weather hides behind a stale UI.",
+    tech: ["React", "TanStack Query", "Zustand", "Open-Meteo"],
     details: [
       "Built a responsive weather application with city search, geocoding, current weather, hourly forecasts, and unit switching.",
       "Separated server state and client state by using TanStack Query for API data fetching and Zustand for selected city, units, and UI preferences.",
@@ -41,9 +46,12 @@ const projectsData = [
     type: "Live Demo",
   },
   {
-    title: "Student Guide Platform",
+    title: "Student Guide platform",
     description:
-      "Mobile-first academic platform that centralizes schedules, course resources, locations, TA information, and GPA tracking tools.",
+      "Schedules, rooms, TA hours, course resources and GPA tools in one mobile-first interface. Used by 100+ students, Lighthouse 98+.",
+    hardPart:
+      "Real timetables are messier than any data model — the work was finding one schedule shape that fit every department without a special case per course.",
+    tech: ["React", "Tailwind", "Vite", "Vercel"],
     details: [
       "Built a responsive student platform that brings academic schedules, locations, TA information, courses, and key resources into one centralized interface.",
       "Implemented grade and GPA calculators to help students track academic progress and plan more accurately.",
@@ -54,9 +62,12 @@ const projectsData = [
     type: "GitHub",
   },
   {
-    title: "The Wild Oasis – Hotel Management Dashboard",
+    title: "The Wild Oasis — hotel dashboard",
     description:
-      "Internal hotel management dashboard built with React, Supabase, TanStack Query, and advanced reusable component patterns.",
+      "Internal dashboard for bookings, cabins, check-in and check-out, with hotel-wide settings and live Supabase data.",
+    hardPart:
+      "Check-in writes to bookings, cabins and settings in one move — compound components kept that flow from turning into four near-identical forms.",
+    tech: ["React", "Supabase", "TanStack Query", "React Hook Form"],
     details: [
       "Built a feature-rich hotel management dashboard with booking workflows, cabin management, check-in/check-out flows, and global hotel settings.",
       "Used TanStack Query with Supabase to handle server state, caching, mutations, authentication, and real-time database interactions.",
@@ -77,13 +88,11 @@ const experiences = [
     employmentType: "Contract / Remote",
     period: "Jul 2025 – May 2026",
     techStack: ["React.js", "TypeScript", "Fluent UI", "SPFx"],
-    summary:
-      "Built enterprise-grade SharePoint solutions for German clients, focusing on reusable UI systems, advanced property panes, and scalable frontend architecture.",
-    achievements: [
-      "Developed 36+ SPFx React WebParts for enterprise SharePoint environments.",
-      "Built reusable React and Fluent UI components to accelerate delivery across multiple solutions.",
-      "Designed advanced SPFx property panes that simplified content management for non-technical users.",
-      "Collaborated with cross-functional teams to deliver scalable and maintainable frontend solutions.",
+    headline:
+      "Shipped 36+ SPFx WebParts into enterprise SharePoint — and the reusable React and Fluent UI layer every one of them was built on.",
+    highlights: [
+      "Advanced property panes let non-technical staff change content without a developer.",
+      "The component library carried across solutions, so each new one started further along.",
     ],
   },
 
@@ -95,63 +104,25 @@ const experiences = [
     employmentType: "Freelance",
     period: "2026",
     techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Shadcn UI"],
-    summary:
-      "Designed and developed a modern corporate website that showcases the company's industrial wiring solutions while providing a fast and professional user experience.",
-    achievements: [
-      "Built a responsive corporate website using Next.js and TypeScript.",
-      "Implemented modern UI components with Shadcn UI and Tailwind CSS.",
-      "Optimized performance and Core Web Vitals for faster page loads.",
-      "Delivered a mobile-first experience across all major devices and browsers.",
+    headline:
+      "Designed and built the corporate site for an industrial wiring company, brief to deploy, on my own.",
+    highlights: [
+      "Mobile-first across the browsers and devices their customers actually arrive on.",
+      "Core Web Vitals optimised, because an industrial buyer judges credibility in a second.",
     ],
   },
-];
-
-const stats = [
-  {
-    value: "36+",
-    label: "Enterprise Components",
-    icon: Briefcase,
-  },
-  {
-    value: "15+",
-    label: "Projects Built",
-    icon: Code2,
-  },
-  {
-    value: "2025",
-    label: "Computer Science Graduate",
-    icon: GraduationCap,
-  },
-  {
-    value: "Cairo",
-    label: "Egypt",
-    icon: MapPin,
-  },
-];
-
-const tech = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Tailwind",
-  "Zustand",
-  "TanStack Query",
-  "Node.js",
-  "MongoDB",
 ];
 
 const skillGroups = [
   {
     title: "Frontend",
-    code: "FRONTEND_MODULE",
-    status: "ACTIVE",
     skills: [
       "React",
       "Next.js",
       "TypeScript",
       "JavaScript",
       "Tailwind",
-      "Shadcn UI",
+      "shadcn/ui",
       "Redux Toolkit",
       "Zustand",
       "TanStack Query",
@@ -159,27 +130,15 @@ const skillGroups = [
   },
   {
     title: "Backend",
-    code: "BACKEND_MODULE",
-    status: "ONLINE",
     skills: ["Node.js", "Express", "MongoDB", "Supabase"],
   },
   {
     title: "Tools",
-    code: "DEV_TOOLKIT",
-    status: "READY",
     skills: ["GitHub", "Postman", "Vercel", "VS Code"],
   },
 ];
 
-const systemStatus = [
-  "SYSTEM_READY",
-  "SYSTEM_ONLINE",
-  "SYSTEM_STABLE",
-  "SYSTEM_DEPLOYED",
-];
-
-
 export {
-  experiences, projectsData, words, stats, tech, skillGroups, systemStatus
+  experiences, projectsData, words, skillGroups
 };
 

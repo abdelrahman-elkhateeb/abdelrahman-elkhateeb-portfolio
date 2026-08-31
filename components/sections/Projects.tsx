@@ -1,13 +1,26 @@
+import { Fragment } from "react"
+import { projectsData } from "@/lib"
 import ProjectCard from "../ProjectCard"
-import TypeWriterAnimation from "../TypeWriterAnimation"
+import SectionHeader from "@/components/SectionHeader"
 
 export default function Projects() {
   return (
-    <section className="container mx-auto px-4 mt-20" id="projects">
-      <TypeWriterAnimation text="Projects" tagType="h2" />
+    <section style={{ background: "#0b0c14" }} className="py-14" id="projects">
+      <div className="mx-auto w-full max-w-290 px-4.5">
+        <SectionHeader
+          eyebrow="04"
+          title="Projects"
+          description="Four builds, from a full-stack e-learning platform to an internal hotel dashboard."
+          className="pb-7"
+        />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ">
-        <ProjectCard />
+        <div className="nx-divider" />
+        {projectsData.map((project) => (
+          <Fragment key={project.link}>
+            <ProjectCard project={project} />
+            <div className="nx-divider" />
+          </Fragment>
+        ))}
       </div>
     </section>
   )

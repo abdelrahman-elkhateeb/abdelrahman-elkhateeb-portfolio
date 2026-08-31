@@ -1,122 +1,53 @@
-"use client";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import img from "@/public/avatar.png"
 
-import { Menu, Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
-
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import img from "@/public/avatar.png";
-import Image from "next/image";
-import { Avatar, AvatarFallback } from "./ui/avatar";
-import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "./ui/navigation-menu";
+const NAV_LINKS = [
+  { label: "About", href: "#about" },
+  { label: "Experience", href: "#experience" },
+  { label: "Tech stack", href: "#skills" },
+  { label: "Projects", href: "#projects" },
+  { label: "Contact", href: "#contact" },
+]
 
 export default function Navbar() {
-  const { setTheme } = useTheme();
-
   return (
-    <header className="sticky top-0 z-50 w-full bg-background">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+    <header className="nx-nav-cap pointer-events-none relative z-50 h-16 -mb-16 md:sticky md:top-0 md:h-[140px] md:-mb-[140px]">
+      <div className="pointer-events-auto flex h-16 items-center justify-between px-[18px] md:h-[72px] md:px-10">
+        <a href="#" aria-label="Home" className="nx-nav-link flex items-center gap-3 no-underline">
+          <Avatar className="size-[26px] rounded-[8px] md:size-7">
+            <AvatarImage src={img.src} alt="" />
+            <AvatarFallback
+              className="rounded-[8px] text-[9px]"
+              style={{ background: "#0f111c", color: "rgba(233,233,237,0.35)" }}
+            >
+              AK
+            </AvatarFallback>
+          </Avatar>
+          <span
+            className="text-[12px] uppercase"
+            style={{ letterSpacing: "0.18em", color: "#e9e9ed", fontFamily: "Inter, system-ui, sans-serif" }}
+          >
+            AK
+          </span>
+        </a>
 
-        <Avatar size="lg">
-          <Image src={img} alt="user profile" />
-          <AvatarFallback>AK</AvatarFallback>
-        </Avatar>
-
-        {/* Desktop Navigation */}
-        <section className="hidden md:flex items-center gap-6 w-full justify-center">
-          <a href="#projects" className="text-sm font-medium hover:text-primary">
-            Projects
-          </a>
-          <a href="#about" className="text-sm font-medium hover:text-primary">
-            About me
-          </a>
-          <a href="#experience" className="text-sm font-medium hover:text-primary">
-            Experience
-          </a>
-          <a href="#skills" className="text-sm font-medium hover:text-primary">
-            Skills
-          </a>
-          <a href="#contact" className="text-sm font-medium hover:text-primary">
-            Contact me
-          </a>
-        </section>
-
-        {/* Actions */}
-        <div className="flex items-center gap-2">
-
-          {/* Theme */}
-          <div className='relative'>
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-                        <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-                        <span className="sr-only">Toggle theme</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => setTheme("light")}>
-                        Light
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setTheme("dark")}>
-                        Dark
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setTheme("system")}>
-                        System
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
-
-          {/* Mobile Menu */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
-
-            <SheetContent side="right">
-              <section className="flex flex-col gap-4 mt-6 p-4">
-                <a href="#projects">
-                  Projects
-                </a>
-                <a href="#about">
-                  about me
-                </a>
-                <a href="#skills">
-                  skills
-                </a>
-                <a href="#experience">
-                  Experience
-                </a>
-                <a href="#contact">
-                  contact me
-                </a>
-              </section>
-            </SheetContent>
-          </Sheet>
-
-        </div>
+        <nav aria-label="Sections" className="hidden items-center gap-[26px] md:flex">
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="nx-nav-link text-[12px] uppercase no-underline"
+              style={{
+                letterSpacing: "0.18em",
+                color: "rgba(233,233,237,0.60)",
+                fontFamily: "Inter, system-ui, sans-serif",
+              }}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
       </div>
     </header>
-  );
+  )
 }

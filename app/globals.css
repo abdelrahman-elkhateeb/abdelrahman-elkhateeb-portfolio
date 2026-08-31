@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -217,4 +218,169 @@ body {
   }
 }
 
-/* projects section */
+/* ══════════════════════════════════════════════════════════════════════
+   Locked hero + card direction ("2a" — Nocturne).
+   Tokens and component classes for the Hero and project-card sections
+   only. See DESIGN_SYSTEM.md — that document is the source of truth,
+   this block just implements it.
+   ══════════════════════════════════════════════════════════════════════ */
+
+@keyframes tickerRun {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes glowDrift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, -14px, 0) scale(1.04); }
+}
+
+.nx-scrim-bottom {
+  background: linear-gradient(
+    to top,
+    rgba(8, 9, 15, 0.92) 0%,
+    rgba(8, 9, 15, 0.86) 13%,
+    rgba(8, 9, 15, 0.71) 26%,
+    rgba(8, 9, 15, 0.48) 39%,
+    rgba(8, 9, 15, 0.26) 52%,
+    rgba(8, 9, 15, 0.10) 66%,
+    rgba(8, 9, 15, 0.02) 78%,
+    rgba(8, 9, 15, 0) 88%
+  );
+}
+
+.nx-scrim-left {
+  background: linear-gradient(
+    to right,
+    rgba(8, 9, 15, 0.58) 0%,
+    rgba(8, 9, 15, 0.34) 22%,
+    rgba(8, 9, 15, 0.14) 40%,
+    rgba(8, 9, 15, 0) 60%
+  );
+}
+
+.nx-glow-accent {
+  background: radial-gradient(
+    40% 46% at 50% 42%,
+    color-mix(in srgb, #9184d9 28%, transparent),
+    transparent 70%
+  );
+  animation: glowDrift 16s ease-in-out infinite;
+}
+
+.nx-glow-black {
+  background: radial-gradient(90% 80% at 50% 120%, rgba(0, 0, 0, 0.6), transparent 70%);
+}
+
+.nx-ticker-track {
+  animation: tickerRun 42s linear infinite;
+}
+
+@media (max-width: 768px) {
+  .nx-ticker-track {
+    animation-duration: 34s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nx-ticker-track,
+  .nx-glow-accent {
+    animation: none;
+  }
+}
+
+.nx-hero-btn-primary {
+  border: 1px solid #9184d9;
+  color: #9184d9;
+  transition: background 240ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.nx-hero-btn-primary:hover {
+  background: color-mix(in srgb, #9184d9 12%, transparent);
+}
+.nx-hero-btn-primary svg {
+  transition: transform 240ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.nx-hero-btn-primary:hover svg {
+  transform: translate(2px, -2px);
+}
+
+.nx-icon-btn {
+  border: 1px solid rgba(233, 233, 237, 0.22);
+  color: #e9e9ed;
+  transition: background 240ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.nx-icon-btn:hover {
+  background: rgba(233, 233, 237, 0.07);
+}
+
+.nx-hero a:focus-visible,
+.nx-card:focus-visible {
+  outline: 2px solid #9184d9;
+  outline-offset: 2px;
+}
+
+.nx-card {
+  transition: background 480ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  text-decoration: none;
+}
+.nx-card:hover {
+  background: rgba(145, 132, 217, 0.06);
+}
+.nx-card-arrow {
+  transition: transform 480ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.nx-card:hover .nx-card-arrow {
+  transform: translate(2px, -2px);
+}
+
+.nx-card-title {
+  background: linear-gradient(104deg, #f2f1f7 0%, #d2cefd 52%, #9184d9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.nx-divider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(233, 233, 237, 0.16) 48px,
+    rgba(233, 233, 237, 0.16) calc(100% - 48px),
+    transparent
+  );
+}
+
+/* navbar */
+
+.nx-nav-cap {
+  background: linear-gradient(
+    to bottom,
+    rgba(8, 9, 15, 0.55) 0%,
+    rgba(8, 9, 15, 0.18) 27px,
+    rgba(8, 9, 15, 0) 64px
+  );
+}
+
+@media (min-width: 768px) {
+  .nx-nav-cap {
+    background: linear-gradient(
+      to bottom,
+      rgba(8, 9, 15, 0.55) 0%,
+      rgba(8, 9, 15, 0.18) 60px,
+      rgba(8, 9, 15, 0) 140px
+    );
+  }
+}
+
+.nx-nav-link {
+  transition: color 240ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.nx-nav-link:hover {
+  color: #d2cefd;
+}
+.nx-nav-link:focus-visible {
+  color: #d2cefd;
+  outline: 2px solid #9184d9;
+  outline-offset: 2px;
+}
