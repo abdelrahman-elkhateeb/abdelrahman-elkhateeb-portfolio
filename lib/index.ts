@@ -131,8 +131,8 @@ const experiences = [
     company: "EVIM",
     location: "Berlin, Germany",
     role: "Frontend Developer",
-    employmentType: "Contract / Remote",
-    period: "Jul 2025 – May 2026",
+    employmentType: "Remote",
+    period: "Jul 2025 – present",
     techStack: ["React.js", "TypeScript", "Fluent UI", "SPFx"],
     headline:
       "Shipped 36+ SPFx WebParts into enterprise SharePoint — and the reusable React and Fluent UI layer every one of them was built on.",
