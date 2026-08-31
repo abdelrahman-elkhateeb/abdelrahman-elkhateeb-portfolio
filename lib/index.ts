@@ -11,8 +11,54 @@ import proj1 from "@/public/images/project (1).png";
 import proj2 from "@/public/images/project (2).jpg";
 import proj3 from "@/public/images/project (3).png";
 import proj4 from "@/public/images/project (4).png";
+import mawasemStore from "@/public/images/mawasem-store.png";
+import mawasemDashboard from "@/public/images/mawasem-dashboard.png";
 
 const projectsData = [
+  {
+    title: "Mawasem — gifting storefront",
+    description:
+      "Arabic-first e-commerce storefront for seasonal products, with product discovery, filtering, wishlist, cart, checkout, and season-based shopping experiences.",
+    hardPart:
+      "Products, packages, seasons, variants, and filters all affect the shopping flow differently, so the frontend had to keep those states predictable without making discovery or checkout feel complicated.",
+    tech: [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Zustand",
+      "TanStack Query",
+    ],
+    details: [
+      "Built a responsive Arabic-first storefront for browsing seasonal products, collections, packages, and product details across desktop and mobile.",
+      "Implemented product search, filtering, wishlist, cart, season-based navigation, and checkout flows with reusable feature-based frontend components.",
+      "Integrated the frontend with the existing REST APIs using TanStack Query and Zustand to separate server data from persistent client-side shopping state.",
+    ],
+    image: mawasemStore,
+    link: "https://www.mawasem.org/",
+    type: "Live Demo",
+  },
+  {
+    title: "Mawasem — operations dashboard",
+    description:
+      "Internal dashboard for managing products, orders, customers, seasons, inventory, employees, and day-to-day store operations.",
+    hardPart:
+      "The dashboard contains many CRUD-heavy features with different permissions, filters, and data states, so the challenge was keeping the frontend architecture reusable instead of duplicating the same management flow across every module.",
+    tech: [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "TanStack Query",
+      "shadcn/ui",
+    ],
+    details: [
+      "Built a responsive admin dashboard covering products, orders, customers, employees, seasons, collections, inventory, and store operations.",
+      "Created reusable frontend patterns for data tables, filtering, forms, protected screens, loading states, and CRUD workflows across multiple dashboard features.",
+      "Integrated the dashboard with existing REST APIs using TanStack Query and a shared API layer while keeping the codebase organised around feature-based architecture.",
+    ],
+    image: mawasemDashboard,
+    link: "",
+    type: "Live Demo",
+  },
   {
     title: "Lumina — e-learning platform",
     description:

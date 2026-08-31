@@ -10,7 +10,7 @@ export default function Projects() {
         <SectionHeader
           eyebrow="04"
           title="Projects"
-          description="Four builds, from a full-stack e-learning platform to an internal hotel dashboard."
+          description="Six builds, from a production gifting platform and its operations dashboard to full-stack products and focused frontend tools."
           className="pb-7"
         />
 
