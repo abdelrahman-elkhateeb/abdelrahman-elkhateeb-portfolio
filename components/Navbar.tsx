@@ -14,21 +14,14 @@ export default function Navbar() {
     <header className="nx-nav-cap pointer-events-none relative z-50 h-16 -mb-16 md:sticky md:top-0 md:h-[140px] md:-mb-[140px]">
       <div className="pointer-events-auto flex h-16 items-center justify-between px-[18px] md:h-[72px] md:px-10">
         <a href="#" aria-label="Home" className="nx-nav-link flex items-center gap-3 no-underline">
-          <Avatar className="size-[26px] rounded-[8px] md:size-7">
+          <Avatar className="size-[26px] rounded-full md:size-7">
             <AvatarImage src={img.src} alt="" />
             <AvatarFallback
-              className="rounded-[8px] text-[9px]"
-              style={{ background: "#0f111c", color: "rgba(233,233,237,0.35)" }}
+              className="rounded-full text-[9px]"
             >
               AK
             </AvatarFallback>
           </Avatar>
-          <span
-            className="text-[12px] uppercase"
-            style={{ letterSpacing: "0.18em", color: "#e9e9ed", fontFamily: "Inter, system-ui, sans-serif" }}
-          >
-            AK
-          </span>
         </a>
 
         <nav aria-label="Sections" className="hidden items-center gap-[26px] md:flex">
