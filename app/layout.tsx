@@ -41,9 +41,9 @@ export default function RootLayout({
             {children}
           </main>
 
-          <footer className="w-full mt-20 border-t-2 border-border bg-muted/30 font-mono">
+          {/* <footer className="w-full mt-20 border-t-2 border-border bg-muted/30 font-mono">
             <Footer />
-          </footer>
+          </footer> */}
         </ThemeProvider>
       </body>
     </html>
