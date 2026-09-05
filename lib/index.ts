@@ -7,6 +7,7 @@ const words = [
 ];
 
 // Import your images
+import type { StaticImageData } from "next/image";
 import proj1 from "@/public/images/project (1).png";
 import proj2 from "@/public/images/project (2).jpg";
 import proj3 from "@/public/images/project (3).png";
@@ -14,13 +15,31 @@ import proj4 from "@/public/images/project (4).png";
 import mawasemStore from "@/public/images/mawasem-store.png";
 import mawasemDashboard from "@/public/images/mawasem-dashboard.png";
 
-const projectsData = [
+type ProjectEntry = {
+  title: string;
+  description: string;
+  descriptionShort: string;
+  hardPart: string;
+  hardPartShort: string;
+  tech: string[];
+  image: StaticImageData;
+  /** Absent (not empty) when a project has no public link — see project 2. */
+  link?: string;
+  /** Shown instead of the arrow/link when `link` is absent. */
+  noLinkReason?: string;
+};
+
+const projectsData: ProjectEntry[] = [
   {
     title: "Mawasem — gifting storefront",
     description:
-      "Arabic-first e-commerce storefront for seasonal products, with product discovery, filtering, wishlist, cart, checkout, and season-based shopping experiences.",
+      "Arabic-first storefront for seasonal gifting: discovery, filtering, wishlist, cart, and a checkout that survives a season switch.",
+    descriptionShort:
+      "Arabic-first storefront for seasonal gifting: discovery, wishlist, cart, checkout.",
     hardPart:
-      "Products, packages, seasons, variants, and filters all affect the shopping flow differently, so the frontend had to keep those states predictable without making discovery or checkout feel complicated.",
+      "Products, packages, seasons and variants each bend the flow differently, so discovery and checkout had to stay predictable through all of them.",
+    hardPartShort:
+      "Packages, seasons and variants each bend the flow — discovery had to stay predictable.",
     tech: [
       "React",
       "TypeScript",
@@ -28,21 +47,19 @@ const projectsData = [
       "Zustand",
       "TanStack Query",
     ],
-    details: [
-      "Built a responsive Arabic-first storefront for browsing seasonal products, collections, packages, and product details across desktop and mobile.",
-      "Implemented product search, filtering, wishlist, cart, season-based navigation, and checkout flows with reusable feature-based frontend components.",
-      "Integrated the frontend with the existing REST APIs using TanStack Query and Zustand to separate server data from persistent client-side shopping state.",
-    ],
     image: mawasemStore,
     link: "https://www.mawasem.org/",
-    type: "Live Demo",
   },
   {
     title: "Mawasem — operations dashboard",
     description:
-      "Internal dashboard for managing products, orders, customers, seasons, inventory, employees, and day-to-day store operations.",
+      "The back office behind the storefront: products, orders, customers, seasons, inventory, employees.",
+    descriptionShort:
+      "The back office behind the storefront: orders, customers, seasons, inventory.",
     hardPart:
-      "The dashboard contains many CRUD-heavy features with different permissions, filters, and data states, so the challenge was keeping the frontend architecture reusable instead of duplicating the same management flow across every module.",
+      "Every module is CRUD with its own permissions, filters and data states, so the work was one reusable pattern, not nine near-identical screens.",
+    hardPartShort:
+      "Nine CRUD modules, one reusable pattern instead of nine near-identical screens.",
     tech: [
       "React",
       "TypeScript",
@@ -50,78 +67,84 @@ const projectsData = [
       "TanStack Query",
       "shadcn/ui",
     ],
-    details: [
-      "Built a responsive admin dashboard covering products, orders, customers, employees, seasons, collections, inventory, and store operations.",
-      "Created reusable frontend patterns for data tables, filtering, forms, protected screens, loading states, and CRUD workflows across multiple dashboard features.",
-      "Integrated the dashboard with existing REST APIs using TanStack Query and a shared API layer while keeping the codebase organised around feature-based architecture.",
-    ],
     image: mawasemDashboard,
-    link: "",
-    type: "Live Demo",
+    noLinkReason: "Internal tool — no public link",
   },
   {
     title: "Lumina — e-learning platform",
     description:
       "Role-based dashboards for admins, instructors and students, Stripe checkout that enrols on success, and an in-browser IDE for exercises.",
+    descriptionShort:
+      "Role-based dashboards, Stripe checkout that enrols on success, in-browser IDE.",
     hardPart:
       "Enrolment had to survive a Stripe webhook landing before the student got back, so payment, enrolment and access all resolve from one source of truth.",
+    hardPartShort:
+      "Enrolment had to survive a Stripe webhook landing before the student got back.",
     tech: ["MongoDB", "Express", "React", "Stripe", "OAuth"],
-    details: [
-      "Built a complete MERN e-learning platform with secure authentication, Google OAuth, and role-based access for Admin, Instructor, and Student users.",
-      "Integrated Stripe payments to enable secure course purchases and automated enrollment after successful checkout.",
-      "Delivered an interactive learning experience with a browser-based IDE, placement-test logic, course management, and instructor dashboards.",
-    ],
     image: proj1,
     link: "https://github.com/abdelrahman-elkhateeb/Lumina",
-    type: "GitHub",
   },
   {
     title: "Weather Now",
     description:
       "City search and geocoding, current conditions, hourly forecasts and unit switching, in a layout that stays readable on a phone.",
+    descriptionShort:
+      "City search, current conditions, hourly forecasts and unit switching.",
     hardPart:
-      "Cached forecast data and user preferences age at different rates, so they had to live in separate stores — otherwise stale weather hides behind a stale UI.",
+      "Cached forecasts and user preferences age at different rates, so they live in separate stores — otherwise stale weather hides behind a stale UI.",
+    hardPartShort:
+      "Forecasts and preferences age at different rates, so they live in separate stores.",
     tech: ["React", "TanStack Query", "Zustand", "Open-Meteo"],
-    details: [
-      "Built a responsive weather application with city search, geocoding, current weather, hourly forecasts, and unit switching.",
-      "Separated server state and client state by using TanStack Query for API data fetching and Zustand for selected city, units, and UI preferences.",
-      "Improved UX with loading states, reusable weather view models, formatted dates, weather-code mapping, and scalable component structure.",
-    ],
     image: proj2,
     link: "https://weather-now-phi-ecru.vercel.app/",
-    type: "Live Demo",
   },
   {
     title: "Student Guide platform",
     description:
       "Schedules, rooms, TA hours, course resources and GPA tools in one mobile-first interface. Used by 100+ students, Lighthouse 98+.",
+    descriptionShort:
+      "Schedules, rooms, TA hours and GPA tools. 100+ students, Lighthouse 98+.",
     hardPart:
-      "Real timetables are messier than any data model — the work was finding one schedule shape that fit every department without a special case per course.",
+      "Real timetables are messier than any data model — the work was one schedule shape that fit every department without a special case per course.",
+    hardPartShort:
+      "One schedule shape had to fit every department without a special case per course.",
     tech: ["React", "Tailwind", "Vite", "Vercel"],
-    details: [
-      "Built a responsive student platform that brings academic schedules, locations, TA information, courses, and key resources into one centralized interface.",
-      "Implemented grade and GPA calculators to help students track academic progress and plan more accurately.",
-      "Achieved 98+ Lighthouse performance and delivered a simple mobile-first experience used by 100+ students.",
-    ],
     image: proj3,
     link: "https://github.com/AhmedHosny2/Student-Guide",
-    type: "GitHub",
   },
   {
     title: "The Wild Oasis — hotel dashboard",
     description:
-      "Internal dashboard for bookings, cabins, check-in and check-out, with hotel-wide settings and live Supabase data.",
+      "Internal dashboard for bookings, cabins, check-in and check-out, with hotel-wide settings on live Supabase data.",
+    descriptionShort:
+      "Bookings, cabins, check-in and check-out on live Supabase data.",
     hardPart:
       "Check-in writes to bookings, cabins and settings in one move — compound components kept that flow from turning into four near-identical forms.",
+    hardPartShort:
+      "Check-in writes to bookings, cabins and settings in one move.",
     tech: ["React", "Supabase", "TanStack Query", "React Hook Form"],
-    details: [
-      "Built a feature-rich hotel management dashboard with booking workflows, cabin management, check-in/check-out flows, and global hotel settings.",
-      "Used TanStack Query with Supabase to handle server state, caching, mutations, authentication, and real-time database interactions.",
-      "Applied professional React patterns including compound components, custom hooks, reusable UI architecture, and form handling with React Hook Form.",
-    ],
     image: proj4,
     link: "https://the-wild-oasis-dashboard-peach.vercel.app",
-    type: "Live Demo",
+  },
+];
+
+const contactEmail = "abdelrahmanelkhateeb10@gmail.com";
+
+const contactLinks = [
+  {
+    label: "GitHub",
+    value: "github.com/abdelrahman-elkhateeb",
+    href: "https://github.com/abdelrahman-elkhateeb",
+  },
+  {
+    label: "LinkedIn",
+    value: "linkedin.com/in/abdelrahman-elkhateeb",
+    href: "https://linkedin.com/in/abdelrahman-elkhateeb",
+  },
+  {
+    label: "Frontend Mentor",
+    value: "frontendmentor.io/profile/abdelrahman-elkhateeb",
+    href: "https://frontendmentor.io/profile/abdelrahman-elkhateeb",
   },
 ];
 
@@ -185,6 +208,6 @@ const skillGroups = [
 ];
 
 export {
-  experiences, projectsData, words, skillGroups
+  experiences, projectsData, words, skillGroups, contactEmail, contactLinks
 };
 
