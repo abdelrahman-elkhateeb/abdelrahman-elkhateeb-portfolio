@@ -1,19 +1,25 @@
+"use client"
+
 import { Fragment } from "react"
 import { skillGroups } from "@/lib"
 import SectionHeader from "@/components/SectionHeader"
+import { useReveal } from "@/hooks/useReveal"
 
 export default function Skills() {
+  const { ref, visible } = useReveal<HTMLDivElement>()
+
   return (
     <section style={{ background: "#0b0c14" }} className="py-14" id="skills">
       <div className="mx-auto w-full max-w-290 px-4.5">
-        <SectionHeader
-          eyebrow="03"
-          title="Tech stack"
-          description="Everything here is in production somewhere — not a list of things I've read about."
-          className="pb-7"
-        />
-
-        <div className="nx-divider" />
+        <div ref={ref} data-reveal className={visible ? "is-visible" : ""}>
+          <SectionHeader
+            eyebrow="03"
+            title="Tech stack"
+            description="Everything here is in production somewhere — not a list of things I've read about."
+            className="pb-7"
+          />
+          <div className="nx-divider" />
+        </div>
         {skillGroups.map((group, index) => (
           <Fragment key={group.title}>
             <div className="flex flex-col gap-3 py-[22px] md:flex-row md:gap-10 md:py-6">

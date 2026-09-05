@@ -1,6 +1,9 @@
+"use client"
+
 import { experiences } from "@/lib"
 import { Fragment } from "react"
 import SectionHeader from "@/components/SectionHeader"
+import { useReveal } from "@/hooks/useReveal"
 
 type Exp = (typeof experiences)[number]
 
@@ -74,17 +77,20 @@ function ExperienceRow({ exp }: { exp: Exp }) {
 }
 
 export default function Experience() {
+  const { ref, visible } = useReveal<HTMLDivElement>()
+
   return (
     <section style={{ background: "#0b0c14" }} className="py-14" id="experience">
       <div className="mx-auto w-full max-w-290 px-4.5">
-        <SectionHeader
-          eyebrow="02"
-          title="Experience"
-          description="Two roles — contract frontend work for German enterprise clients, and a freelance corporate build."
-          className="pb-7"
-        />
-
-        <div className="nx-divider" />
+        <div ref={ref} data-reveal className={visible ? "is-visible" : ""}>
+          <SectionHeader
+            eyebrow="02"
+            title="Experience"
+            description="Two roles — contract frontend work for German enterprise clients, and a freelance corporate build."
+            className="pb-7"
+          />
+          <div className="nx-divider" />
+        </div>
         {experiences.map((exp) => (
           <Fragment key={exp.id}>
             <ExperienceRow exp={exp} />

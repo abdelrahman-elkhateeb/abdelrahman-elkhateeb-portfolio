@@ -2,11 +2,20 @@
 
 import { OrbitControls } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
+import { Suspense, useEffect } from "react"
 import { useMediaQuery } from "react-responsive"
 import HeroLights from "./HeroLights"
 import HeroModel from "./HeroModel"
 
-const HeroExperience = () => {
+/** Mounts once the sibling Suspense boundary resolves — the model's own readiness signal. */
+function ReadySignal({ onReady }: { onReady?: () => void }) {
+  useEffect(() => {
+    onReady?.()
+  }, [onReady])
+  return null
+}
+
+const HeroExperience = ({ onReady }: { onReady?: () => void }) => {
   const isTablet = useMediaQuery({ query: '(max-width: 1024px)' });
 
   return (
@@ -23,7 +32,10 @@ const HeroExperience = () => {
         minPolarAngle={Math.PI / 5}
         maxPolarAngle={Math.PI / 2}
       />
-      <HeroModel />
+      <Suspense fallback={null}>
+        <HeroModel />
+        <ReadySignal onReady={onReady} />
+      </Suspense>
     </Canvas>
   )
 }
