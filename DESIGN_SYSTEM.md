@@ -71,29 +71,36 @@ is uppercase — card titles are sentence case, descriptions are sentence case.
 | | Value |
 | --- | --- |
 | Page | flat `#0b0c14`. No gradient, no grid overlay, no scanlines. |
-| Cards | **no surface at all** — transparent on the page. |
-| Card separation | a 1px hairline above and below each card, faded to transparent over the outer 48px: `linear-gradient(to right, transparent, rgba(233,233,237,0.16) 48px, rgba(233,233,237,0.16) calc(100% - 48px), transparent)`. |
-| Elevation | none. Zero `box-shadow` in the design. The only shadow of any kind is the hero name's `text-shadow`. |
+| Cards (Turn 6, amended) | **`#161826`** — the card takes a surface. See the amended §4 row below for the full spec. |
+| Card separation | cards no longer separate by a hairline *between* them — each card carries its own full `1px solid rgba(233,233,237,0.16)` border on all four sides instead (radius 8). `.nx-divider` (the fading hairline recipe below) is still the page's one divider primitive, used under section headers and between rail rows (Experience, Tech stack) and Contact rows — just no longer between project cards. |
+| `.nx-divider` recipe | `linear-gradient(to right, transparent, rgba(233,233,237,0.16) 48px, rgba(233,233,237,0.16) calc(100% - 48px), transparent)`, 48px fade (24px at ≤640px). |
+| Elevation | still none. Zero `box-shadow` anywhere. The only shadow of any kind is the hero name's `text-shadow`. **§8 is not amended by the card surface**: a card takes a fill, but it never floats — no shadow, no lift, no scale on hover, ever. |
 | Hero | the model canvas *is* the surface, full bleed, plus the scrim (§8). |
-
-Cards separate by **rule and hover tint**, never by fill or shadow. If a future section needs
-a container, it gets a hairline border on the page ground — not a lighter fill.
 
 ## 4. Buttons / links / chips
 
 | Variant | Spec | Hover |
 | --- | --- | --- |
-| Primary (accent outline) | 48px tall, `0 24px`, radius 8, `1px solid #9184d9`, label `#9184d9` 15/500, trailing 15px arrow | background `color-mix(#9184d9 12%, transparent)` |
-| Icon button | 48 × 48, radius 8, `1px solid rgba(233,233,237,0.22)`, glyph 19px `#e9e9ed` | background `rgba(233,233,237,0.07)` |
-| Card (whole-block link) | the entire card is the link, radius 8, no underline, no border; a bare 18px accent arrow glyph top-right marks it | background `rgba(145,132,217,0.06)`, 480ms |
+| Primary (accent outline) | 48px tall, `0 24px`, radius 8, `1px solid #9184d9`, label `#9184d9` 15/500, trailing 15px arrow | background `color-mix(#9184d9 12%, transparent)`, arrow translates `2px, -2px` over 240ms |
+| Icon button | 48 × 48 (44 × 44 at the mobile-nav trigger and the Contact copy button — the touch floor, the one place this size changes), radius 8, `1px solid rgba(233,233,237,0.22)`, glyph 19px `#e9e9ed` | background `rgba(233,233,237,0.07)` |
+| Card (whole-block link), Turn 6 amended | Surface `#161826`, `1px solid rgba(233,233,237,0.16)` border, radius 8, padding `24px` all round (`16px` at 390). No underline. A bare 18px (16px at 390) accent arrow glyph sits top-right of the title row, translating `2px, -2px` on hover over 480ms — same gesture the primary button's arrow now also carries. Project 2 (no public link) renders the identical surface as a plain `<div>`: no arrow, no hover tint, no cursor change, not focusable — a quiet Inter line at ink-35 states why instead. | background `color-mix(in srgb, #9184d9 6%, #161826)` (the old ground-relative 6% tint, recomposited against the surface instead — same token, same percentage, no new colour), border brightens to `rgba(233,233,237,0.22)`, both over 480ms. Card image lifts `opacity: 0.78 → 1` over the same 480ms — a veil, not a zoom. |
 | Chip (tech) | **plain text.** 13px, `rgba(233,233,237,0.45)`, separated by `·` at 0.4 opacity. No fill, no border, no radius, no padding, not interactive. | none |
 
 There is **no solid-filled button** anywhere. A chip is distinguishable from a button because
 it has no box at all — the moment a tech chip gets a border or a background it reads as a
 button and the rule is broken.
 
-Focus states: **undefined** — never built. Prescribed: `:focus-visible { outline: 2px solid
-#9184d9; outline-offset: 2px; }` on every interactive element, including the whole-card link.
+**Card composition (Turn 6, direction A — "editorial: one lead, five rows").** Project 1 runs
+full-width with its image on top (1112 × 420 at 1440, 16:9 at 390); projects 2–6 run as
+horizontal rows with the image alternating left/right per row (row 1 of the five — project 2 —
+reversed first), collapsing to a single column with the image on top at 390, no alternation.
+Direction B (uniform rows, no lead card) was drawn, compared, and rejected — it isn't kept
+behind a flag or a variant prop. See §7 for the column arithmetic and §9 for the reveal/stagger
+timing.
+
+Focus rings (Turn 6, built): `:focus-visible { outline: 2px solid #9184d9; outline-offset: 2px; }`
+is now a genuine global rule, covering every interactive element site-wide — including the
+whole-card link, the mobile-menu trigger and its links, and every Contact row.
 
 ## 5. Section titles
 
@@ -164,8 +171,8 @@ Scale in use (px): **6 · 8 · 12 · 13 · 14 · 16 · 18 · 22 · 24 · 28 · 3
 | Measure | Value |
 | --- | --- |
 | Page gutter, desktop | 40px (hero), 18px inside the 1160 card column |
-| Card padding | `24px 18px` |
-| Card columns | image 400 × 250, gap 32, content column 692 (at 1160 total) |
+| Card padding (Turn 6, amended) | `24px` all round at desktop, `16px` at 390 — was `24px 18px` before the card took a surface. |
+| Card columns (Turn 6, amended) | image **388 × 242** (1.6 ratio), gap 32, content column **692** — at 1160 total: `1160 − 48 (24px padding × 2) − 32 (gap) = 1080`... the column itself is fixed at 692 and the image absorbs the remaining space, so **the image took the loss, not the column**: 1160 − 48 − 32 − 692 = 388, down from the pre-surface 400. §7's 692px content column is unchanged and still load-bearing — the hard-part sentence still measures two lines at ~150 characters. The lead card's image runs full width instead: 1112 × 420 (1160 − 48 padding), same 388-width math applied to the row cards only. |
 | Card content stack | 13px gap; +5px extra before the chips row |
 | Hard-part label → sentence | 14px gap, baseline-aligned |
 | Hero name → subline → buttons | 18px, then 6px extra above the buttons |
@@ -211,26 +218,81 @@ is the page ground colour, never grey: that's why it vanishes on a dark camera a
 appears where the model is bright. It sits above the model and below the ticker band, and is
 `pointer-events: none` so it never intercepts orbit drags.
 
-## 9. Motion
+## 9. Motion (Turn 6 — replaces the v1 sketch above wholesale)
 
-Character: slow, weighted, single-axis — the pace of the model's orbit damping. Nothing
-bounces, nothing overshoots, nothing blinks.
+Character unchanged: slow, weighted, single-axis — the pace of the model's orbit damping.
+Nothing bounces, nothing overshoots, nothing blinks. One easing token, everywhere:
+`cubic-bezier(0.22, 0.61, 0.36, 1)`.
 
-- **Hover, card:** background tint over **480ms `cubic-bezier(0.22, 0.61, 0.36, 1)`**. No lift,
-  no scale, no image zoom (the image zoom belonged to the Cinema card, which we didn't take).
-- **Hover, buttons:** background tint only. Duration unspecified in the build — use 240ms with
-  the same easing.
-- **Ambient, hero glow:** `glowDrift` 16s ease-in-out infinite — a ±14px drift and 1.04 scale
-  on the accent radial. The only looping motion inside the hero frame.
-- **Ambient, ticker:** `tickerRun` 42s linear infinite, translating a duplicated track −50%.
-  Linear on purpose; a ticker that eases reads as broken.
-- **On load / on scroll:** nothing. No entrance animations, no scroll reveals, no parallax were
-  built, and the restraint is deliberate — if we add any, one shared 400–600ms fade-and-6px-rise
-  at most, once per section, never staggered per card.
-- **Reduced motion** (prescribed, not yet built): under `@media (prefers-reduced-motion: reduce)`
-  stop `tickerRun` and `glowDrift` entirely — the band keeps its first frame of copy and stays
-  readable, the glow holds at its rest position. Keep hover colour transitions but cut them to
-  ≤150ms. Never remove the scrim; it's legibility, not decoration.
+**Duration ladder.** 240ms interaction feedback (hover colour/background) · 480ms considered
+state change (card tint, card border, card image veil, card/contact arrow) · 520ms entrance ·
+600ms reserved for exactly two things — the hero name and the model canvas's arrival — because
+they're the two largest things that move.
+
+**Load ladder — hero only, fixed CSS-animation delays, fires once on first paint:**
+
+| Element | Delay | Duration |
+| --- | --- | --- |
+| Sticky nav row | 0ms | 520ms |
+| Hero name | 80ms | **600ms** |
+| Hero subline | 200ms | 520ms |
+| Hero buttons | 300ms | 520ms |
+| Ticker band | 420ms | 520ms |
+| Model canvas | *on readiness signal, not a fixed delay* | **600ms**, opacity only |
+
+The model canvas sits outside the ladder: it fades in over 600ms whenever its own readiness
+signal fires (the `<Suspense>` boundary around `HeroModel` resolving — the same mechanism that
+already suspends on `useGLTF`), never a timeout. A slow model delays nothing else; a fast one
+never races the type. All five ladder steps animate `opacity` + a 10px rise on one axis via a
+pure CSS `@keyframes` animation (`animation-fill-mode: both`), so the load ladder needs no JS
+and never flashes unstyled content — the 0% keyframe frame *is* the initial state.
+
+**Scroll entrances.** Each section resolves as one 520ms fade-and-12px-rise, firing once via
+`IntersectionObserver` and then unobserving — never replayed on scroll-back. Initial hidden
+state lives in CSS keyed off a `data-reveal` attribute (never inline), so there's no flash of
+positioned content before hydration; a `<noscript>` override resolves every reveal to its final
+state so the page is fully readable with JavaScript off.
+
+**Stagger cap — project cards.** 60ms per card, capped at **3 steps / 180ms total**: delay =
+`Math.min(index, 3) * 60ms` (0, 60, 120, 180…), so cards 4, 5 and 6 all land on the same final
+180ms step and the list can never ripple longer as it grows. (The frame's own annotation says
+"`Math.min(index, 2)`"; built as `Math.min(index, 3)` instead, because the frame's own worked
+example — card 6, at stagger index 5, landing at 180ms "alongside card 4" — only holds with a
+cap of 3, and cards 4–6 sharing the final step requires four distinct delay values, 0/60/120/180,
+not three. Built to match the frame's demonstrated behaviour over its prose.)
+
+**Scroll-spy.** Desktop nav only (the mobile nav is an overlay, not a persistent bar), tracked
+via `IntersectionObserver` with `rootMargin: "-70px 0px -60% 0px"` against each section id;
+active link colour is `#d2cefd`, 240ms.
+
+**Mobile menu.** Ground opacity 0 → 1 over 240ms. Links ride up from `translateY(8px)` over
+480ms each, 40ms apart (5 links = 160ms end to end).
+
+**Hover / interaction (unchanged from v1, now itemised):** card surface + border-colour tint
+480ms; card image veil (opacity 0.78 → 1) 480ms; card/contact/button arrow glyph translate
+`2px, -2px` 480ms (card, contact row) or 240ms (primary button, to match the button's own
+faster feedback duration); icon-button and nav-link colour/background 240ms; Contact row value
+colour (ink-60 → `#d2cefd`) 240ms; copy-icon crossfade 240ms, reverting 1.6s after a copy.
+
+**Ambient loops, unchanged:** `glowDrift` 16s ease-in-out infinite (hero model box only) ·
+`tickerRun` 42s linear infinite, 34s at 390. Linear on purpose — a ticker that eases reads as
+broken.
+
+**Performance.** Only `transform` and `opacity` animate, never layout properties. Every reveal
+disconnects its own observer once fired. Nothing below the fold animates before it enters the
+viewport. The scroll-spy and every reveal read from `IntersectionObserver`, never a scroll
+event handler — no layout thrash on scroll.
+
+**Reduced motion — a different design, not a subtraction.** Under
+`@media (prefers-reduced-motion: reduce)`: both ambient loops (`tickerRun`, `glowDrift`) stop
+entirely, the band holding its first frame of readable copy and the glow at rest; every load-
+ladder and scroll-reveal element resolves to its final state instantly — CSS-forced (`opacity: 1
+!important; transform: none !important`), so nothing is ever hidden or removed, and no
+`IntersectionObserver` is even created for reveals; hover colour/background transitions survive,
+cut to 150ms; **delays collapse to zero, not just durations** — a delay communicates nothing on
+its own, so someone asking for less motion shouldn't wait through one; the mobile menu still
+opens, just without the link transform. The scrim is never touched anywhere in this — it's
+legibility, not decoration.
 
 ## 10. Mobile
 
@@ -247,15 +309,14 @@ Carried over from the mobile frames of the two directions we drew from, as provi
 | Card | single column: image on top at 4:3 or 16:9, then title 20–21px, description 14px, chips 12px |
 | Card padding | 16–18px |
 
-Two things need deciding, not guessing:
+Two things needed deciding; both are now settled (Turn 6):
 
-1. **The hard-part line at 390.** At ~358px content width a 150-character sentence runs to
-   four lines. Either the mobile card carries a shortened hard-part string (≤80 characters),
-   or the label moves above the sentence instead of beside it, or it is dropped below a
-   breakpoint. My recommendation: label above, sentence at 14.5/1.5, and a ≤100-character
-   variant of each line.
-2. **The scrim at 390.** The bottom lift is defined in percentages so it scales, but the left
-   wash is pointless on a narrow screen — drop the left wash on mobile, keep bottom + nav cap.
+1. **The hard-part line at 390 — settled.** The label moves above the sentence instead of
+   beside it, the sentence runs at 14.5/1.5, and every project carries a ≤100-character mobile
+   variant of both its description and its hard-part sentence (`descriptionShort` /
+   `hardPartShort` in `lib/index.ts`) alongside the full desktop copy. Both variants ship in the
+   markup; only one is visible per breakpoint.
+2. **The scrim at 390.** Still as shipped in the locked hero — unchanged by Turn 6.
 
 ## 11. Navbar — persistent, sticky
 
@@ -279,24 +340,33 @@ unchanged — no bar, no fill, **no `backdrop-filter`**, no second cap.
 Active state is `#d2cefd`, not `#9184d9` — §1 already reserves the light stop for accent *text*;
 `#9184d9` stays on outlines, rules and glyphs.
 
-**At 390 the nav does not persist.** The hero carries a static top row (mark only, 64px, 18px
-gutter) and the page navigates by scrolling. Five labels measure ~396px against 354px of content
-width, so a condensed row would mean cutting to three items; a hamburger would cost an overlay
-surface, a close state and a dialog pattern this system doesn't have. No mobile nav, no hamburger.
+**At 390 the nav does not persist — but it now opens (Turn 6, reversed).** The v1 call was "no
+mobile nav, no hamburger," on the grounds that an overlay/close/dialog pattern would cost more
+than this system had built. That refusal is reversed: the hero's static top row (mark only,
+64px, 18px gutter) now also carries a 44 × 44 §4 icon-button trigger, opening a full-screen
+overlay menu. The costs the v1 decision refused are accepted:
 
-**Known cost:** with the `AK` mark, the full name appears nowhere between the hero scrolling off
-and the About prose. Accepted.
+| | Value |
+| --- | --- |
+| Trigger | §4 icon button, 44 × 44 (the touch-floor size), two 1px rules for a closed glyph, an × for open. `aria-expanded`, `aria-controls="mobile-menu"`. |
+| Overlay ground | the page ground `#0b0c14`, full opacity — **no new surface colour, no lighter panel fill, no `backdrop-filter`** (still forbidden). The hero underneath is gone, not blurred. |
+| Overlay mount | rendered through a portal straight onto `<body>`, not nested inside the sticky/relative nav element. Nesting it there let the hero's WebGL canvas visually bleed through the overlay despite correct `opacity`/`z-index`/background — a browser GPU-compositing quirk with promoted canvas layers, not a CSS mistake. Portalling out from under the canvas's ancestor chain is the fix; if a future overlay needs the same ground, mount it the same way. |
+| Links | About · Experience · Tech stack · Projects · Contact — sentence case, Inter, 27px, zero mono, no section numbers. Same content as the desktop nav. |
+| Motion | ground fades 0 → 1 over 240ms; links ride up from `translateY(8px)` over 480ms, 40ms apart. See §9. |
+| Accessibility | focus moves into the panel on open (first focusable element), is trapped while open (`Tab`/`Shift+Tab` cycle within the panel), `Escape` closes and returns focus to the trigger, background scroll is locked (`document.body.style.overflow`) while open. `role="dialog"`, `aria-modal="true"`. |
 
-**Implementation note.** The negative-margin overlay trick only works if the element has a
-non-`static` `position` at every breakpoint — `position: relative` on mobile, `sticky` at `md:`.
-Giving the mobile row `position: static` lets the hero (painted later in DOM, occupying the same
-box via the same negative margin) paint over the mark, since `z-index` is a no-op on statically
-positioned elements. `relative` fixes it while still scrolling away normally (not sticky), which
-is what "does not persist" requires.
+**Known cost, now paid instead of accepted:** the `AK` mark still appears alone in the static
+top row — the hamburger sits beside it, not a full nameplate — but the overlay it opens now
+carries real navigation, closing the gap the v1 note flagged.
 
-Both the dark/light toggle and the mobile hamburger sheet from the pre-redesign navbar are
-removed, not just restyled — the locked direction has no light mode (§ below) and no overlay
-surface pattern to build a mobile menu from.
+**Implementation note (unchanged).** The negative-margin overlay trick for the persistent
+desktop cap only works if the element has a non-`static` `position` at every breakpoint —
+`position: relative` on mobile, `sticky` at `md:`.
+
+The dark/light toggle from the pre-redesign navbar remains removed — the locked direction has
+no light mode. The mobile hamburger sheet is back, rebuilt from nothing rather than restyled
+from the pre-redesign one (which used a light-capable shadcn `Sheet`; this uses none of that
+component).
 
 ## 12. About
 
@@ -348,6 +418,33 @@ No cards, no fills, no borders, no icons, no counts, no levels, no motion. `skil
 `Shadcn UI` was renamed `shadcn/ui` to match the library's own name; `systemStatus` is gone
 entirely — nothing else in the repo read it once `Skills.tsx` stopped cycling it.
 
+## 14. Contact — as built (Turn 6)
+
+Replaces the pre-redesign `Contact_Log_1/2/3` `CyberCard`s wholesale — six mono elements
+(three `CHANNEL_ACTIVE` labels plus their card kickers) against a three-slot page budget, in
+`System_*`/Orbitron vocabulary §6 retired everywhere outside the ticker band. `cyberCard.tsx`
+is deleted; it was blocked only by this import.
+
+No form, no inputs, no backend. Direct links only, driven by `contactLinks` and `contactEmail`
+in `lib/index.ts` rather than hard-coded in the component:
+
+| | Value |
+| --- | --- |
+| Header | shared `SectionHeader` (§5/§11b): `05` eyebrow, "Contact" title. No description — the statement below carries that weight instead. |
+| Statement | Inter 500, `-0.03em`, `#e9e9ed`, **64px at 1440 / 40px at 390** — the only type on the page above the 34px section-title size besides the hero name. `text-wrap: pretty`. |
+| Availability prose | Inter 15/16, ink-60, one paragraph, prose only — **never a stat row** (§12 cut the stat row permanently and that holds here too): "Open to mid-level frontend roles — Cairo, remote-friendly. Email is the fastest way to reach me, and I answer the same day." |
+| Rows | §11c rail-row pattern at a larger scale: 150px label rail, value at **22px** (18px at 390, label above value) so a row reads as a target, not a line of text. `28px` vertical padding (desktop) vs. the rail's usual 24px. |
+| Email row | the mailto link carries the row pattern plus a trailing arrow like every other row; a separate 48×48 (44×44 at 390) §4 icon button sits outside it for copy-to-clipboard, glyph crossfading to a check over 240ms and reverting after 1.6s. |
+| Row hover | value colour ink-60 → `#d2cefd` at 240ms, row background 6% accent tint at 480ms, arrow `2px, -2px` at 480ms — identical tokens to the card hover in §4, reused rather than re-invented. |
+| Page ending | a `.nx-divider` 56px below the last row, then 56px of bottom padding — a page-terminating rule, **not** a row separator and not a footer: no copyright line, no nav links, no small print, no utility row. |
+
+**The footer stays deliberately undefined and unbuilt.** The page ends at Contact — `app/layout.tsx`
+renders no `<footer>` and imports no `Footer` component; `components/Footer.tsx` is deleted as
+dead code now that nothing references it. This is not an oversight to flag as a gap (the way the
+pre-Turn-6 doc flagged Contact/footer together as a "known gap") — it's the shipped shape of the
+page. If a footer is ever wanted, it needs its own design pass; nothing here should be read as a
+placeholder for one.
+
 ---
 
 ## Inconsistencies to settle
@@ -377,25 +474,22 @@ to drop the nav to sentence case, not to touch the ticker.
 
 ## Still undefined — ask, don't invent
 
-Footer · forms and inputs · the Contact section (its body content — its section-title header
-follows §5's pattern once built, taking `05`) · focus rings (prescribed, unbuilt) · scroll
-behaviour, including whether the nav's active-link state uses IntersectionObserver thresholds or
-scroll offsets (the current build has no active-link tracking at all — every link renders in its
-inactive colour, hover only) · loading and empty states · breakpoints between 390 and 1440.
+Forms and inputs (Contact has none, by design — see §14) · loading and empty states ·
+breakpoints between 390 and 1440. **The footer is not on this list** — it isn't undefined, it's
+deliberately absent; see §14.
 
-**Settled:** section titles (§5 → SectionHeader) · the navbar (§11) · About (§12) · the stats
-block (cut, §12) · light mode (removed sitewide — dark only; the pre-redesign toggle and its
-Sun/Moon control are gone from the navbar, though the underlying `next-themes` provider is left
-in place rather than torn out, since that's a larger, separate change) · Projects (§4/§7 — all
-four project cards render through the one `ProjectCard` in a single divided list, matching the
-locked Turn 2 build exactly. A prior pass had split card one into a "featured" row with the
-remaining three in a bordered 2-column grid; the design has no basis for that split — §3 says
-cards separate only by rule and hover tint, never by fill, border or grouping. The grid variant,
-`ProjectCardGrid.tsx` and its `.nx-card-grid` styles, has been removed) · Tech stack (§13, locked
-`5a`).
+**Settled:** section titles (§5 → SectionHeader) · the navbar (§11, including the Turn 6 mobile
+overlay) · About (§12) · the stats block (cut, §12) · light mode (removed sitewide — dark only;
+the pre-redesign toggle and its Sun/Moon control are gone from the navbar, though the underlying
+`next-themes` provider is left in place rather than torn out, since that's a larger, separate
+change) · Projects (§3/§4/§7 — direction A, "editorial: one lead, five rows," Turn 6) · Tech
+stack (§13, locked `5a`) · Contact (§14) · focus rings (§4, built — a genuine global
+`:focus-visible` rule) · scroll behaviour — the nav's active-link state uses
+`IntersectionObserver` with `-70px 0px -60% 0px` root margins (§9), not scroll offsets · the
+footer (§14 — deliberately absent, not a gap).
 
-**Known gap:** Contact and the footer still carry the pre-redesign "cyber terminal" treatment
-(Orbitron, `CyberCard`, mono headings) and a light-mode-capable shadcn background — visible as a
-white band after Projects when the system theme resolves to light. Skills no longer contributes to
-this gap as of §13. Out of scope for this pass; flagged here rather than patched, since restyling
-Contact and the footer is its own migration.
+**Known gap, closed:** the "Contact and the footer still carry the pre-redesign cyber-terminal
+treatment" gap noted after §13 is resolved by §14 — Contact is rebuilt on the locked system and
+the footer is removed rather than restyled. The light-mode-capable shadcn background this gap
+also flagged (a white band after Projects when the system theme resolves to light) no longer has
+anywhere to appear now that nothing after Projects renders unstyled shadcn surface.
