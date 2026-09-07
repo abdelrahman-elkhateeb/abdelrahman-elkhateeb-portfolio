@@ -18,27 +18,29 @@ export function useReveal<T extends HTMLElement>(rootMargin = "0px 0px -80px 0px
 
     // CSS alone already forces the final, visible state under reduced motion
     // (never hidden, never removed) — skip creating an observer entirely.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    const observer = new IntersectionObserver(
+    const observer = media.matches ? null : new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setVisible(true);
-          observer.disconnect();
+          observer?.disconnect();
         }
       },
       { rootMargin }
     );
-    observer.observe(el);
-    return () => observer.disconnect();
+    observer?.observe(el);
+    // A changed preference must never leave previously readable content hidden.
+    const onMotionChange = () => {
+      setVisible(true);
+      observer?.disconnect();
+    };
+    media.addEventListener("change", onMotionChange);
+    return () => {
+      observer?.disconnect();
+      media.removeEventListener("change", onMotionChange);
+    };
   }, [rootMargin]);
 
   return { ref, visible };
-}
-
-/** Clamps a project card's stagger step to the 180ms cap: cards 4-6 share the last step. */
-export function staggerDelay(index: number) {
-  return Math.min(index, 3) * 60;
 }

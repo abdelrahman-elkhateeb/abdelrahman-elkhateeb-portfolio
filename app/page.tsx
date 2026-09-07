@@ -1,9 +1,9 @@
-import About from "@/components/sections/About";
-import ContactSection from "@/components/sections/ContactSection";
-import Experience from "@/components/sections/Experience";
-import Hero from "@/components/sections/Hero";
-import Projects from "@/components/sections/Projects";
-import Skills from "@/components/sections/Skills";
+import About from "@/features/about/About";
+import ContactSection from "@/features/contact/ContactSection";
+import Experience from "@/features/experience/Experience";
+import Hero from "@/features/hero/Hero";
+import Projects from "@/features/projects/Projects";
+import Skills from "@/features/skills/Skills";
 
 export default function Home() {
   return (
