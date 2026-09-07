@@ -128,3 +128,45 @@ Added AGENTS.md as the primary shared working guide; AGENT.md now redirects and 
 
 - Limits: verification used headless desktop Chrome with viewport emulation, not physical phones, Safari or Firefox. This is not a screen-reader certification, GPU memory profile or cross-device pixel guarantee. No numeric bundle-size improvement is asserted.
 - Room.jsx is still not fully TypeScript checked. The retained Azure workflow specifies `output_location: build`, while local Next emits `.next`; deployment behavior was not tested or changed. No commit, push or deploy was performed.
+
+# Change record — hero turntable
+
+Baseline: `9256524` (`fix scroll issue for the hero seciton`), clean worktree. Landed on its own, not bundled with the scroll fix.
+
+## What changed
+
+- `features/hero/scene/HeroExperience.tsx`: `autoRotate` with `autoRotateSpeed` 0.4 on the existing OrbitControls, a `frameloop` that drops to `never` while the hero is off screen, and a `ResumeOnReturn` child that requests one frame on return.
+- `features/hero/scene/HeroScene.tsx`: observes its own model layer and reads the motion preference, passing `rendering` and `autoRotate` down. Scene ownership is otherwise unchanged.
+- `hooks/useInViewport.ts` and `hooks/usePrefersReducedMotion.ts`: new shared hooks following the existing observer conventions.
+- Camera position/fov, `minDistance`/`maxDistance`, polar limits, target, lights, room scale/position/rotation, GLB, texture and the composer are untouched.
+
+## Decisions
+
+- **Camera, not the model — confirmed against the scene, not assumed.** Both options were built and captured at 1440px, the model one through a throwaway probe build that read a rotation offset from the URL hash. Rotating the model group sweeps the world-space spotlights and the #a259ff area light across the geometry: at 180 degrees the exterior carries pink/cyan/blue light blobs (`.verification/turntable/model-180.png`) where the camera-orbit frame at the same angle is clean matte black (`camera-180.png`), and every model frame facing away from the default camera shows the same smearing. Camera rotation is the better of the two, as expected. Only the 180 degree pair is a strictly matched view — model offset -x turned out to equal camera azimuth -x, not +x, so the other pairs in `sheet-camera-vs-model.png` are mirrored and are evidence about lighting, not about framing.
+- **A full revolution is not viable with this asset, under either option.** The room is a two-wall corner diorama open toward the default camera. The camera sweep (`sheet-camera.png`, -75 to +90 in 15-degree steps) shows the interior readable only from about -45 to +30 degrees; by +60 the near wall occludes it and at 180 degrees it is an unlit shell. At the measured rate a revolution spends most of its time unreadable. This was implemented as specified and flagged rather than silently bounded, because bounding it is a design decision: azimuth limits would not help, since OrbitControls clamps rather than reverses and the turntable would stop dead at the limit.
+- **Speed 0.4** is the middle of the requested band. At 60Hz that is 2.4 degrees a second, one revolution every 150s.
+- **`autoRotateSpeed` is per frame, not per second.** `getAutoRotationAngle()` is `2*PI/60/60 * speed` with no delta-time term, so the rate scales with refresh rate. Measured 144.3 rAF frames/second on the capture machine, giving 5.8 degrees a second and a 62s revolution — 2.4x the 60Hz figure, which is why the timed drift captures do not match a 60Hz prediction. No value in the allowed band fixes this; only driving the azimuth from frame delta would, which is not what `autoRotate` does.
+- **Manual drag needs no code.** three-stdlib applies auto-rotation only when `state === STATE.NONE`, so a drag suppresses it and release resumes from the new angle. Verified rather than assumed.
+- **Frameloop.** `autoRotate` alone needs no frameloop change: the Canvas set no `frameloop` prop, so it was already R3F's `always` default and rendering continuously. The requested off-screen pause is what needs it, and there is no alternative mechanism — `frameloop` `never` is what makes R3F skip `useFrame` and `gl.render` and then cancel its animation frame. The on-screen value stays `always`, so the rendered hero is unchanged and only an off-screen idle state is new. This is a real edit to a line DESIGN_SYSTEM.md previously froze; it is called out rather than buried.
+- Setting the frameloop through the store instead of the prop does not work: `Canvas` re-runs an unkeyed layout effect on every render whose awaited `configure` resets the frameloop from the prop, overriding the store write. Measured 11,118 draw calls while off screen before the switch to the prop.
+- The stopped loop does not restart on its own. R3F restarts it incidentally through `invalidateInstance` when a scene prop changes, which masks the problem whenever `autoRotate` flips at the same moment — but under reduced motion nothing changes and the room would stay frozen on return. `ResumeOnReturn` requests a frame one animation frame later, after `Canvas`'s awaited async effect has applied `always`; a synchronous request is dropped while the state still reads `never`.
+
+## Verification
+
+- `npm run lint`, `npm run typecheck`, `npm run build` and `npm run verify:build` (4/4 HTML tests) all pass.
+- `npm run test:e2e`: **17/17 pass**, local Chrome via `PLAYWRIGHT_CHANNEL=chrome` against the production server on port 3001. All 13 pre-existing tests still pass, including the orbit-drag, wheel-scroll and touch-swipe tests. Four tests are new:
+  - reduced motion holds the room still across 3s, a preference lifted at runtime starts the drift without a reload, and re-applying it stops the drift again;
+  - the room drifts on its own, freezes while a drag is held, and resumes after release;
+  - draw calls are greater than zero on screen, exactly 0 while the hero is scrolled off, and greater than zero again on return;
+  - the same pause/restart under reduced motion, which is the case that only passes because of the explicit resume.
+- The pause is measured directly by counting `drawElements`/`drawArrays` calls through a patched WebGL prototype, not inferred from pixels, which are not observable while the hero is off screen.
+- Comparing scene frames under normal motion needs the hero glow's 16s drift held still, because an element screenshot includes overlapping siblings. Without that, "the frame changed" would pass whether or not the room turned.
+- The held-drag assertion was measured before being asserted: free drift changes 442,623 of 3,421,440 bytes over 2s, while a held drag is byte-identical after about 4s of damping settle. The test settles 4.5s so exact equality is a real result.
+- Six-width matrix (320/375/390/768/1024/1440, height 844 except 840 at 1440), reduced motion, same 2500ms settle as the pre-change captures: hero screenshots are **byte-identical to the pre-change captures at all six widths**, and `document.scrollWidth` equals the viewport at each. That is the evidence that camera, framing, lighting, scale and composer output were not disturbed. A matching normal-motion pass was captured alongside.
+- Timed drift captures at 1440px (t+0/10/20/30/45/60/90/120s) and the two angle sweeps are in ignored `.verification/turntable/`, with the probe scripts that produced them.
+
+## Limits
+
+- Headless desktop Chrome with viewport emulation on a 144Hz machine; not physical phones, Safari or Firefox. The 60Hz figures are computed from the per-frame formula, not measured on a 60Hz display.
+- The occlusion window (-45 to +30 degrees) was read from 15-degree captures at 1440px, not solved analytically or checked per width.
+- No commit, push or deploy was performed. No bundle-size or runtime-performance number is claimed; the pause result is a draw-call count, not a power measurement.

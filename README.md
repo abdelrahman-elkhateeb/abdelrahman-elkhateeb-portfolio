@@ -37,7 +37,7 @@ Playwright starts/reuses the production server on port 3001. Without the channel
 - `app/`: App Router entry points, metadata, global Tailwind v4 theme and effect CSS.
 - `features/`: hero (including scene), about, experience, skills, projects and contact. Each feature owns its content and private components/types.
 - `components/ui/`: customized shadcn/Radix Button, Sheet and Avatar. `components/shared/` contains Container, SectionHeader, Reveal and ArrowGlyph; `components/layout/` contains Navbar.
-- `hooks/`: reveal and scroll-spy observers. `lib/`: class merging and shared identity/navigation/contact destinations.
+- `hooks/`: reveal, scroll-spy, viewport and reduced-motion observers. `lib/`: class merging and shared identity/navigation/contact destinations.
 - `public/`: project images, avatar, room GLB and texture. `scripts/`: production HTML smoke checks. `tests/` and `playwright.config.ts`: browser verification.
 
 Edit projects in [features/projects/data.ts](features/projects/data.ts), roles in [features/experience/data.ts](features/experience/data.ts), skills in [features/skills/data.ts](features/skills/data.ts), and common destinations in [lib/site-config.ts](lib/site-config.ts).

@@ -197,3 +197,140 @@ test("a vertical touch swipe scrolls the page while a horizontal drag still orbi
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
   await context.close()
 })
+
+// Counts GPU draw calls so "paused" can be measured directly rather than
+// inferred from pixels, which is not observable while the hero is off screen.
+async function countDrawCalls(page: Page) {
+  await page.addInitScript(() => {
+    const w = window as unknown as { __draws: number }
+    w.__draws = 0
+    for (const proto of [WebGLRenderingContext, WebGL2RenderingContext]) {
+      for (const name of ["drawElements", "drawArrays", "drawElementsInstanced", "drawArraysInstanced"] as const) {
+        const original = (proto.prototype as unknown as Record<string, unknown>)[name]
+        if (typeof original !== "function") continue
+        ;(proto.prototype as unknown as Record<string, unknown>)[name] = function (this: unknown, ...args: unknown[]) {
+          w.__draws++
+          return (original as (...a: unknown[]) => unknown).apply(this, args)
+        }
+      }
+    }
+  })
+  return {
+    reset: () => page.evaluate(() => { (window as unknown as { __draws: number }).__draws = 0 }),
+    read: () => page.evaluate(() => (window as unknown as { __draws: number }).__draws),
+  }
+}
+
+// The hero glow drifts for 16s across the same box as the canvas, and an element
+// screenshot includes whatever overlaps it. Comparing scene frames under normal
+// motion therefore needs the ambient layer held still, or every capture differs
+// whether the room turned or not. Reduced-motion runs get this from the CSS.
+async function stopAmbientGlow(page: Page) {
+  await page.addStyleTag({ content: ".nx-glow-accent { animation: none !important; }" })
+}
+
+test("reduced motion holds the room still and a preference change starts/stops the turntable", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 840 })
+  await page.emulateMedia({ reducedMotion: "reduce" })
+  await openPortfolio(page)
+  await stopAmbientGlow(page)
+  const canvas = page.locator("canvas")
+  // Past the initial damping settle, nothing else may move the camera.
+  await page.waitForTimeout(1500)
+  const still = await canvas.screenshot()
+  await page.waitForTimeout(3000)
+  expect((await canvas.screenshot()).equals(still)).toBe(true)
+
+  // Lifting the preference at runtime starts the drift without a reload.
+  await page.emulateMedia({ reducedMotion: "no-preference" })
+  await page.waitForTimeout(3000)
+  const moving = await canvas.screenshot()
+  expect(moving.equals(still)).toBe(false)
+
+  // Setting it again stops the drift again.
+  await page.emulateMedia({ reducedMotion: "reduce" })
+  // Damping eases the residual delta out after autoRotate stops contributing.
+  await page.waitForTimeout(2500)
+  const stopped = await canvas.screenshot()
+  await page.waitForTimeout(3000)
+  expect((await canvas.screenshot()).equals(stopped)).toBe(true)
+})
+
+test("the room drifts on its own, yields to a drag and resumes after release", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 840 })
+  await page.emulateMedia({ reducedMotion: "no-preference" })
+  await openPortfolio(page)
+  await stopAmbientGlow(page)
+  const canvas = page.locator("canvas")
+  await page.waitForTimeout(1500)
+  const first = await canvas.screenshot()
+  await page.waitForTimeout(2500)
+  expect((await canvas.screenshot()).equals(first)).toBe(false)
+
+  // A held drag suppresses the drift: OrbitControls only auto-rotates when no
+  // gesture is in progress, so the view must follow the pointer and stop with it.
+  await page.mouse.move(1100, 250)
+  await page.mouse.down()
+  await page.mouse.move(1180, 250, { steps: 8 })
+  // Damping keeps easing the drag out for a few seconds; measured, the frame is
+  // byte-identical from about 4s of hold, while free drift moves ~13% of pixels
+  // in 2s. So this is a real "the turntable stopped", not a slow-motion pass.
+  await page.waitForTimeout(4500)
+  const held = await canvas.screenshot()
+  await page.waitForTimeout(2000)
+  expect((await canvas.screenshot()).equals(held)).toBe(true)
+
+  // Releasing hands the camera back to the turntable, from the dragged angle.
+  await page.mouse.up()
+  await page.waitForTimeout(1200)
+  const released = await canvas.screenshot()
+  await page.waitForTimeout(2500)
+  expect((await canvas.screenshot()).equals(released)).toBe(false)
+})
+
+test("the scene stops rendering while the hero is off screen and restarts on return", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 840 })
+  await page.emulateMedia({ reducedMotion: "no-preference" })
+  const draws = await countDrawCalls(page)
+  await openPortfolio(page)
+  await page.waitForTimeout(1000)
+
+  await draws.reset()
+  await page.waitForTimeout(1500)
+  expect(await draws.read()).toBeGreaterThan(0)
+
+  await page.locator("#contact").scrollIntoViewIfNeeded()
+  await page.waitForTimeout(1500) // let the observer fire and the loop wind down
+  await draws.reset()
+  await page.waitForTimeout(2000)
+  expect(await draws.read()).toBe(0)
+
+  await page.evaluate(() => window.scrollTo(0, 0))
+  await page.waitForTimeout(1000)
+  await draws.reset()
+  await page.waitForTimeout(1500)
+  expect(await draws.read()).toBeGreaterThan(0)
+})
+
+test("the scene pauses and restarts off screen under reduced motion too", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 840 })
+  await page.emulateMedia({ reducedMotion: "reduce" })
+  const draws = await countDrawCalls(page)
+  await openPortfolio(page)
+  await page.waitForTimeout(1000)
+
+  await page.locator("#contact").scrollIntoViewIfNeeded()
+  await page.waitForTimeout(1500)
+  await draws.reset()
+  await page.waitForTimeout(2000)
+  expect(await draws.read()).toBe(0)
+
+  // No scene prop changes on return here, so this only passes because the
+  // resume requests a frame itself.
+  await page.evaluate(() => window.scrollTo(0, 0))
+  await page.waitForTimeout(1000)
+  await draws.reset()
+  await page.waitForTimeout(1500)
+  expect(await draws.read()).toBeGreaterThan(0)
+  await expect(page.locator("canvas")).toBeVisible()
+})

@@ -34,7 +34,7 @@ components/
   layout/                  Navbar.tsx, including mobile navigation
   shared/                  Container, SectionHeader, Reveal and ArrowGlyph
   ui/                      customized shadcn Button, Sheet and Avatar
-hooks/                     shared useReveal and useScrollSpy
+hooks/                     shared useReveal, useScrollSpy, useInViewport and usePrefersReducedMotion
 lib/                       utils.ts (cn), site-config.ts (identity, navigation, contact/social URLs)
 public/                    project images, avatar, Models/optimized-room.glb and texture
 scripts/                   verify-build.mjs, production HTML smoke checks
@@ -60,7 +60,7 @@ docs/                      refactor history and verification record
 - Custom CSS is for shared gradients, scrims, keyframes, selectors spanning stateful children, and the calculated hero fit rule. Keep it in `app/globals.css`; use Tailwind for ordinary spacing and grids. Do not introduce CSS-in-JS or another styling framework.
 - Dark-only is explicit on HTML and in root tokens. Load only Inter and Share Tech Mono through the existing CSS imports. Preserve the actual font assignments in the design guide, including inherited mono body text; do not silently restyle it to match an obsolete Inter-only rule.
 - Preserve the shared custom ArrowGlyph path and sizes. Use existing Lucide icons for social/copy controls; decorative SVGs should be hidden from assistive technology. Do not swap in a visibly different glyph merely for consistency.
-- Keep hero load delays, one-shot reveal timing, capped card stagger, ticker, readiness fade and reduced-motion behavior. Use `Reveal` for static server content that needs an entrance; do not turn a whole feature into a Client Component just for a reveal.
+- Keep hero load delays, one-shot reveal timing, capped card stagger, ticker, readiness fade, scene auto-rotation and reduced-motion behavior. Use `Reveal` for static server content that needs an entrance; do not turn a whole feature into a Client Component just for a reveal.
 
 ## Responsive and accessibility requirements
 
@@ -76,7 +76,8 @@ docs/                      refactor history and verification record
 
 - Server Components are the default for routes, static sections, project cards and data. Client boundaries are Navbar, Reveal, CopyEmailButton and the scene; UI primitives opt in as needed. Pass serializable data/server-rendered children into boundaries; never import server-only code into their client graph.
 - Keep state local. Effects must clean up observers/listeners/timers; clipboard completion must not update an unmounted component. Do not add global state management for this portfolio.
-- Scene ownership is `features/hero/scene/`: HeroScene owns readiness, HeroExperience owns Canvas/OrbitControls, HeroModel owns responsive room transforms, HeroLights owns lights, Room renders GLTF meshes.
+- Scene ownership is `features/hero/scene/`: HeroScene owns readiness and the viewport/reduced-motion gating it passes down, HeroExperience owns Canvas/OrbitControls and the frameloop, HeroModel owns responsive room transforms, HeroLights owns lights, Room renders GLTF meshes.
+- The hero auto-rotates the camera, never the model group: the lights are world-space and turning the room sweeps them across it. Keep the rotation off under reduced motion and while the hero is off screen, and keep the explicit frame request that restarts R3F's cancelled loop on return. See DESIGN_SYSTEM.md for the values and the two accepted limits.
 - Keep GLB, texture, camera, lighting, material values, orbit limits, model scale/position and render settings unless the requested change requires otherwise. Compare loaded scene screenshots at matching camera/zoom and timing before accepting a scene change. Test orbit and remount/resize behavior.
 - Use declarative lights/materials instead of allocating `new THREE.*` during render. Room's `OwnedMaterial` cleans up only its own material; `dispose={null}` protects GLTF cache geometry/materials. Do not dispose shared textures or cached resources from an individual mount.
 - Preserve Room's direct texture binding in `OwnedMaterial.onUpdate`: the original texture color space is intentional compatibility behavior. Replacing it with a JSX `map` prop activates R3F's automatic sRGB conversion and changes the room colors. Any color-space migration needs its own visual comparison.
