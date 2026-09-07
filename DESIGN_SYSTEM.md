@@ -113,7 +113,9 @@ The common easing is `cubic-bezier(0.22, 0.61, 0.36, 1)` (`--ease-nocturne`). Sh
 [features/hero/scene](features/hero/scene) retains the room and rendering inputs:
 
 - Canvas camera position [0,15,20], fov 45. No frameloop, renderer-color or postprocessing change.
-- Orbit has no pan, zoom only above 1024px, distance 5–20 and polar limits PI/5–PI/2. Mobile orbit remains enabled; the old auto-spin/orbit-off note was inaccurate.
+- Orbit has no pan and no zoom at any width, with distance 5–20 and polar limits PI/5–PI/2. Mobile orbit remains enabled; the old auto-spin/orbit-off note was inaccurate. Zoom was previously enabled above 1024px, where OrbitControls consumed the wheel as a dolly and blocked page scrolling; it is now off everywhere so the wheel always scrolls the page. Pinch-dolly goes with it, but that was already off at 1024px and below, so touch screens wider than 1024px are the only surface that loses it.
+- The distance limits are not dead once zoom is off. `update()` clamps the camera radius every frame, so `maxDistance` 20 pulls the initial `[0,15,20]` camera (radius 25) in to radius 20 and defines the framing actually rendered. Removing either limit changes the room's apparent size.
+- Rotate-by-drag is retained on mouse and touch. The connected canvas wrapper keeps `touch-action: pan-y`, reapplied after OrbitControls' connect forces `none`, so a vertical swipe scrolls the page while a horizontal drag still orbits.
 - Room scale is 0.9 at <=768px, 1.05 at <=1024px, otherwise 1.2; y is -3.2 at <=768px, otherwise -3.5; rotation y is -PI/4.
 - Spotlights retain positions/colors/intensities 100/40/60; area light retains color #a259ff, dimensions 3x2 and final intensity 15; point lights retain intensity 10 each. Cyan/purple scene colors are not DOM UI tokens.
 - GLB path `/Models/optimized-room.glb` and texture `/images/textures/mat1.png` remain. Owned materials dispose only themselves; cached GLTF resources/textures are retained. Composer and zero-intensity SelectiveBloom stay: no removal experiment was performed, and matching the existing output takes precedence over speculative cleanup.

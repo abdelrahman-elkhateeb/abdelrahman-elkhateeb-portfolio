@@ -1,3 +1,73 @@
+# Hero scroll fix — 2026-09-07
+
+Baseline for this change: `a7b849c`, clean worktree. Scope: the hero section blocked normal page
+scrolling. Only [features/hero/scene/HeroExperience.tsx](../features/hero/scene/HeroExperience.tsx)
+changed, plus two focused browser tests and the orbit lines in [DESIGN_SYSTEM.md](../DESIGN_SYSTEM.md).
+
+## Problem and decisions
+
+- Two independent causes, with different reach. The wheel half was scoped to widths above 1024px:
+  `enableZoom={!isTablet}` gated zoom on `(max-width: 1024px)`, and `OrbitControls.onMouseWheel`
+  calls `preventDefault()` only when zoom is enabled. Measured on the baseline build, a wheel over
+  the hero centre scrolled 600px at 320/375/390/768/1024 and 0px at 1440. The touch half was
+  universal: `connect()` sets `touch-action: none` on the element it binds, so a vertical swipe
+  rotated the room at every width. The fix is `enableZoom={false}` plus restoring `pan-y`.
+- `minDistance`/`maxDistance` were kept. They are not dead code once zoom is off: `update()` clamps
+  the camera radius on every frame, so `maxDistance` 20 pulls the `[0,15,20]` camera (radius 25) in
+  to radius 20. Removing it would have moved the camera and changed the room's apparent size.
+- The element that needs `pan-y` is the labelled wrapper R3F connects its events to, not the inner
+  canvas: drei resolves `domElement || events.connected || gl.domElement`, and `touch-action` is
+  intersected across ancestors, so setting it on the canvas alone would have had no effect.
+- A one-shot mount effect was not enough and was measured failing: R3F connects its event target
+  after the children mount, so drei's connect effect reruns on a later commit and overwrote the
+  value. The effect is now keyed to the connected target and rendered after OrbitControls, so it
+  reruns in the same commit and flushes after it. No `!important` CSS rule was needed.
+- `touch-pan-y` is a Tailwind class on the Canvas rather than an inline `style` prop, keeping the
+  source free of `style` props. The class alone cannot win against OrbitControls' inline write; the
+  effect is what actually applies the value.
+- The React Compiler's `react-hooks/immutability` rule rejects mutating a value reached from a hook
+  or a prop, which ruled out writing through `events.connected`, `gl.domElement` or a `ref` prop.
+  The effect therefore reaches the element with a `document` query, using the same label constant
+  the Canvas renders so the selector and the attribute cannot drift.
+
+## Verification
+
+- ESLint, `tsc --noEmit`, Next production build and all four `verify:build` HTML tests passed.
+- `test:e2e`: **all 13 browser tests passed** in local Chrome 152 against the production build. The
+  existing orbit test and the scroll-spy/hover/short-landscape test were not modified and still pass.
+- Two focused tests were added: a wheel over the hero centre at 1440px scrolls the page; on a touch
+  viewport the connected wrapper computes `touch-action: pan-y`, a horizontal swipe still changes
+  the rendered canvas, and a vertical swipe scrolls the page.
+- Direct before/after behaviour measurements on the two production builds:
+
+| Check | Before | After |
+| --- | --- | --- |
+| Wheel over hero centre, 320/375/390/768/1024px | scrollY 600 | scrollY 600 |
+| Wheel over hero centre, 1440px | scrollY 0 | scrollY 600 |
+| Computed `touch-action` on the connected wrapper | none | pan-y |
+| Vertical touch swipe, 390px / 1440px | scrollY 0 / 0 | scrollY 1146 / 1194 |
+| Horizontal touch drag rotates the room, 390px / 1440px | yes | yes |
+
+- Visual comparison: hero captures at all six widths, plus the matched 1440px scene region
+  `(x=300, y=80, width=840, height=250)` used by the previous refactor, are **byte-identical**
+  between the baseline and fixed builds (max channel difference 0, zero differing pixels). Captured
+  in the same Chrome with reduced motion, `deviceScaleFactor` 1 and the loaded scene at its initial
+  camera; heights 844px except 1440px at 840px.
+- Chrome's `Input.synthesizeScrollGesture` does not drive touch input in this headless setup: it
+  failed to scroll over plain DOM in a control run, so its results were discarded. Touch checks
+  dispatch the touch sequence through `Input.dispatchTouchEvent` instead, which the same control
+  confirmed does scroll.
+- A byte-equality assertion on the canvas after wheeling was written, then removed as incorrect: a
+  plain `window.scrollTo` with no wheel, pointer or zoom path produces the identical 250-pixel change
+  in the identical `x898-948 y31-40` box, so any scroll perturbs it. It is R3F re-measuring on scroll
+  (`useMeasure({ scroll: true })`), is present on the baseline, and is unrelated to this change.
+  Idle captures with no input at all are byte-identical, so the canvas itself is stable.
+- Limits: headless desktop Chrome with viewport and touch emulation, not physical phones, Safari or
+  Firefox. Touch behaviour is established by synthesized touch input, not by a real finger on a
+  device. No commit, push or deploy was performed. Capture and probe artifacts are in ignored
+  `.verification/scroll-fix/`.
+
+
 # Refactor record — 2026-09-07
 
 Baseline: `2268e422188b86a5852f95b4e81401416f99e947`, initially clean worktree.

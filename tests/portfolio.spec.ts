@@ -149,3 +149,51 @@ test("the room responds to orbit drag and the mobile overlay covers its canvas",
   await expect(panel).toHaveCSS("background-color", "rgb(11, 12, 20)")
   expect(await panel.evaluate(element => element.contains(document.elementFromPoint(195, 500)))).toBe(true)
 })
+
+// 1440px is the width that regressed: zoom was gated to >1024px, so only there
+// did OrbitControls consume the wheel as a dolly and preventDefault the scroll.
+test("the wheel over the hero scrolls the page instead of zooming the room", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 840 })
+  await page.emulateMedia({ reducedMotion: "reduce" })
+  await openPortfolio(page)
+  await page.mouse.move(720, 420)
+  await page.mouse.wheel(0, 600)
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
+})
+
+test("a vertical touch swipe scrolls the page while a horizontal drag still orbits", async ({ browser }) => {
+  const context = await browser.newContext({
+    baseURL: "http://127.0.0.1:3001",
+    hasTouch: true,
+    viewport: { width: 390, height: 844 },
+    reducedMotion: "reduce",
+  })
+  const page = await context.newPage()
+  await openPortfolio(page)
+  const canvas = page.locator("canvas")
+  const touchAction = await page.evaluate(() =>
+    getComputedStyle(document.querySelector("[aria-label='Interactive 3D room']")!).touchAction)
+  expect(touchAction).toBe("pan-y")
+  // Chrome's synthesized scroll gesture does not drive touch input headlessly,
+  // so dispatch the touch sequence itself and let the browser apply touch-action.
+  const input = await context.newCDPSession(page)
+  const swipe = async (x: number, y: number, dx: number, dy: number) => {
+    await input.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y }] })
+    for (let step = 1; step <= 10; step++) {
+      await input.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        touchPoints: [{ x: x + (dx * step) / 10, y: y + (dy * step) / 10 }],
+      })
+    }
+    await input.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] })
+  }
+  await page.waitForTimeout(1000)
+  const beforeDrag = await canvas.screenshot()
+  await swipe(195, 300, -160, 0)
+  await page.waitForTimeout(800)
+  expect((await canvas.screenshot()).equals(beforeDrag)).toBe(false)
+  expect(await page.evaluate(() => window.scrollY)).toBe(0)
+  await swipe(195, 420, 0, -300)
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
+  await context.close()
+})
