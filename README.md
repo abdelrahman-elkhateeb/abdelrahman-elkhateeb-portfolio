@@ -18,7 +18,7 @@ Dark Nocturne design, an interactive Three.js room, and a build that holds itsel
 </div>
 
 <!-- Add a screenshot at public/preview.png, then this renders. -->
-![Portfolio preview](public/preview.png)
+![Portfolio preview](<img width="1845" height="985" alt="Screenshot 2026-09-08 150232" src="https://github.com/user-attachments/assets/04a0a584-9e20-463d-8bf2-d6cbea3459d8" />)
 
 ---
 
