@@ -13,7 +13,7 @@ export default function Projects() {
           <SectionHeader
             eyebrow="04"
             title="Projects"
-            description="Six things I've shipped. Each one names the part that was actually hard."
+            description="Eight things I've shipped. Each one names the part that was actually hard."
             className="pb-7"
           />
           <div className="nx-divider" />

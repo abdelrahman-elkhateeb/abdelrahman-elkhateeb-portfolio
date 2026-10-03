@@ -170,3 +170,18 @@ Baseline: `9256524` (`fix scroll issue for the hero seciton`), clean worktree. L
 - Headless desktop Chrome with viewport emulation on a 144Hz machine; not physical phones, Safari or Firefox. The 60Hz figures are computed from the per-frame formula, not measured on a 60Hz display.
 - The occlusion window (-45 to +30 degrees) was read from 15-degree captures at 1440px, not solved analytically or checked per width.
 - No commit, push or deploy was performed. No bundle-size or runtime-performance number is claimed; the pause result is a draw-call count, not a power measurement.
+
+# Projects: ChillWork and Foodie added (2026-10-03)
+
+## What changed
+
+- Two entries in `features/projects/data.ts`: **ChillWork** (frontend only — the owner's part; the backend is not claimed) at position 3, after the Mawasem pair, and **Foodie** at position 5, after Lumina. Both link to their live Vercel deployments. No existing project was removed or reordered.
+- Screenshots supplied by the owner: `public/images/chillwork.webp`, `public/images/foodie.webp`.
+- Section description "Six things I've shipped" → "Eight things I've shipped".
+- Count assertions updated for the new total: `scripts/verify-build.mjs` (7 linked cards, 8 card images) and `tests/portfolio.spec.ts` (8 cards).
+
+## Verification
+
+- `npm run lint`, `npm run typecheck`, `npm run build`, `npm run verify:build` (4/4) pass.
+- `npm run test:e2e` with `PLAYWRIGHT_CHANNEL=chrome`: 17/17 pass, including the six-width fit test.
+- Card screenshots of both new entries at 390/768/1024/1440 (reduced motion, fonts loaded) in ignored `.verification/new-projects/`; `scrollWidth` equals the viewport at each width. There are no before captures for comparison, because these cards did not exist; existing cards were not changed.

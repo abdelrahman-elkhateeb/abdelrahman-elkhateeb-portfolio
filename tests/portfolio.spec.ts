@@ -24,7 +24,7 @@ for (const width of [320, 375, 390, 768, 1024, 1440]) {
       elements.filter(element => element.scrollWidth > element.clientWidth + 1).map(element => element.textContent))
     expect(clipped).toEqual([])
     expect(errors).toEqual([])
-    await expect(page.locator(".nx-card, .nx-card-static")).toHaveCount(6)
+    await expect(page.locator(".nx-card, .nx-card-static")).toHaveCount(8)
     for (const image of await page.locator(".nx-card-image").all()) {
       await image.scrollIntoViewIfNeeded()
       await expect.poll(() => image.evaluate(element => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0)
@@ -101,7 +101,7 @@ test("reduced motion keeps content visible and stops ambient motion; no-JS conte
   await staticPage.goto("http://127.0.0.1:3001/", { waitUntil: "domcontentloaded" })
   await expect(staticPage.locator("[data-reveal]").first()).toHaveCSS("opacity", "1")
   await expect(staticPage.getByRole("heading", { name: "Contact", exact: true })).toBeVisible()
-  await expect(staticPage.locator(".nx-card, .nx-card-static")).toHaveCount(6)
+  await expect(staticPage.locator(".nx-card, .nx-card-static")).toHaveCount(8)
   await noJs.close()
 })
 

@@ -5,6 +5,8 @@ import proj3 from "@/public/images/project (3).png";
 import proj4 from "@/public/images/project (4).png";
 import mawasemStore from "@/public/images/mawasem-store.png";
 import mawasemDashboard from "@/public/images/mawasem-dashboard.png";
+import chillwork from "@/public/images/chillwork.webp";
+import foodie from "@/public/images/foodie.webp";
 
 export const projectsData: ProjectEntry[] = [
   {
@@ -48,6 +50,27 @@ export const projectsData: ProjectEntry[] = [
     noLinkReason: "Internal tool — no public link",
   },
   {
+    title: "ChillWork — repair job management",
+    description:
+      "The frontend for a repair-company platform: a customer site for reporting units and following each visit, and a phone-first dashboard for dispatchers and technicians.",
+    descriptionShort:
+      "Customer site plus a phone-first dashboard for dispatchers and technicians.",
+    hardPart:
+      "Two apps, three roles, one session — each app proxies the API through its own origin, so HttpOnly auth cookies work and no token ever touches the browser.",
+    hardPartShort:
+      "Two apps, three roles — the API is proxied per origin so auth stays in HttpOnly cookies.",
+    tech: [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "TanStack Query",
+      "shadcn/ui",
+      "Turborepo",
+    ],
+    image: chillwork,
+    link: "https://chillwork-frontend.vercel.app",
+  },
+  {
     title: "Lumina — e-learning platform",
     description:
       "Role-based dashboards for admins, instructors and students, Stripe checkout that enrols on success, and an in-browser IDE for exercises.",
@@ -60,6 +83,20 @@ export const projectsData: ProjectEntry[] = [
     tech: ["MongoDB", "Express", "React", "Stripe", "OAuth"],
     image: proj1,
     link: "https://github.com/abdelrahman-elkhateeb/Lumina",
+  },
+  {
+    title: "Foodie — food ordering platform",
+    description:
+      "Menu, cart, checkout and live order tracking in English and Arabic, with a public demo dashboard for products, orders and sales stats.",
+    descriptionShort:
+      "Menu, cart, checkout and live order tracking in English and Arabic.",
+    hardPart:
+      "The order total is computed in a Postgres function, not the browser, so a cart edited in devtools still pays the real price.",
+    hardPartShort:
+      "Totals are computed in Postgres, so an edited cart still pays the real price.",
+    tech: ["React", "TypeScript", "Supabase", "TanStack Query", "Zustand"],
+    image: foodie,
+    link: "https://food-ordering-app-pearl-alpha.vercel.app",
   },
   {
     title: "Weather Now",

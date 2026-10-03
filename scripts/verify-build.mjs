@@ -18,12 +18,12 @@ test("all six sections and their content are server-rendered in order", () => {
 })
 
 test("projects keep five whole-card links and one noninteractive internal project", () => {
-  assert.equal([...html.matchAll(/<a\b[^>]*class="[^"]*\bnx-card\b[^"-]/g)].length, 5)
+  assert.equal([...html.matchAll(/<a\b[^>]*class="[^"]*\bnx-card\b[^"-]/g)].length, 7)
   const card = html.match(/<div\b[^>]*class="[^"]*\bnx-card-static\b[^>]*>/)?.[0]
   assert.ok(card)
   assert.doesNotMatch(card, /tabindex|role="link"/)
   assert.match(html, /Internal tool/)
-  assert.equal([...html.matchAll(/<img\b[^>]*class="[^"]*nx-card-image/g)].length, 6)
+  assert.equal([...html.matchAll(/<img\b[^>]*class="[^"]*nx-card-image/g)].length, 8)
   assert.match(html, /sizes="\(min-width: 1160px\) 1074px/)
 })
 
