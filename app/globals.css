@@ -200,11 +200,31 @@
 .nx-index-num {
   transition: color 240ms var(--ease-nocturne);
 }
+/* "Case study" label: says every row opens its own page. */
+.nx-index-cta {
+  color: var(--primary);
+  transition: color 240ms var(--ease-nocturne);
+}
+.nx-index-row:hover .nx-index-cta,
+.nx-index-row:focus-visible .nx-index-cta {
+  color: var(--accent-light);
+}
+.nx-preview-link {
+  color: var(--accent-light);
+  transition: color 240ms var(--ease-nocturne);
+}
+.nx-preview-link:hover {
+  color: var(--foreground);
+}
+.nx-preview-link:hover .nx-card-arrow {
+  transform: translate(2px, -2px);
+}
 @media (min-width: 1024px) {
   .nx-index-row[data-active="true"] {
     background: var(--contact-hover);
   }
   .nx-index-row[data-active="true"] .nx-index-num,
+  .nx-index-row[data-active="true"] .nx-index-cta,
   .nx-index-row[data-active="true"] .nx-card-arrow {
     color: var(--accent-light);
   }
@@ -391,6 +411,8 @@
   }
   .nx-index-row,
   .nx-index-num,
+  .nx-index-cta,
+  .nx-preview-link,
   .nx-drag-hint,
   .nx-card-arrow,
   .nx-hero-btn-primary,

@@ -218,3 +218,8 @@ Baseline: `6f66831` (`Add ChillWork and Foodie to projects`), clean worktree. Di
 - No pixel comparison of the scene against the previous build was made; the claim that it is unchanged rests on the unchanged canvas box, camera and scene code, and on the passing scene tests.
 - Drawings at phone width are small (a 354px-wide drawing sets 1.9cqw text near 7px); they are illustrative, labelled for assistive technology, and the case-page copy carries the content.
 - No commit, push or deploy was performed.
+
+## Follow-up — case-study affordance
+
+- Owner feedback: rows did not say they open a page. Each index row now carries an always-visible "Case study" label with the arrow (under the description below 768px; under the category from 768px), and the preview panel ends with a "Read the full case study" link. Chosen over a cursor-following pill or an animated hand because it works on touch and needs no motion.
+- Verification: lint, typecheck, build, `verify:build` 5/5 (now also counts both label variants and de-duplicates slugs, since each appears on the row and the preview link) and `test:e2e` 24/24 (every row shows one visible label at all six widths; the active preview link points at the hovered project). Captures at 390/768/1440 in `.verification/redesign/`; no overflow.

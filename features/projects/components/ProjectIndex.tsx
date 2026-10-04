@@ -29,7 +29,7 @@ export default function ProjectIndex({ rows, previews }: { rows: IndexRow[]; pre
                 data-active={index === active}
                 onPointerEnter={() => setActive(index)}
                 onFocus={() => setActive(index)}
-                className="nx-index-row grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 rounded-lg px-1 py-5 font-sans md:grid-cols-[44px_minmax(0,1fr)_auto] md:gap-x-5 md:px-4 md:py-[22px]">
+                className="nx-index-row grid grid-cols-1 items-center gap-x-5 rounded-lg px-1 py-5 font-sans md:grid-cols-[44px_minmax(0,1fr)_auto] md:px-4 md:py-[22px]">
                 <span className="nx-index-num hidden font-mono text-[13px] tracking-[0.1em] text-primary md:block">{number}</span>
                 <span className="flex min-w-0 flex-col gap-2 md:gap-1.5">
                   <span className="flex gap-3 font-mono text-[11px] tracking-[0.18em] uppercase md:hidden">
@@ -38,10 +38,18 @@ export default function ProjectIndex({ rows, previews }: { rows: IndexRow[]; pre
                   </span>
                   <span className="nx-index-title text-[21px] leading-[1.15] font-medium tracking-[-0.02em] md:text-[24px]">{row.title}</span>
                   <span className="text-[14px] leading-[1.55] text-muted-foreground">{row.descriptionShort}</span>
+                  {/* Says where the row goes; always visible, so touch readers see it too. */}
+                  <span className="nx-index-cta mt-1 flex items-center gap-2 font-mono text-[11px] tracking-[0.18em] uppercase md:hidden">
+                    Case study
+                    <ArrowGlyph className="nx-card-arrow size-3.5 shrink-0" />
+                  </span>
                 </span>
-                <span className="flex items-center gap-[18px]">
-                  <span className="hidden font-mono text-[11px] tracking-[0.18em] whitespace-nowrap text-ink-tertiary uppercase md:inline">{row.category}</span>
-                  <ArrowGlyph className="nx-card-arrow size-4 shrink-0 text-primary md:size-[18px]" />
+                <span className="hidden flex-col items-end gap-2.5 font-mono text-[11px] tracking-[0.18em] whitespace-nowrap uppercase md:flex">
+                  <span className="text-ink-tertiary">{row.category}</span>
+                  <span className="nx-index-cta flex items-center gap-2">
+                    Case study
+                    <ArrowGlyph className="nx-card-arrow size-4 shrink-0" />
+                  </span>
                 </span>
               </Link>
             </li>

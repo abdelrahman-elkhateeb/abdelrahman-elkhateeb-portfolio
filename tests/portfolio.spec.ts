@@ -25,6 +25,10 @@ for (const width of [320, 375, 390, 768, 1024, 1440]) {
     expect(clipped).toEqual([])
     expect(errors).toEqual([])
     await expect(page.locator(".nx-index-row")).toHaveCount(8)
+    // Every row says it opens a case study, on touch widths too (one label per layout).
+    for (const row of await page.locator(".nx-index-row").all()) {
+      await expect(row.locator(".nx-index-cta:visible")).toHaveText(/Case study/i)
+    }
     // The preview panel exists only beside the list, from 1024px.
     await expect(page.locator(".nx-preview[data-active=true]")).toBeVisible({ visible: width >= 1024 })
   })
@@ -62,6 +66,7 @@ test("the preview follows hover and focus, rows open case studies and the page l
   await rows.nth(2).hover()
   await expect(active.getByRole("img")).toHaveAttribute("aria-label", /ChillWork/)
   await expect(page.locator(".nx-preview:not([data-active=true])").first()).toHaveAttribute("aria-hidden", "true")
+  await expect(active.getByRole("link", { name: "Read the full case study" })).toHaveAttribute("href", "/work/chillwork")
   // Moving off the list keeps the last preview rather than emptying the panel.
   await page.mouse.move(5, 5)
   await expect(active.getByRole("img")).toHaveAttribute("aria-label", /ChillWork/)

@@ -24,14 +24,16 @@ test("projects render as an eight-row index linking to case-study pages", () => 
   for (const row of rows) assert.match(row, /href="\/work\/[a-z-]+"/)
   assert.doesNotMatch(html, /\bnx-card-static\b|\bnx-card-image\b/)
   // One drawn preview per project; only the first is exposed before hydration.
-  assert.equal([...html.matchAll(/class="nx-preview\b/g)].length, 8)
+  assert.equal([...html.matchAll(/class="nx-preview\s/g)].length, 8)
   assert.equal([...html.matchAll(/<div\b[^>]*role="img"/g)].length, 8)
-  assert.equal([...html.matchAll(/<div\b[^>]*aria-hidden="true"[^>]*class="nx-preview\b/g)].length, 7)
+  assert.equal([...html.matchAll(/<div\b[^>]*aria-hidden="true"[^>]*class="nx-preview\s/g)].length, 7)
 })
 
 test("every project has a prerendered case-study page", () => {
-  const slugs = [...html.matchAll(/href="\/work\/([a-z-]+)"/g)].map(match => match[1])
+  // Each slug appears twice: its index row and its preview's case-study link.
+  const slugs = [...new Set([...html.matchAll(/href="\/work\/([a-z-]+)"/g)].map(match => match[1]))]
   assert.equal(slugs.length, 8)
+  assert.equal([...html.matchAll(/class="nx-index-cta\b/g)].length, 16)
   for (const slug of slugs) {
     const page = read(`work/${slug}.html`)
     assert.equal([...page.matchAll(/<h1\b/g)].length, 1, slug)
