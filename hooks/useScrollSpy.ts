@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 
-/** Tracks which section id is active using the locked -70px/-60% root margins. */
-export function useScrollSpy(sectionIds: string[]) {
+/** Tracks which section id is active using the locked -70px/-60% root margins.
+    `pathname` re-observes after client navigation, because the caller (the
+    layout's Navbar) outlives the page whose sections it watches. */
+export function useScrollSpy(sectionIds: string[], pathname?: string) {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -26,7 +28,7 @@ export function useScrollSpy(sectionIds: string[]) {
 
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [sectionIds]);
+  }, [sectionIds, pathname]);
 
   return activeId;
 }

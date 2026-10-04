@@ -24,13 +24,63 @@ for (const width of [320, 375, 390, 768, 1024, 1440]) {
       elements.filter(element => element.scrollWidth > element.clientWidth + 1).map(element => element.textContent))
     expect(clipped).toEqual([])
     expect(errors).toEqual([])
-    await expect(page.locator(".nx-card, .nx-card-static")).toHaveCount(8)
-    for (const image of await page.locator(".nx-card-image").all()) {
-      await image.scrollIntoViewIfNeeded()
-      await expect.poll(() => image.evaluate(element => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0)
+    await expect(page.locator(".nx-index-row")).toHaveCount(8)
+    // The preview panel exists only beside the list, from 1024px.
+    await expect(page.locator(".nx-preview[data-active=true]")).toBeVisible({ visible: width >= 1024 })
+  })
+
+  // A full case study (four feature figures) and the internal project with no link.
+  test(`case-study pages fit at ${width}px`, async ({ page }) => {
+    const errors: string[] = []
+    page.on("pageerror", error => errors.push(error.message))
+    page.on("console", message => { if (message.type() === "error") errors.push(message.text()) })
+    await page.setViewportSize({ width, height: 844 })
+    for (const slug of ["chillwork", "mawasem-dashboard"]) {
+      await page.goto(`/work/${slug}`, { waitUntil: "domcontentloaded" })
+      await page.evaluate(() => document.fonts.ready)
+      for (const figure of await page.locator("[role=img]").all()) await figure.scrollIntoViewIfNeeded()
+      await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+      const clipped = await page.locator("h1, h2, dd").evaluateAll(elements =>
+        elements.filter(element => element.scrollWidth > element.clientWidth + 1).map(element => element.textContent))
+      expect(clipped).toEqual([])
     }
+    await expect(page.locator("figure")).toHaveCount(0)
+    await page.goto("/work/chillwork", { waitUntil: "domcontentloaded" })
+    await expect(page.locator("figure")).toHaveCount(4)
+    expect(errors).toEqual([])
   })
 }
+
+test("the preview follows hover and focus, rows open case studies and the page links back", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 840 })
+  await openPortfolio(page)
+  const rows = page.locator(".nx-index-row")
+  const active = page.locator(".nx-preview[data-active=true]")
+  await rows.first().scrollIntoViewIfNeeded()
+  await expect(active).toHaveCount(1)
+  await expect(active.getByRole("img")).toHaveAttribute("aria-label", /Mawasem storefront/)
+  await rows.nth(2).hover()
+  await expect(active.getByRole("img")).toHaveAttribute("aria-label", /ChillWork/)
+  await expect(page.locator(".nx-preview:not([data-active=true])").first()).toHaveAttribute("aria-hidden", "true")
+  // Moving off the list keeps the last preview rather than emptying the panel.
+  await page.mouse.move(5, 5)
+  await expect(active.getByRole("img")).toHaveAttribute("aria-label", /ChillWork/)
+  await rows.nth(4).focus()
+  await expect(active.getByRole("img")).toHaveAttribute("aria-label", /Foodie/)
+  await page.keyboard.press("Enter")
+  await expect(page).toHaveURL(/\/work\/foodie$/)
+  await expect(page.getByRole("heading", { level: 1, name: "Foodie" })).toBeVisible()
+  const nav = page.getByRole("navigation", { name: "Sections", exact: true })
+  await expect(nav.getByRole("link", { name: "Projects", exact: true })).toHaveAttribute("data-active", "true")
+  await page.getByRole("link", { name: /Next project/ }).click()
+  await expect(page).toHaveURL(/\/work\/weather-now$/)
+  await page.getByRole("link", { name: "All projects" }).click()
+  await expect(page).toHaveURL(/\/#projects$/)
+  await expect(rows).toHaveCount(8)
+  // The layout's Navbar outlives the page, so the spy must re-observe the new sections.
+  await page.locator("#skills").scrollIntoViewIfNeeded()
+  await expect(nav.getByRole("link", { name: "Tech stack", exact: true })).toHaveAttribute("data-active", "true")
+})
 
 test("menu traps focus, closes by Escape/link/close button and unlocks after resize", async ({ page }) => {
   await openPortfolio(page)
@@ -91,8 +141,8 @@ test("clipboard success, rejection and unavailable API have accessible feedback"
 test("reduced motion keeps content visible and stops ambient motion; no-JS content survives", async ({ page, browser }) => {
   await page.emulateMedia({ reducedMotion: "reduce" })
   await openPortfolio(page)
-  await expect(page.locator(".nx-ticker-track")).toHaveCSS("animation-name", "none")
   await expect(page.locator(".nx-glow-accent")).toHaveCSS("animation-name", "none")
+  await expect(page.locator(".nx-preview").first()).toHaveCSS("transition-duration", "0s")
   await expect(page.locator("[data-reveal]").first()).toHaveCSS("opacity", "1")
   await page.emulateMedia({ reducedMotion: "no-preference" })
   await expect(page.locator("[data-reveal]").first()).toHaveCSS("opacity", "1")
@@ -101,7 +151,7 @@ test("reduced motion keeps content visible and stops ambient motion; no-JS conte
   await staticPage.goto("http://127.0.0.1:3001/", { waitUntil: "domcontentloaded" })
   await expect(staticPage.locator("[data-reveal]").first()).toHaveCSS("opacity", "1")
   await expect(staticPage.getByRole("heading", { name: "Contact", exact: true })).toBeVisible()
-  await expect(staticPage.locator(".nx-card, .nx-card-static")).toHaveCount(8)
+  await expect(staticPage.locator(".nx-index-row")).toHaveCount(8)
   await noJs.close()
 })
 
@@ -135,6 +185,8 @@ test("the room responds to orbit drag and the mobile overlay covers its canvas",
   await expect(canvas).toBeVisible()
   // Give OrbitControls' initial damping time to settle; ambient CSS is stopped.
   await page.waitForTimeout(1000)
+  const hint = page.locator(".nx-drag-hint")
+  await expect(hint).toHaveCSS("opacity", "1")
   const before = await canvas.screenshot()
   await page.mouse.move(900, 220)
   await page.mouse.down()
@@ -143,6 +195,9 @@ test("the room responds to orbit drag and the mobile overlay covers its canvas",
   await page.waitForTimeout(800)
   const after = await canvas.screenshot()
   expect(before.equals(after)).toBe(false)
+  // The affordance has done its job once the reader has dragged.
+  await expect(hint).toHaveAttribute("data-visible", "false")
+  await expect(hint).toHaveCSS("opacity", "0")
   await page.setViewportSize({ width: 390, height: 844 })
   await page.getByRole("button", { name: "Open menu" }).click()
   const panel = page.getByRole("dialog", { name: "Site navigation" })

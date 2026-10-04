@@ -9,7 +9,7 @@ Read [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) before changing appearance or interact
 
 - Read applicable nested instructions and inspect `git status --short` before editing. Preserve unrelated work.
 - Implement the requested change, verify it appropriately, and update affected documentation. A successful build alone does not verify appearance or interaction.
-- Keep the Nocturne identity, section order, copy, destination URLs, project images, mobile copy and 3D appearance. Make the smallest correction for an actual defect.
+- Keep the Nocturne identity, section order, copy, destination URLs, project illustrations, mobile copy and 3D appearance. Make the smallest correction for an actual defect.
 - Do not add a footer, theme toggle, statistics strip or a new visual direction as incidental cleanup.
 - Resolve routine implementation choices from the current code and design guide. New product scope needs a concrete requirement; an old design-board annotation is not one.
 - Do not commit, push or deploy unless the task authorizes it. The Azure workflow runs on master pushes and PR events; local build verification does not deploy.
@@ -20,15 +20,18 @@ Read [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) before changing appearance or interact
 app/                       App Router composition, root metadata and global CSS
   layout.tsx               dark HTML, no-JS reveal fallback, Navbar and main
   page.tsx                 Hero → About → Experience → Skills → Projects → ContactSection
+  work/[slug]/page.tsx     prerendered case-study route composing features/projects/CaseStudy
   globals.css              palette, Tailwind v4 theme, shared effects and motion
   favicon.ico              active Next.js favicon convention
   favicon_io/              retained source icon/manifest assets; not a served route
 features/
-  hero/                    Hero.tsx, ticker data.ts, scene/ with R3F and Room
+  hero/                    Hero.tsx, status-line data.ts, scene/ with R3F and Room
   about/                   About.tsx and prose data.ts
   experience/              Experience.tsx and role data.ts
   skills/                  Skills.tsx and group data.ts
-  projects/                Projects.tsx, data.ts, types.ts, components/ProjectCard.tsx
+  projects/                Projects.tsx (index section), CaseStudy.tsx (case page), data.ts, types.ts
+    components/            ProjectIndex (client: active row), ProjectPreview, TechList
+    components/illustrations/  drawn product screens: Illustration frame, parts, screens
   contact/                 ContactSection.tsx and CopyEmailButton.tsx
 components/
   layout/                  Navbar.tsx, including mobile navigation
@@ -36,7 +39,7 @@ components/
   ui/                      customized shadcn Button, Sheet and Avatar
 hooks/                     shared useReveal, useScrollSpy, useInViewport and usePrefersReducedMotion
 lib/                       utils.ts (cn), site-config.ts (identity, navigation, contact/social URLs)
-public/                    project images, avatar, Models/optimized-room.glb and texture
+public/                    avatar, Models/optimized-room.glb and images/textures/mat1.png
 scripts/                   verify-build.mjs, production HTML smoke checks
 tests/                     portfolio.spec.ts, focused Playwright browser checks
 docs/                      refactor history and verification record
@@ -45,14 +48,14 @@ docs/                      refactor history and verification record
 - Add a section to its feature, compose it in `app/page.tsx`, and update navigation in `lib/site-config.ts` if required. Create folders only when they contain real code.
 - Feature-specific components/hooks/types/data stay within that feature. A single section component can live at the feature root; `components/` is useful when a feature has multiple components.
 - Put a component in `components/shared/` only when unrelated features actually reuse it. Put a hook in `hooks/` only when it is shared. UI primitives must not know portfolio content.
-- Add projects in `features/projects/data.ts` using `ProjectEntry` from `types.ts`; keep full/short descriptions and hard-part copy, image, and either a destination or a no-link explanation. The first item is the lead card; later items alternate at desktop width.
+- Add projects in `features/projects/data.ts` using `ProjectEntry` from `types.ts`: a unique slug (its `/work/[slug]` page is generated from the list), index title, case-page name, category, full/short description, hard-part copy, an illustration kind with its accessible label, and either a destination or a no-link explanation. Case-page sections (role, platforms, problem, built, features, status) are optional and render only when present; never invent facts to fill them. A new product visual is a new screen in `components/illustrations/screens.tsx`, drawn in cqw on existing tokens, not a screenshot.
 - Experiences and skills belong in their respective `data.ts` files. Shared identity and destinations belong in `lib/site-config.ts`. Do not restore a global content barrel such as `lib/index.ts`.
 - Allowed dependency direction: `app → features / components / lib`; `features → their own files / components / hooks / lib`; `components/layout → components/shared / ui / hooks / lib`; `components/shared → ui / hooks / lib`; `components/ui → lib/utils and external primitives`; `hooks → lib and external libraries`; `lib → external utilities only`.
 - Do not import `app` from lower layers, import one feature's internals from another, or make `lib`, hooks or primitives depend on features. Move genuinely shared code down a layer. Prefer direct imports and `import type`; avoid circular imports and unrelated barrel exports.
 
 ## UI, styling and motion
 
-- Use customized shadcn primitives in `components/ui/` as the interactive foundation. `Button` supports `outline`/`icon` variants and `default` (48px tall), `icon` (48px square), `touch` (44px square) sizes. Use `asChild` for an anchor styled as a button; keep ordinary navigation links and whole project links as anchors.
+- Use customized shadcn primitives in `components/ui/` as the interactive foundation. `Button` supports `outline`/`icon`/`secondary` variants and `default` (48px tall), `icon` (48px square), `touch` (44px square) sizes. Use `asChild` for an anchor styled as a button; keep ordinary navigation links and whole project rows as anchors (Next `Link` for internal routes).
 - `Sheet` wraps Radix Dialog for a fullscreen portal, focus management, Escape and scroll lock. Do not replace these behaviors with manual keydown or body-overflow handlers. Preserve the visible close control, accessible title, closed-state `inert`, link selection and desktop-resize handling.
 - Use Tailwind for routine layout and typography, and `cn()` for conditional classes. Extend the existing CVA definition when adding a real Button variant; keep its interaction/size semantics separate.
 - Add a semantic CSS variable under `:root` in `app/globals.css`, expose it through `@theme inline` when a Tailwind utility is needed, then document its role in `DESIGN_SYSTEM.md`. Reuse existing colors and opacity levels first. Do not add a second palette or a Tailwind JS config.
@@ -60,21 +63,21 @@ docs/                      refactor history and verification record
 - Custom CSS is for shared gradients, scrims, keyframes, selectors spanning stateful children, and the calculated hero fit rule. Keep it in `app/globals.css`; use Tailwind for ordinary spacing and grids. Do not introduce CSS-in-JS or another styling framework.
 - Dark-only is explicit on HTML and in root tokens. Load only Inter and Share Tech Mono through the existing CSS imports. Preserve the actual font assignments in the design guide, including inherited mono body text; do not silently restyle it to match an obsolete Inter-only rule.
 - Preserve the shared custom ArrowGlyph path and sizes. Use existing Lucide icons for social/copy controls; decorative SVGs should be hidden from assistive technology. Do not swap in a visibly different glyph merely for consistency.
-- Keep hero load delays, one-shot reveal timing, capped card stagger, ticker, readiness fade, scene auto-rotation and reduced-motion behavior. Use `Reveal` for static server content that needs an entrance; do not turn a whole feature into a Client Component just for a reveal.
+- Keep hero load delays, one-shot reveal timing, capped reveal stagger, the static status line, drag hint, readiness fade, scene auto-rotation, preview crossfade and reduced-motion behavior. Use `Reveal` for static server content that needs an entrance; do not turn a whole feature into a Client Component just for a reveal. Do not use `Reveal asChild` around server-rendered subtrees: Radix Slot renders nothing for a child that is still a streamed RSC reference.
 
 ## Responsive and accessibility requirements
 
-- Keep bounded containers and flexible children. Account for content, both borders, padding and gaps. Use `min-w-0`, `minmax(0, …)` and wrapping for shrinking tracks/long text. Do not hard-code the former 388px + 692px project row.
-- Never conceal a page overflow defect with `overflow-x-hidden`, clipping text or deleting content. Local clipping for image wells/Avatar, the ticker and the decorative scene glow is intentional. A Sheet may scroll internally to keep its links reachable.
+- Keep bounded containers and flexible children. Account for content, both borders, padding and gaps. Use `min-w-0`, `minmax(0, …)` and wrapping for shrinking tracks/long text. Drawings scale by container width; do not give them fixed pixel sizes.
+- Never conceal a page overflow defect with `overflow-x-hidden`, clipping text or deleting content. Local clipping for illustration frames, Avatar and the decorative scene glow is intentional. A Sheet may scroll internally to keep its links reachable.
 - Test widths **320, 375, 390, 768, 1024 and 1440px**, plus a short landscape viewport for hero/menu changes. Capture comparison screenshots at least at 390, 768, 1024 and 1440px using the same browser, viewport height, zoom, loaded fonts, scroll position and animation/scene readiness.
-- Check the entire page for horizontal overflow and clipped content, including project 2's no-link message, email and long social URLs. The ticker's own moving track may exceed its local viewport; the document may not.
+- Check the entire page for horizontal overflow and clipped content, including project 2's no-link message on its case page, case-study fact links, email and long social URLs. Check case-study pages at the same widths as the home page.
 - Test mouse, Tab, Shift+Tab, Enter and Escape; focus must stay inside an open Sheet, return appropriately on close, move to a selected section, and land on visible desktop navigation after resizing. Verify scroll unlock and no WebGL bleed through the overlay. Closed links must not be focusable or announced as an open dialog.
 - Preserve semantic headings/anchors/buttons, visible focus, names on icon buttons, image alternatives and the live copy-status region. Test clipboard success and rejection, including unavailable clipboard APIs; failure must not throw an unhandled rejection or shift layout.
-- Test reduced motion and preference changes, no-JS content, active-section scroll spy, link destinations and image loading. Keep the duplicate ticker track `aria-hidden`. Manual browser checks remain necessary beyond HTML smoke tests.
+- Test reduced motion and preference changes, no-JS content, active-section scroll spy, link destinations, the preview following hover and keyboard focus, and client navigation to and from case pages (the layout Navbar outlives pages, so its scroll spy re-observes on path change). Keep inactive previews `inert` and aria-hidden. Manual browser checks remain necessary beyond HTML smoke tests.
 
 ## React and 3D
 
-- Server Components are the default for routes, static sections, project cards and data. Client boundaries are Navbar, Reveal, CopyEmailButton and the scene; UI primitives opt in as needed. Pass serializable data/server-rendered children into boundaries; never import server-only code into their client graph.
+- Server Components are the default for routes, static sections, case-study pages, illustrations and data. Client boundaries are Navbar, Reveal, CopyEmailButton, ProjectIndex (active row only; previews arrive as server-rendered children) and the scene; UI primitives opt in as needed. Pass serializable data/server-rendered children into boundaries; never import server-only code into their client graph.
 - Keep state local. Effects must clean up observers/listeners/timers; clipboard completion must not update an unmounted component. Do not add global state management for this portfolio.
 - Scene ownership is `features/hero/scene/`: HeroScene owns readiness and the viewport/reduced-motion gating it passes down, HeroExperience owns Canvas/OrbitControls and the frameloop, HeroModel owns responsive room transforms, HeroLights owns lights, Room renders GLTF meshes.
 - The hero auto-rotates the camera, never the model group: the lights are world-space and turning the room sweeps them across it. Keep the rotation off under reduced motion and while the hero is off screen, and keep the explicit frame request that restarts R3F's cancelled loop on return. See DESIGN_SYSTEM.md for the values and the two accepted limits.
@@ -87,7 +90,7 @@ docs/                      refactor history and verification record
 ## Dependencies, verification and completion
 
 - Use npm and `package-lock.json`. Add a dependency only for a concrete unmet need, declare directly imported packages explicitly, and update the lockfile through npm. Avoid unrelated upgrades; removing dead imports does not prove a bundle-size reduction.
-- Before deletion check imports, dynamic asset paths, data fields, GLTF/texture references, Next conventions and metadata. Keep used project images, avatar, model and texture. `app/favicon_io/` is retained source material, not currently linked metadata; deliberate icon work must account for its manifest paths.
+- Before deletion check imports, dynamic asset paths, data fields, GLTF/texture references, Next conventions and metadata. Keep the avatar, model and texture. Project screenshots were removed with the redesign; projects are drawn, not photographed. `app/favicon_io/` is retained source material, not currently linked metadata; deliberate icon work must account for its manifest paths.
 - Run from the repository root:
 
 ```sh
@@ -103,7 +106,7 @@ npm run start
 
 `verify:build` requires a fresh production build and uses Node's built-in test runner on generated HTML. It does not launch a browser. `start` serves that build; `dev` uses Next's development server. On Windows where PowerShell blocks npm scripts, use `npm.cmd`/`npx.cmd` instead of changing execution policy. `npx tsc --noEmit` is equivalent to `npm run typecheck`.
 
-`test:e2e` also requires a fresh build. Playwright starts/reuses a local production server on port 3001. Set `PLAYWRIGHT_CHANNEL=chrome` to use an installed Chrome (the verified local setup); otherwise install Playwright Chromium with `npx playwright install chromium`. In PowerShell use `$env:PLAYWRIGHT_CHANNEL='chrome'` before `npm.cmd run test:e2e`. Browser tests require access to the existing Google Fonts URLs and check that both actual families loaded. They cover the six widths, image loading, console errors, menu/focus/resize, clipboard outcomes, no-JS/reduced motion, hover/scroll spy, short landscape and orbit. Retained failure screenshots/traces go in ignored `test-results/`. Before/after captures go in ignored `.verification/`; do not confuse baseline copies there with active source.
+`test:e2e` also requires a fresh build. Playwright starts/reuses a local production server on port 3001. Set `PLAYWRIGHT_CHANNEL=chrome` to use an installed Chrome (the verified local setup); otherwise install Playwright Chromium with `npx playwright install chromium`. In PowerShell use `$env:PLAYWRIGHT_CHANNEL='chrome'` before `npm.cmd run test:e2e`. Browser tests require access to the existing Google Fonts URLs and check that both actual families loaded. They cover the six widths for the home page and case pages, console errors, the index preview and case-page navigation, menu/focus/resize, clipboard outcomes, no-JS/reduced motion, hover/scroll spy, short landscape and orbit. Retained failure screenshots/traces go in ignored `test-results/`. Before/after captures go in ignored `.verification/`; do not confuse baseline copies there with active source.
 
 - Content/structure changes: lint, typecheck, production build and HTML smoke checks; verify affected copy/links/assets. UI/CSS/interaction changes additionally need `test:e2e` and the visual matrix above. Scene changes additionally need matching rendered scene comparisons and resource lifecycle checks. Add focused behavior tests when useful; do not add a large suite merely for file moves.
 - Documentation-only changes: validate referenced files, scripts and local links against the repository; broader code checks are needed only if code/configuration also changed.

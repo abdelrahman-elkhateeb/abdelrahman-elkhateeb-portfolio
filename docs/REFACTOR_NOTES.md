@@ -185,3 +185,36 @@ Baseline: `9256524` (`fix scroll issue for the hero seciton`), clean worktree. L
 - `npm run lint`, `npm run typecheck`, `npm run build`, `npm run verify:build` (4/4) pass.
 - `npm run test:e2e` with `PLAYWRIGHT_CHANNEL=chrome`: 17/17 pass, including the six-width fit test.
 - Card screenshots of both new entries at 390/768/1024/1440 (reduced motion, fonts loaded) in ignored `.verification/new-projects/`; `scrollWidth` equals the viewport at each width. There are no before captures for comparison, because these cards did not exist; existing cards were not changed.
+
+# Change record — redesign: status line, project index, case-study pages
+
+Baseline: `6f66831` (`Add ChillWork and Foodie to projects`), clean worktree. Direction approved by the owner on a design canvas before implementation; reference for the case-study structure and drawn product screens was the owner's Full Circle Studio site.
+
+## What changed
+
+- Hero: the scrolling ticker band is replaced by a static status line (availability, current role, base, scroll cue) in normal flow. The model layer keeps its 44/48px bottom offset, so canvas size, camera framing and the scene are untouched; the status line only covers the fully scrimmed strip. A "Drag to look around" hint (768px+) appears with the model and leaves after the first pointer-down on the scene. `--ticker` is renamed `--field`; ticker keyframes/classes and `TICKER_ITEMS` are removed.
+- Projects: the cards and screenshots are replaced by an editorial index of whole-row links. From 1024px a sticky preview column shows the hovered/focused row's drawing, hard part and stack; previews are server-rendered children of the small `ProjectIndex` client boundary, crossfade in one grid cell, and inactive ones are `inert`/aria-hidden.
+- Case studies: `app/work/[slug]/page.tsx` prerenders a page for all eight projects from `features/projects/data.ts` (problem, what I built, feature figures, hard parts, status, next project — each only when the data has it). Copy for Mawasem, ChillWork and Foodie was adapted to first person from the owner's Full Circle case studies; the smaller projects use the existing portfolio copy only. Roles are stated only where the portfolio already states them.
+- Illustrations: twelve drawn screens (one per project plus four ChillWork features) in `features/projects/components/illustrations/`, sized entirely in `cqw` inside a 16:10 `@container` frame, `role="img"` with labels.
+- Navigation: `NAV_LINKS` point at `/#section` so they work from case pages; the Home mark is a `Link` to `/`; Projects is active on `/work/*`; `useScrollSpy` takes the pathname so it re-observes after client navigation back to the home page.
+- Button gains a `secondary` CVA variant (bordered, used for "Get in touch").
+- `ProjectCard.tsx` is deleted. At the owner's request the eight project screenshots in `public/images/` were deleted too, after confirming nothing referenced them; `public/images/textures/` (the room matcap) stays.
+
+## Decisions and findings
+
+- **`Reveal asChild` drops streamed server children.** The ChillWork page first rendered only three of four feature figures: the second figure's subtree was outlined into a lazy RSC chunk, and Radix `Slot` renders nothing for a child that is not yet a valid element. The page HTML had three `<figure>`s while the RSC payload had four. Case-page content is now wrapped by `Reveal` (a div) instead; the rule is recorded in AGENTS.md and DESIGN_SYSTEM.md. About still uses `Reveal asChild` with a small inline child and was not changed.
+- The status line shows BASED only from 1280px: measured content at 1024px (availability, long NOW, BASED, scroll, gaps, padding) is about 1096px and would wrap.
+- Active-row styling is limited to 1024px+, where the preview it refers to exists; below that only hover tints.
+
+## Verification
+
+- `npm run lint`, `npm run typecheck`, `npm run build` (12 static routes including 8 `/work/*`) and `npm run verify:build` (5/5) pass. The smoke checks were rewritten for the index, the eight prerendered case pages (one h1, back link, next project, hard parts each), four server-rendered ChillWork figures and the no-link message.
+- `npm run test:e2e` with `PLAYWRIGHT_CHANNEL=chrome`: **24/24 pass**. New: case pages at all six widths (no document overflow, no clipped h1/h2/dd, no console errors), preview follows hover and keyboard focus and persists off-list, Enter opens the case page, Projects is active there, next-project and All projects links navigate, and scroll spy works again after returning; drag hint visible before and hidden after a drag. All scene, orbit, wheel, touch, menu, clipboard and reduced-motion tests still pass.
+- Captures at 320/375/390/768/1024/1440 (reduced motion, fonts loaded, 2.5s settle) for the home hero, projects section and ChillWork page are in ignored `.verification/redesign/`; `scrollWidth` equals the viewport at every width on both pages.
+
+## Limits
+
+- Headless Chrome with viewport emulation; not physical phones, Safari or Firefox. No screen-reader pass.
+- No pixel comparison of the scene against the previous build was made; the claim that it is unchanged rests on the unchanged canvas box, camera and scene code, and on the passing scene tests.
+- Drawings at phone width are small (a 354px-wide drawing sets 1.9cqw text near 7px); they are illustrative, labelled for assistive technology, and the case-page copy carries the content.
+- No commit, push or deploy was performed.

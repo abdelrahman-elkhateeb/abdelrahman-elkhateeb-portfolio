@@ -30,11 +30,11 @@ export const contactLinks = [
 ];
 
 export const NAV_LINKS = [
-  { label: "About", href: "#about", id: "about" },
-  { label: "Experience", href: "#experience", id: "experience" },
-  { label: "Tech stack", href: "#skills", id: "skills" },
-  { label: "Projects", href: "#projects", id: "projects" },
-  { label: "Contact", href: "#contact", id: "contact" },
+  { label: "About", href: "/#about", id: "about" },
+  { label: "Experience", href: "/#experience", id: "experience" },
+  { label: "Tech stack", href: "/#skills", id: "skills" },
+  { label: "Projects", href: "/#projects", id: "projects" },
+  { label: "Contact", href: "/#contact", id: "contact" },
 ];
 
 export const socialLinks = { github: contactLinks[0].href, linkedin: "https://www.linkedin.com/in/abdelrahman-elkhateeb", frontendMentor: "https://www.frontendmentor.io/profile/abdelrahman-elkhateeb" };

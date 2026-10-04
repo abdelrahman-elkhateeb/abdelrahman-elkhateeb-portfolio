@@ -1,29 +1,17 @@
-import { Github, Linkedin, Code } from "lucide-react"
+import { ArrowDown, Github, Linkedin, Code } from "lucide-react"
 import HeroScene from "./scene/HeroScene"
 import { Button } from "@/components/ui/button"
 import ArrowGlyph from "@/components/shared/ArrowGlyph"
 import { siteConfig, socialLinks } from "@/lib/site-config"
-import { TICKER_ITEMS } from "./data"
-
-function TickerTrack({ duplicate = false }: { duplicate?: boolean }) {
-  return (
-    <div aria-hidden={duplicate || undefined} className="flex flex-none gap-11 whitespace-nowrap pr-11">
-      {TICKER_ITEMS.map((item, i) => (
-        <span key={i} className="flex items-center gap-11">
-          <span>{item}</span>
-          <span className="text-accent-light/40">/</span>
-        </span>
-      ))}
-    </div>
-  )
-}
+import { HERO_STATUS } from "./data"
 
 export default function Hero() {
-
   return (
     <section
       className="bg-background text-foreground font-sans nx-hero relative w-full min-h-screen">
-      {/* model layer — reserves the ticker band at the bottom. Fades in on its own
+      {/* model layer — stops 44/48px above the bottom, as it did beside the former
+          ticker, so the canvas size and framing are unchanged; the taller status
+          line overlaps only the fully scrimmed strip. Fades in on its own
           readiness signal (outside the load ladder), never a fixed delay. */}
       <HeroScene />
 
@@ -89,13 +77,27 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* the one loud band */}
-      <div
-        className="nx-load nx-load-ticker bg-ticker text-accent-light font-mono absolute inset-x-0 bottom-0 flex h-11 items-center overflow-hidden text-[11px] uppercase tracking-[0.22em] md:h-12 md:text-[12px] md:tracking-[0.24em]">
-        <div className="tracking-[inherit] nx-ticker-track flex w-max flex-none">
-          <TickerTrack />
-          <TickerTrack duplicate />
+      {/* status line — static facts, no motion; opaque so it caps the scene */}
+      <div className="nx-load nx-load-status relative z-10 flex flex-col gap-2.5 border-t border-foreground/12 bg-background px-5 pt-[18px] pb-[22px] font-sans text-[14px] text-hero-subline md:min-h-16 md:flex-row md:flex-wrap md:items-center md:gap-x-10 md:px-10 md:py-3">
+        <div className="flex items-center gap-3">
+          <span aria-hidden="true" className="flex size-[15px] flex-none items-center justify-center rounded-full bg-primary/22">
+            <span className="size-[7px] rounded-full bg-accent-light" />
+          </span>
+          {HERO_STATUS.availability}
         </div>
+        <div className="flex items-baseline gap-3">
+          <span className="font-mono text-[11px] tracking-[0.2em] text-primary uppercase">Now</span>
+          <span className="lg:hidden">{HERO_STATUS.nowShort}</span>
+          <span className="hidden lg:inline">{HERO_STATUS.nowLong}</span>
+        </div>
+        <div className="hidden items-baseline gap-3 xl:flex">
+          <span className="font-mono text-[11px] tracking-[0.2em] text-primary uppercase">Based</span>
+          {HERO_STATUS.based}
+        </div>
+        <a href="#about" className="nx-nav-link ml-auto hidden items-center gap-2.5 font-mono text-[11px] tracking-[0.2em] uppercase no-underline md:flex">
+          Scroll
+          <ArrowDown size={14} aria-hidden="true" />
+        </a>
       </div>
     </section>
   )

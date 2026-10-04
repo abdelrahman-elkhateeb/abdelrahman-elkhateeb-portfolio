@@ -1,24 +1,17 @@
 import type { ProjectEntry } from "./types";
-import proj1 from "@/public/images/project (1).png";
-import proj2 from "@/public/images/project (2).jpg";
-import proj3 from "@/public/images/project (3).png";
-import proj4 from "@/public/images/project (4).png";
-import mawasemStore from "@/public/images/mawasem-store.png";
-import mawasemDashboard from "@/public/images/mawasem-dashboard.png";
-import chillwork from "@/public/images/chillwork.webp";
-import foodie from "@/public/images/foodie.webp";
 
 export const projectsData: ProjectEntry[] = [
   {
+    slug: "mawasem-store",
     title: "Mawasem — gifting storefront",
+    name: "Mawasem storefront",
+    category: "E-commerce",
     description:
       "Arabic-first storefront for seasonal gifting: discovery, filtering, wishlist, cart, and a checkout that survives a season switch.",
     descriptionShort:
       "Arabic-first storefront for seasonal gifting: discovery, wishlist, cart, checkout.",
     hardPart:
       "Products, packages, seasons and variants each bend the flow differently, so discovery and checkout had to stay predictable through all of them.",
-    hardPartShort:
-      "Packages, seasons and variants each bend the flow — discovery had to stay predictable.",
     tech: [
       "React",
       "TypeScript",
@@ -26,19 +19,47 @@ export const projectsData: ProjectEntry[] = [
       "Zustand",
       "TanStack Query",
     ],
-    image: mawasemStore,
+    illustration: "mawasem-store",
+    illustrationLabel: "Drawing of the Mawasem storefront: season navigation, a seasonal banner and a product grid.",
     link: "https://www.mawasem.org/",
+    role: "Frontend developer",
+    platforms: ["Web store", "Phone (responsive)"],
+    problem: [
+      "A retail brand whose range changes with the seasons needed a store customers can shop in Arabic or English, organised by season, collection and brand.",
+      "Payments had to work with a local provider, and delivery had to respect delivery areas and free-delivery zones.",
+    ],
+    built: [
+      "I built the storefront customers shop in: discovery by season, collection and brand, filtering, wishlist, cart and a checkout that survives a season switch, in Arabic and English and on a phone screen.",
+    ],
+    hardParts: [
+      {
+        title: "Seasons bend every flow",
+        text: "Products, packages, seasons and variants each bend the flow differently, so discovery and checkout had to stay predictable through all of them.",
+      },
+      {
+        title: "One store, two directions",
+        text: "Arabic reads right to left and English left to right. The whole layout mirrors, not just the words: menus, arrows, product grids and checkout steps all flip to feel native in each language.",
+      },
+      {
+        title: "Delivery that follows the address",
+        text: "Each delivery area has its own rules and some deliver free. Checkout shows the right option for the customer’s address before they pay, with store pickup as the alternative.",
+      },
+    ],
+    status: [
+      "Mawasem is live at www.mawasem.org, where customers shop in Arabic and English.",
+    ],
   },
   {
+    slug: "mawasem-dashboard",
     title: "Mawasem — operations dashboard",
+    name: "Mawasem operations dashboard",
+    category: "Internal tool",
     description:
       "The back office behind the storefront: products, orders, customers, seasons, inventory, employees.",
     descriptionShort:
       "The back office behind the storefront: orders, customers, seasons, inventory.",
     hardPart:
       "Every module is CRUD with its own permissions, filters and data states, so the work was one reusable pattern, not nine near-identical screens.",
-    hardPartShort:
-      "Nine CRUD modules, one reusable pattern instead of nine near-identical screens.",
     tech: [
       "React",
       "TypeScript",
@@ -46,19 +67,42 @@ export const projectsData: ProjectEntry[] = [
       "TanStack Query",
       "shadcn/ui",
     ],
-    image: mawasemDashboard,
+    illustration: "mawasem-dashboard",
+    illustrationLabel: "Drawing of the Mawasem dashboard: a module sidebar and an orders table with status filters.",
     noLinkReason: "Internal tool — no public link",
+    role: "Frontend developer",
+    platforms: ["Admin dashboard"],
+    problem: [
+      "The team behind the store needed one place to run products, orders, delivery and staff — and not every employee should be able to change everything.",
+    ],
+    built: [
+      "I built the back office behind the storefront: products, categories, collections, seasons, orders, customers, inventory, reports and employees.",
+    ],
+    hardParts: [
+      {
+        title: "One pattern, not nine screens",
+        text: "Every module is CRUD with its own permissions, filters and data states, so the work was one reusable pattern, not nine near-identical screens.",
+      },
+      {
+        title: "Every employee sees only their part",
+        text: "The dashboard runs the whole business, but each employee has a role, and the role decides which screens and actions they can use.",
+      },
+    ],
+    status: [
+      "The dashboard is in daily use by the Mawasem team. It is an internal tool, so there is no public link.",
+    ],
   },
   {
+    slug: "chillwork",
     title: "ChillWork — repair job management",
+    name: "ChillWork",
+    category: "Field service",
     description:
       "The frontend for a repair-company platform: a customer site for reporting units and following each visit, and a phone-first dashboard for dispatchers and technicians.",
     descriptionShort:
       "Customer site plus a phone-first dashboard for dispatchers and technicians.",
     hardPart:
       "Two apps, three roles, one session — each app proxies the API through its own origin, so HttpOnly auth cookies work and no token ever touches the browser.",
-    hardPartShort:
-      "Two apps, three roles — the API is proxied per origin so auth stays in HttpOnly cookies.",
     tech: [
       "React",
       "TypeScript",
@@ -67,78 +111,206 @@ export const projectsData: ProjectEntry[] = [
       "shadcn/ui",
       "Turborepo",
     ],
-    image: chillwork,
+    illustration: "chillwork",
+    illustrationLabel: "Drawing of the ChillWork jobs board: open, on-site and awaiting-approval jobs above an AI triage panel.",
     link: "https://chillwork-frontend.vercel.app",
+    role: "Frontend developer",
+    platforms: ["Customer website", "Dispatcher and technician dashboard (phone-first)"],
+    problem: [
+      "Repair companies for air conditioners, fridges and home appliances often run every job through phone calls, chat messages and paper. A customer describes the fault once, then repeats it to the dispatcher and again to the technician.",
+      "Dispatchers book the same technician twice, parts fitted on site get left off the bill, and customers pay for visits that fixed nothing.",
+    ],
+    built: [
+      "I built the frontend for both apps in one Turborepo: the customer site where people report faulty units and follow each visit, and a phone-first dashboard where dispatchers schedule work and technicians record what they did on site. Both talk to one backend.",
+    ],
+    features: [
+      {
+        illustration: "chillwork-triage",
+        title: "Every request arrives already read",
+        text: "Before a request is saved, AI reads each unit’s description and lists likely causes and questions to ask on site. Staff see it; the customer’s own words stay exactly as written.",
+      },
+      {
+        illustration: "chillwork-schedule",
+        title: "Scheduling that can’t double-book",
+        text: "Dispatchers book visits into a technician’s free hours. A slot that overlaps existing work is refused, not just warned about.",
+      },
+      {
+        illustration: "chillwork-parts",
+        title: "Parts approved on the spot",
+        text: "On site, the technician proposes catalog parts per unit, and the customer approves or declines each one before it goes in.",
+      },
+      {
+        illustration: "chillwork-invoice",
+        title: "An invoice built from what was done",
+        text: "Each unit is marked repaired or not repaired. Repaired units cost their approved parts plus one labor fee; a unit left unrepaired costs nothing.",
+      },
+    ],
+    hardParts: [
+      {
+        title: "Two apps, three roles, one session",
+        text: "Customers, dispatchers and technicians each get a different app but sign in once. Each app proxies the API through its own origin, so the session lives in HttpOnly cookies and no token ever touches the browser.",
+      },
+      {
+        title: "A refused booking has to read as an answer",
+        text: "If two dispatchers book the same technician for overlapping times at the same second, the server accepts one. The other screen gets a plain message naming the clash, so the dispatcher picks another slot instead of retrying blind.",
+      },
+      {
+        title: "AI that helps but never blocks",
+        text: "The triage is a suggestion for staff and is never shown to customers. If the AI service is slow or down, the request still saves and staff handle it by hand, so nobody loses what they wrote.",
+      },
+    ],
+    status: [
+      "The MVP is live at chillwork-frontend.vercel.app, with the customer site and the dashboard running on one backend.",
+      "Next on the roadmap: service reports, recording payments, rescheduling visits and email notifications.",
+    ],
   },
   {
+    slug: "lumina",
     title: "Lumina — e-learning platform",
+    name: "Lumina",
+    category: "E-learning",
     description:
       "Role-based dashboards for admins, instructors and students, Stripe checkout that enrols on success, and an in-browser IDE for exercises.",
     descriptionShort:
       "Role-based dashboards, Stripe checkout that enrols on success, in-browser IDE.",
     hardPart:
       "Enrolment had to survive a Stripe webhook landing before the student got back, so payment, enrolment and access all resolve from one source of truth.",
-    hardPartShort:
-      "Enrolment had to survive a Stripe webhook landing before the student got back.",
     tech: ["MongoDB", "Express", "React", "Stripe", "OAuth"],
-    image: proj1,
+    illustration: "lumina",
+    illustrationLabel: "Drawing of a Lumina exercise: role tabs, a lesson and an in-browser code editor with passing tests.",
     link: "https://github.com/abdelrahman-elkhateeb/Lumina",
+    platforms: ["Admin, instructor and student dashboards"],
+    hardParts: [
+      {
+        title: "One source of truth for payment and access",
+        text: "Enrolment had to survive a Stripe webhook landing before the student got back, so payment, enrolment and access all resolve from one source of truth.",
+      },
+    ],
   },
   {
+    slug: "foodie",
     title: "Foodie — food ordering platform",
+    name: "Foodie",
+    category: "Food ordering",
     description:
       "Menu, cart, checkout and live order tracking in English and Arabic, with a public demo dashboard for products, orders and sales stats.",
     descriptionShort:
       "Menu, cart, checkout and live order tracking in English and Arabic.",
     hardPart:
       "The order total is computed in a Postgres function, not the browser, so a cart edited in devtools still pays the real price.",
-    hardPartShort:
-      "Totals are computed in Postgres, so an edited cart still pays the real price.",
     tech: ["React", "TypeScript", "Supabase", "TanStack Query", "Zustand"],
-    image: foodie,
+    illustration: "foodie",
+    illustrationLabel: "Drawing of Foodie: live order tracking beside the restaurant’s seven-day activity chart.",
     link: "https://food-ordering-app-pearl-alpha.vercel.app",
+    platforms: ["Ordering website", "Restaurant dashboard"],
+    problem: [
+      "Restaurants that take orders by phone or through big delivery apps lose control of their menu, their customers and a share of every order, and customers keep calling to ask where their food is.",
+      "A restaurant needs its own ordering site in Arabic and English that shows each order’s progress without phone calls and gives the owner a clear view of the day.",
+    ],
+    built: [
+      "Two sides of one platform: an ordering site with menu, cart, checkout and live tracking, and a restaurant dashboard with products, orders and sales stats, both in Arabic and English.",
+    ],
+    hardParts: [
+      {
+        title: "Prices the browser can’t change",
+        text: "The order total is computed in a Postgres function, not the browser, and the order and its items save in one step, so a cart edited in devtools still pays the real price.",
+      },
+      {
+        title: "Live tracking without refreshing",
+        text: "When the kitchen moves an order to preparing or out for delivery, the customer’s tracking screen updates by itself within moments.",
+      },
+      {
+        title: "A public demo anyone can try safely",
+        text: "Visitors can open the restaurant dashboard and add their own dishes, but database rules stop them from editing the real menu, and deleting a dish that appears in past orders archives it instead.",
+      },
+    ],
+    status: [
+      "Foodie is live as a public demo: browse the menu, place an order, then open the restaurant dashboard and move it through the kitchen.",
+    ],
   },
   {
+    slug: "weather-now",
     title: "Weather Now",
+    name: "Weather Now",
+    category: "Weather app",
     description:
       "City search and geocoding, current conditions, hourly forecasts and unit switching, in a layout that stays readable on a phone.",
     descriptionShort:
       "City search, current conditions, hourly forecasts and unit switching.",
     hardPart:
       "Cached forecasts and user preferences age at different rates, so they live in separate stores — otherwise stale weather hides behind a stale UI.",
-    hardPartShort:
-      "Forecasts and preferences age at different rates, so they live in separate stores.",
     tech: ["React", "TanStack Query", "Zustand", "Open-Meteo"],
-    image: proj2,
+    illustration: "weather",
+    illustrationLabel: "Drawing of Weather Now: city search, unit switch, current temperature and an hourly forecast row.",
     link: "https://weather-now-phi-ecru.vercel.app/",
+    hardParts: [
+      {
+        title: "Forecasts and preferences age differently",
+        text: "Cached forecasts and user preferences age at different rates, so they live in separate stores — otherwise stale weather hides behind a stale UI.",
+      },
+    ],
   },
   {
+    slug: "student-guide",
     title: "Student Guide platform",
+    name: "Student Guide",
+    category: "Student tool",
     description:
       "Schedules, rooms, TA hours, course resources and GPA tools in one mobile-first interface. Used by 100+ students, Lighthouse 98+.",
     descriptionShort:
       "Schedules, rooms, TA hours and GPA tools. 100+ students, Lighthouse 98+.",
     hardPart:
       "Real timetables are messier than any data model — the work was one schedule shape that fit every department without a special case per course.",
-    hardPartShort:
-      "One schedule shape had to fit every department without a special case per course.",
     tech: ["React", "Tailwind", "Vite", "Vercel"],
-    image: proj3,
+    illustration: "student-guide",
+    illustrationLabel: "Drawing of the Student Guide weekly schedule with lectures, labs and TA hours.",
     link: "https://github.com/AhmedHosny2/Student-Guide",
+    hardParts: [
+      {
+        title: "One schedule shape for every department",
+        text: "Real timetables are messier than any data model — the work was one schedule shape that fit every department without a special case per course.",
+      },
+    ],
   },
   {
+    slug: "the-wild-oasis",
     title: "The Wild Oasis — hotel dashboard",
+    name: "The Wild Oasis",
+    category: "Hotel dashboard",
     description:
       "Internal dashboard for bookings, cabins, check-in and check-out, with hotel-wide settings on live Supabase data.",
     descriptionShort:
       "Bookings, cabins, check-in and check-out on live Supabase data.",
     hardPart:
       "Check-in writes to bookings, cabins and settings in one move — compound components kept that flow from turning into four near-identical forms.",
-    hardPartShort:
-      "Check-in writes to bookings, cabins and settings in one move.",
     tech: ["React", "Supabase", "TanStack Query", "React Hook Form"],
-    image: proj4,
+    illustration: "wild-oasis",
+    illustrationLabel: "Drawing of The Wild Oasis bookings table with check-in status for each cabin.",
     link: "https://the-wild-oasis-dashboard-peach.vercel.app",
+    hardParts: [
+      {
+        title: "Check-in touches three tables in one move",
+        text: "Check-in writes to bookings, cabins and settings in one move — compound components kept that flow from turning into four near-identical forms.",
+      },
+    ],
   },
 ];
 
+export function getProject(slug: string) {
+  return projectsData.find(project => project.slug === slug);
+}
+
+/** The project after this one, wrapping at the end of the list. */
+export function getNextProject(slug: string) {
+  const index = projectsData.findIndex(project => project.slug === slug);
+  return projectsData[(index + 1) % projectsData.length];
+}
+
+/** "https://www.mawasem.org/" → "www.mawasem.org" for display. */
+export function displayUrl(url: string) {
+  return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+}
+
+export function isSourceLink(url: string) {
+  return url.includes("github.com");
+}

@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react"
 import { getImageProps } from "next/image"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetTrigger, SheetClose, SheetContent, SheetTitle } from "@/components/ui/sheet"
@@ -14,19 +16,22 @@ const avatarProps = getImageProps({ src: img, alt: "", width: 26, height: 26, si
 
 function Mark({ onClick }: { onClick?: () => void }) {
   return (
-    <a href="#" aria-label="Home" onClick={onClick} className="nx-nav-link flex items-center gap-2.5 no-underline">
+    <Link href="/" aria-label="Home" onClick={onClick} className="nx-nav-link flex items-center gap-2.5 no-underline">
       <Avatar className="size-[26px] rounded-full">
         <AvatarImage {...avatarProps} />
         <AvatarFallback className="rounded-full text-[9px]">AK</AvatarFallback>
       </Avatar>
       <span className="font-sans text-[12px] tracking-[0.18em] text-foreground uppercase md:hidden">AK</span>
-    </a>
+    </Link>
   )
 }
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const activeId = useScrollSpy(SECTION_IDS)
+  const pathname = usePathname()
+  const spiedId = useScrollSpy(SECTION_IDS, pathname)
+  // A case-study page has no sections to spy on; it belongs to Projects.
+  const activeId = pathname.startsWith("/work/") ? "projects" : spiedId
   const desktopNav = useRef<HTMLElement>(null)
   const selectedSection = useRef<string | null>(null)
 

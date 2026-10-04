@@ -1,11 +1,6 @@
-export const TICKER_ITEMS = [
-  "System_ready",
-  "36 enterprise components shipped",
-  "System_online",
-  "Open to mid-level frontend roles",
-  "System_stable",
-  "Lighthouse 98+",
-  "System_deployed",
-  "Cairo, remote-friendly",
-]
-
+export const HERO_STATUS = {
+  availability: "Open to mid-level frontend roles",
+  nowShort: "EVIM, Berlin (remote)",
+  nowLong: "Frontend developer at EVIM, Berlin (remote)",
+  based: "Cairo, remote-friendly",
+}

@@ -10,6 +10,7 @@ const buttonVariants = cva(
       variant: {
         outline: "nx-hero-btn-primary text-[15px] font-medium tracking-[0.02em]",
         icon: "nx-icon-btn",
+        secondary: "nx-icon-btn text-[15px] font-medium tracking-[0.02em]",
       },
       size: { default: "h-12 px-6", icon: "size-12", touch: "size-11" },
     },

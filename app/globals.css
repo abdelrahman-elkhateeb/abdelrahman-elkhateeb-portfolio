@@ -20,7 +20,7 @@
   --hero-subline: rgba(233, 233, 237, 0.78);
   --hard-part: #dedaf7;
   --image-well: #0f111c;
-  --ticker: #262a60;
+  --field: #262a60;
   --border: rgba(233, 233, 237, 0.16);
   --input: rgba(233, 233, 237, 0.22);
   --title-start: #f2f1f7;
@@ -47,7 +47,7 @@
   --color-hero-subline: var(--hero-subline);
   --color-hard-part: var(--hard-part);
   --color-image-well: var(--image-well);
-  --color-ticker: var(--ticker);
+  --color-field: var(--field);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-title-start: var(--title-start);
@@ -67,7 +67,7 @@
 /* Preserve inherited mono body typography from the baseline; Inter is explicit
    on hero, project cards, section titles and desktop navigation. */
 .nx-hero { display: flex; min-height: max(560px, 100svh); flex-direction: column; justify-content: flex-end; }
-.nx-hero-content { margin: 96px 20px 114px; pointer-events: none; }
+.nx-hero-content { margin: 96px 20px 40px; pointer-events: none; }
 .nx-hero-content a { pointer-events: auto; }
 .nx-hero-name {
   --load-delay: 80ms;
@@ -76,21 +76,16 @@
   text-shadow: 0 1px 34px rgba(8,9,15,0.5);
 }
 @media (min-width: 768px) {
-  .nx-hero-content { margin: 96px 40px 178px; max-width: 780px; }
+  .nx-hero-content { margin: 96px 40px 56px; max-width: 780px; }
   .nx-hero-name { font-size: clamp(46px, calc((100vw - 80px) / 7.3), 104px); }
 }
 .nx-load-subline { --load-delay: 200ms; }
 .nx-load-ctas { --load-delay: 300ms; }
-.nx-load-ticker { --load-delay: 420ms; }
+.nx-load-status { --load-delay: 420ms; }
 .nx-reveal-0 { --reveal-delay: 0ms; }
 .nx-reveal-1 { --reveal-delay: 60ms; }
 .nx-reveal-2 { --reveal-delay: 120ms; }
 .nx-reveal-3 { --reveal-delay: 180ms; }
-
-@keyframes tickerRun {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
 
 @keyframes glowDrift {
   0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
@@ -134,21 +129,19 @@
   background: radial-gradient(90% 80% at 50% 120%, rgba(0, 0, 0, 0.6), transparent 70%);
 }
 
-.nx-ticker-track {
-  animation: tickerRun 42s linear infinite;
-}
-
-@media (max-width: 768px) {
-  .nx-ticker-track {
-    animation-duration: 34s;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .nx-ticker-track,
   .nx-glow-accent {
     animation: none;
   }
+}
+
+/* Hero drag affordance: appears with the room, leaves after the first drag. */
+.nx-drag-hint {
+  opacity: 0;
+  transition: opacity 600ms var(--ease-nocturne);
+}
+.nx-drag-hint[data-visible="true"] {
+  opacity: 1;
 }
 
 .nx-hero-btn-primary {
@@ -180,35 +173,8 @@
   outline-offset: 2px;
 }
 
-.nx-card {
-  border: 1px solid var(--border);
-  background: var(--card);
-  transition:
-    background-color 480ms var(--ease-nocturne),
-    border-color 480ms var(--ease-nocturne);
-  text-decoration: none;
-}
-.nx-card:hover {
-  background: color-mix(in srgb, var(--primary) 6%, var(--card));
-  border-color: var(--input);
-}
-.nx-card-static {
-  border: 1px solid var(--border);
-  background: var(--card);
-  cursor: default;
-}
 .nx-card-arrow {
   transition: transform 480ms var(--ease-nocturne);
-}
-.nx-card:hover .nx-card-arrow {
-  transform: translate(2px, -2px);
-}
-.nx-card-image {
-  opacity: 0.78;
-  transition: opacity 480ms var(--ease-nocturne);
-}
-.nx-card:hover .nx-card-image {
-  opacity: 1;
 }
 
 .nx-card-title {
@@ -216,6 +182,55 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Project index rows and the next-project link. The active row (hovered or
+   focused last) only means something beside the preview panel, from 1024px. */
+.nx-index-row {
+  color: var(--foreground);
+  text-decoration: none;
+  transition: background-color 480ms var(--ease-nocturne);
+}
+.nx-index-row:hover {
+  background: var(--contact-hover);
+}
+.nx-index-row:hover .nx-card-arrow {
+  transform: translate(2px, -2px);
+}
+.nx-index-num {
+  transition: color 240ms var(--ease-nocturne);
+}
+@media (min-width: 1024px) {
+  .nx-index-row[data-active="true"] {
+    background: var(--contact-hover);
+  }
+  .nx-index-row[data-active="true"] .nx-index-num,
+  .nx-index-row[data-active="true"] .nx-card-arrow {
+    color: var(--accent-light);
+  }
+  .nx-index-row[data-active="true"] .nx-card-arrow {
+    transform: translate(2px, -2px);
+  }
+  .nx-index-row[data-active="true"] .nx-index-title {
+    background: linear-gradient(104deg, var(--title-start) 0%, var(--accent-light) 52%, var(--primary) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Preview panel: every project's preview shares one grid cell, so switching
+   rows crossfades without the panel changing height. */
+.nx-preview {
+  opacity: 0;
+  transform: translate3d(0, 8px, 0);
+  transition:
+    opacity 320ms var(--ease-nocturne),
+    transform 320ms var(--ease-nocturne);
+}
+.nx-preview[data-active="true"] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 .nx-divider {
@@ -311,15 +326,6 @@
   transform: translate3d(0, 0, 0);
 }
 
-/* Keep hover feedback independent of the card's entrance delay. */
-.nx-card[data-reveal] {
-  transition:
-    opacity 520ms var(--ease-nocturne) var(--reveal-delay, 0ms),
-    transform 520ms var(--ease-nocturne) var(--reveal-delay, 0ms),
-    background-color 480ms var(--ease-nocturne),
-    border-color 480ms var(--ease-nocturne);
-}
-
 /* Fullscreen Radix Sheet: exit animation retains presence until fade completes. */
 @keyframes menuIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes menuOut { from { opacity: 1; } to { opacity: 0; } }
@@ -383,8 +389,9 @@
     transform: none !important;
     transition: color 150ms var(--ease-nocturne) !important;
   }
-  .nx-card,
-  .nx-card-image,
+  .nx-index-row,
+  .nx-index-num,
+  .nx-drag-hint,
   .nx-card-arrow,
   .nx-hero-btn-primary,
   .nx-hero-btn-primary svg,
@@ -401,7 +408,5 @@
 @media (prefers-reduced-motion: reduce) {
   .nx-menu-ground[data-state], [data-state="open"] .nx-menu-link { animation: none; }
   .nx-card-arrow, .nx-hero-btn-primary svg { transform: none !important; }
-  .nx-card[data-reveal] {
-    transition: background-color 150ms var(--ease-nocturne), border-color 150ms var(--ease-nocturne) !important;
-  }
+  .nx-preview { transform: none; transition: none; }
 }

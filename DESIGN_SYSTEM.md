@@ -12,23 +12,23 @@ Use [AGENTS.md](AGENTS.md) for working rules and the required verification matri
 | --- | --- | --- |
 | background | #0b0c14 | page and fullscreen menu |
 | foreground | #e9e9ed | main text, hero name |
-| card | #161826 | project surfaces |
-| image-well | #0f111c | image loading background |
+| card | #161826 | surfaces inside project illustrations |
+| image-well | #0f111c | illustration browser-frame background |
 | primary / ring | #9184d9 | outline, focus, rules, glyphs, eyebrows |
-| accent-light | #d2cefd | ticker text, active/hover links, gradient midpoint |
+| accent-light | #d2cefd | status dot, active/hover links, active index number, gradient midpoint |
 | muted-foreground | rgba(233,233,237,0.60) | descriptions and secondary text |
 | ink-tertiary | rgba(233,233,237,0.45) | chips and metadata |
 | ink-quaternary | rgba(233,233,237,0.35) | internal-project explanation |
 | hero-subline | rgba(233,233,237,0.78) | text over the model |
 | hard-part | #dedaf7 | hard-part sentence |
-| ticker | #262a60 | the saturated ticker field |
-| border | rgba(233,233,237,0.16) | card borders and fading dividers |
-| input | rgba(233,233,237,0.22) | icon border and hovered card border |
+| field | #262a60 | saturated indigo field inside illustrations (store banner, timetable block); formerly the ticker band |
+| border | rgba(233,233,237,0.16) | illustration frames, next-project rules and fading dividers |
+| input | rgba(233,233,237,0.22) | icon and secondary-button border |
 | title-start | #f2f1f7 | project title gradient's first stop |
 | icon-hover | rgba(233,233,237,0.07) | icon button hover |
-| contact-hover | rgba(145,132,217,0.06) | Contact row hover/focus tint |
+| contact-hover | rgba(145,132,217,0.06) | Contact row, project index row and next-project hover tint; active index row |
 
-Card hover mixes primary 6% into card; primary-button hover mixes primary 12% into transparent. Project title gradient is 104deg, title-start at 0%, accent-light at 52%, primary at 100%. Hero name stays flat. No card lift, scale or shadow is part of the design.
+Primary-button hover mixes primary 12% into transparent. Project title gradient is 104deg, title-start at 0%, accent-light at 52%, primary at 100%. The same gradient marks the active index row title (from 1024px) and the next-project title. Hero name and case-study h1 stay flat. No lift, scale or shadow is part of the design. Row and fact rules use foreground at 10–12% so they sit under the 16% section dividers.
 
 `--radius: 0.65rem` maps to `rounded-lg` (10.4px at the default 16px root). This preserves the actual pre-refactor CSS; older 8px specifications did not match it. Avatar remains circular, 26px, rather than the obsolete 28px square mark. Borders are 1px; focus outlines are 2px with 2px offset. There are no box shadows; the hero name has the sole text shadow, `0 1px 34px rgba(8,9,15,0.5)`.
 
@@ -49,15 +49,19 @@ Only Inter (400/500/600) and Share Tech Mono are loaded, in globals.css. `font-s
 | Experience company | Inter, 500 | 22 → 27px; line 1.1 |
 | Experience claim | inherited Share Tech Mono | 17.5 → 21px; line 1.45 |
 | Experience details/chips and Skills rows | inherited Share Tech Mono | existing feature sizes, primarily 13–15px |
-| Lead project title | Inter, 500 | 21 → 34px |
-| Other project titles | Inter, 500 | 21 → 27px |
-| Project descriptions | Inter | 14 → 15px; line 1.6 |
+| Project index title | Inter, 500 | 21 → 24px; line 1.15 |
+| Project index number/category | Share Tech Mono | 11px category (13px desktop number), uppercase, tracking 0.18em |
+| Project index description | Inter | 14px; line 1.55 |
+| Hero status line | Inter / Share Tech Mono | 14px values; 11px uppercase labels (NOW, BASED, SCROLL), tracking 0.20em |
+| Case-study h1 | Inter, 500 | 46px → clamp(56px, 7vw, 88px); line 0.95; tracking -0.04em |
+| Case-study lede | Inter | 17 → 20px; line 1.5; max 640px |
+| Case-study prose | Inter | 16 → 17px; line 1.7; max 680px |
 | Hard-part sentence | Inter | 14.5 → 15.5px; line 1.5 |
-| Project chips | Inter | 12 → 13px |
+| Tech lists | Inter | 13px plain text with dot separators (15px in case-study facts) |
 | Contact statement | inherited Share Tech Mono, 500 | 40 → 64px; line 1.05; tracking -0.03em |
 | Contact values | inherited Share Tech Mono | 18 → 22px |
 
-Explicit terminal accents remain the ticker, numbered section eyebrows and HARD PART labels. Eyebrows are 10 → 11px, uppercase with 0.20em tracking; HARD PART stays 10px. `System_*` vocabulary belongs only in the ticker. The former prohibition on all mono body text did not describe the built site and is superseded by the table above; do not silently change these assignments.
+Explicit terminal accents remain numbered section eyebrows, index numbers, status-line labels and HARD PART labels. Eyebrows are 10 → 11px, uppercase with 0.20em tracking; HARD PART stays 10px. The ticker and its `System_*` vocabulary were removed with the redesign; do not reintroduce them. The former prohibition on all mono body text did not describe the built site and is superseded by the table above; do not silently change these assignments.
 
 ## Layout and responsive geometry
 
@@ -69,29 +73,31 @@ All widths include the complete border box. Breakpoints are defined in code, not
 | Sections after Hero | 56px top and bottom padding; order About, Experience, Tech stack, Projects, Contact |
 | SectionHeader | 14px stack gap, 27/34px title; callers add divider and 28px bottom padding where needed; About has no header divider |
 | Hero | minimum max(560px, 100svh), flexible height if content needs more space; content is in normal flex flow over absolute model/scrim layers |
-| Hero content | 20px side margins and 114px bottom margin; from 768px, 40px sides, max 780px and 178px bottom; 96px minimum top margin. The loaded 104px name needs about 753px, wider than the former 720px box. |
+| Hero content | 20px side margins and 40px bottom margin above the status line; from 768px, 40px sides, max 780px and 56px bottom; 96px minimum top margin. The loaded 104px name needs about 753px, wider than the former 720px box. |
 | Hero name fitting | clamp(30px, (100vw - 40px) / 7.3, 46px); from 768px clamp(46px, (100vw - 80px) / 7.3, 104px) |
 | Hero stack | 18px gaps; CTAs add 6px above a wrapping row with 12px gaps; buttons 48px tall and social controls 48px square |
-| Ticker | 44px tall below 768px, 48px from 768px; 11/12px mono, tracking 0.22/0.24em; duplicated track for seamless motion, second track aria-hidden |
+| Hero status line | in normal flow at the bottom of the hero, opaque background with a 12% top rule. Below 768px two stacked lines (availability, short NOW) with 18/22px vertical padding; from 768px one row, min 64px, 40px gaps, Scroll cue right; long NOW text from 1024px; BASED from 1280px, the first width where the row fits it. No motion. |
+| Hero model layer | still stops 44/48px above the hero bottom as it did beside the ticker, so canvas size and framing are unchanged; the taller status line covers only the fully scrimmed strip |
+| Drag hint | from 768px, 40px from the right and 88px from the hero bottom, above the scrims (z-10); appears when the model is ready and fades out after the first pointer-down on the scene; aria-hidden |
+| Project index | ordered list of whole-row links with 10% rules. Below 768px: number + category line, title, description, arrow. From 768px: 44px number column, title/description, category + arrow. From 1024px a preview column minmax(0, 420px) with a 56px gap, sticky at 120px |
+| Case-study page | `/work/[slug]`, top padding 96 → 136px to clear the nav cap. Header wraps lede column (flex 999 1 560px) and facts list (flex 1 1 280px, max 340px). Sections: label rail (flex 1 1 220px, max 300px) beside prose (flex 999 1 560px, max 680px). Feature figures: drawing (flex 999 1 560px) beside caption (flex 1 1 280px), alternating sides and stacking drawing-first when they wrap |
 | Navbar | relative 64px mobile cap, -64px bottom margin; sticky 140px cap from 768px, -140px bottom margin and 72px interaction row; 18/40px horizontal padding |
 | Mobile menu | available below 768px; opaque background, fullscreen body portal above WebGL, 64px top row with Home and 44px close control; links spaced 28px starting 44px below row |
 | Experience | stacked below 768px; 208px metadata rail plus minmax(0,1fr) with 32px gap from 768px; details use two flexible columns |
 | Skills | stacked label/chips with 12px gap; from 768px 150px label rail plus 40px gap; row padding 22 → 24px |
 | Contact | labels above values on mobile; at 768px label rail 100px and gap 20px; from 1024px rail 150px and gap 40px; values shrink/wrap; copy is separate 44 → 48px control |
 
-### Project cards
+### Project index, previews and case studies
 
-The six original projects keep their order, images, full and abbreviated text and destinations. Project 2 is a noninteractive div with an explanation and no arrow. Others are whole-block external anchors, never nested buttons/links. Chips remain plain text, no filled badges.
+The eight projects keep their order, copy and destinations. Each index row is a whole-row link to its internal case-study page (`/work/[slug]`, prerendered with `generateStaticParams`, `dynamicParams` false); external live/source links live on the case page. Project 2 has no public link, so its page shows the no-link explanation instead of a live button.
 
-- Outer card width at a fully expanded Container is **1124px** (1160 - 36 gutter). Card padding is 16px below 768px and 24px above, plus 1px borders.
-- Lead image takes the complete inner width: **1074px** at the maximum container. It retains aspect 16:9 below 768px and 1112:420 above; the old 1112px physical-width claim was incorrect. At maximum width that ratio produces about 406px height.
-- Subsequent cards stack below **1024px**. At 1024px and above, grid columns use **388:654** proportions and a 32px gap, alternating the image right/left starting with project 2 on the right.
-- At maximum width: `1124 - 48 padding - 2 borders - 32 gap = 1042`, split into **388px image + 654px content**. Both tracks use minmax(0, …), so they shrink at smaller desktop widths. Row images retain 242px height at this breakpoint.
-- The first card has 14 → 22px image/content gap; row cards have 14 → 32px. Content stacks use 12 → 13px gaps. Title and no-link note may wrap rather than overflow.
-- Full/short copy switches at 768px, independently of the horizontal-layout breakpoint. Hard-part label/sentence stack below 1024px and align on a baseline above it. A lead description may use max-width 692px; this is a cap, not a forced row width.
-- Next Image `sizes` follows the available inner width: mobile viewport -70px; stacked tablet viewport -86px; lead capped at 1074px; desktop row capped at 388px with an intermediate 34vw hint. Images retain object-cover and 0.78 resting opacity.
+- Product visuals are drawn, not screenshots: `features/projects/components/illustrations/` renders a browser frame (16:10, `@container`) around a simplified screen in the site palette. Every length inside a drawing is in `cqw`, so one drawing scales from the 420px preview to the full-width case figure. Drawings are `role="img"` with a descriptive label; copy inside them is illustrative.
+- The preview column shows the hovered or focused row's drawing, hard-part sentence and tech list. The last active row persists, so the panel is never empty; project 1 is active before interaction and without JS. All eight previews are server-rendered in one grid cell and crossfade (opacity plus 8px rise, 320ms); inactive previews are `inert` and aria-hidden.
+- Active-row styling (tint, gradient title, accent number and arrow) applies only from 1024px, where the preview exists. Below that, hover still tints the row.
+- Case pages run: back link, eyebrow, h1, lede, live/source and Get in touch buttons, facts (role, platforms, stack, live/source — each only when known), main drawing, numbered sections (problem; what I built only when it adds to the lede), feature figures, hard parts, where it is now, next project (wrapping to the first).
+- Do not wrap server-rendered content in `Reveal asChild`: Radix Slot drops a child that is still a streamed (lazy) RSC reference, which silently removed a case-study figure from the HTML. Wrap with `Reveal` instead.
 
-Page overflow must be corrected at its source. Do not hide it on html/body/main. Intentional local clipping is limited to image wells, Avatar, the ticker and the decorative scene layer (its scaling glow otherwise extends beyond the viewport); long labels/URLs must remain readable. The fullscreen menu can scroll vertically on short screens.
+Page overflow must be corrected at its source. Do not hide it on html/body/main. Intentional local clipping is limited to illustration frames, Avatar and the decorative scene layer (its scaling glow otherwise extends beyond the viewport); long labels/URLs must remain readable. The fullscreen menu can scroll vertically on short screens.
 
 ## Effects, motion and interaction
 
@@ -99,14 +105,13 @@ The common easing is `cubic-bezier(0.22, 0.61, 0.36, 1)` (`--ease-nocturne`). Sh
 
 - Hero bottom/left scrim stops are retained from the original implementation using #08090f. Nav cap uses alpha 0.55 at 0, 0.18 at 27px, 0 at 64px on mobile; desktop uses 60px/140px for the latter stops. No backdrop blur or new surface is introduced.
 - Hero-only glow: primary 28% radial with a 16s drift, plus the black bottom radial. It must not spread to cards/buttons/section text.
-- Nav loads at 0ms; name at 80ms (600ms duration); subline at 200ms; buttons at 300ms; ticker at 420ms. Other ladder durations are 520ms; rise is 10px. Model opacity fades over 600ms when its Suspense readiness signal resolves, independently of this ladder.
-- Reveals fire once on IntersectionObserver entry, 520ms opacity/12px rise with rootMargin `0px 0px -80px 0px`. Card delay classes represent 0/60/120/180ms, capped after index 3. Noscript CSS makes all reveal content readable.
-- Ticker runs linearly for 42s, or 34s at widths <=768px (at exactly 768px the band already uses its desktop height). This existing boundary distinction is retained.
+- Nav loads at 0ms; name at 80ms (600ms duration); subline at 200ms; buttons at 300ms; status line at 420ms. Other ladder durations are 520ms; rise is 10px. Model opacity fades over 600ms when its Suspense readiness signal resolves, independently of this ladder.
+- Reveals fire once on IntersectionObserver entry, 520ms opacity/12px rise with rootMargin `0px 0px -80px 0px`. Reveal delay classes represent 0/60/120/180ms, capped after index 3. Noscript CSS makes all reveal content readable.
 - Sheet background enters/exits over 240ms. Links rise 8px over 480ms with 40ms steps through 160ms. Closing content becomes inert and aria-hidden while exit presence completes. Escape/close return to the trigger; selecting a section focuses it; resizing to desktop closes and focuses visible navigation.
 - Nav inactive text is muted-foreground; hover/focus/active is accent-light. Scroll spy retains rootMargin `-70px 0px -60% 0px`. Header pointer-events are disabled outside its actual interactive row.
-- Card hover tints background/border over 480ms, image opacity 0.78 → 1, arrow translates 2px/-2px. No transform is applied to the card/image itself. Primary-button arrow/tint uses 240ms. Contact row tint/arrow uses 480ms and value color 240ms; email starts at foreground, matching baseline.
+- Index and next-project rows tint over 480ms and the arrow translates 2px/-2px; the active index number and arrow colour change over 240ms. No transform is applied to the row itself. Primary-button arrow/tint uses 240ms. Contact row tint/arrow uses 480ms and value color 240ms; email starts at foreground, matching baseline.
 - Copy glyph crossfade is 240ms, success resets after 1600ms. A persistent sr-only live region announces success/failure. Failure does not change row geometry.
-- Reduced motion stops ticker/glow and menu animations, resolves reveals/load ladder immediately, removes arrow movement and clears transition delays. Color feedback is 150ms. A changed preference resolves reveals without replaying them; no-JS content remains readable. These behaviors have focused browser checks; they are not an accessibility certification or a screen-reader audit.
+- Reduced motion stops the glow and menu animations, makes preview switches instant, resolves reveals/load ladder immediately, removes arrow movement and clears transition delays. Color feedback is 150ms. A changed preference resolves reveals without replaying them; no-JS content remains readable. These behaviors have focused browser checks; they are not an accessibility certification or a screen-reader audit.
 
 ## Scene constraints
 
