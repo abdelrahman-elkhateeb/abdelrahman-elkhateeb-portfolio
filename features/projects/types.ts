@@ -42,6 +42,8 @@ export type ProjectEntry = {
   illustrationLabel: string;
   /** Absent (not empty) when a project has no public link — see project 2. */
   link?: string;
+  /** Second live app of the same project, shown beside `link`. */
+  dashboardLink?: string;
   /** Shown instead of the link when `link` is absent. */
   noLinkReason?: string;
   role?: string;

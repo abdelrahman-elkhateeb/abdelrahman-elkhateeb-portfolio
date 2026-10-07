@@ -223,3 +223,9 @@ Baseline: `6f66831` (`Add ChillWork and Foodie to projects`), clean worktree. Di
 
 - Owner feedback: rows did not say they open a page. Each index row now carries an always-visible "Case study" label with the arrow (under the description below 768px; under the category from 768px), and the preview panel ends with a "Read the full case study" link. Chosen over a cursor-following pill or an animated hand because it works on touch and needs no motion.
 - Verification: lint, typecheck, build, `verify:build` 5/5 (now also counts both label variants and de-duplicates slugs, since each appears on the row and the preview link) and `test:e2e` 24/24 (every row shows one visible label at all six widths; the active preview link points at the hovered project). Captures at 390/768/1440 in `.verification/redesign/`; no overflow.
+
+# ChillWork dashboard link (2026-10-07)
+
+- `ProjectEntry` gains optional `dashboardLink`; ChillWork sets it to `https://chillwork-dashboard.vercel.app`, shown as a "Visit dashboard" button beside "Visit live site" and a "Dashboard" fact under "Live" on `/work/chillwork`. Status copy names both URLs.
+- Drawn screens that live in the dashboard (jobs board, schedule, parts) now show `chillwork-dashboard.vercel.app` in their URL bar; triage and invoice stay on the customer site.
+- Verified: lint, typecheck, build, verify:build pass; both links render on `/work/chillwork`; `scrollWidth` = 320 at 320px. Six-width visual matrix and test:e2e not run (one added button and fact row; buttons wrap cleanly at 320px).

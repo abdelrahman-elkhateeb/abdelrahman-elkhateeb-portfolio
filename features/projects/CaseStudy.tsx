@@ -78,6 +78,14 @@ export default function CaseStudy({ project }: { project: ProjectEntry }) {
               ) : (
                 <span className="self-center text-[13px] text-ink-quaternary">{project.noLinkReason}</span>
               )}
+              {project.dashboardLink && (
+                <Button asChild>
+                  <a href={project.dashboardLink} target="_blank" rel="noopener noreferrer">
+                    Visit dashboard
+                    <ArrowGlyph width="15" height="15" />
+                  </a>
+                </Button>
+              )}
               <Button asChild variant="secondary">
                 <Link href="/#contact">Get in touch</Link>
               </Button>
@@ -92,6 +100,13 @@ export default function CaseStudy({ project }: { project: ProjectEntry }) {
               <Fact label={isSourceLink(project.link) ? "Source" : "Live"}>
                 <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-accent-light underline decoration-primary/50 underline-offset-[3px] [overflow-wrap:anywhere] hover:text-foreground">
                   {displayUrl(project.link)}
+                </a>
+              </Fact>
+            )}
+            {project.dashboardLink && (
+              <Fact label="Dashboard">
+                <a href={project.dashboardLink} target="_blank" rel="noopener noreferrer" className="text-accent-light underline decoration-primary/50 underline-offset-[3px] [overflow-wrap:anywhere] hover:text-foreground">
+                  {displayUrl(project.dashboardLink)}
                 </a>
               </Fact>
             )}

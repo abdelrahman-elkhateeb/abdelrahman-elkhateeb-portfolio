@@ -114,6 +114,7 @@ export const projectsData: ProjectEntry[] = [
     illustration: "chillwork",
     illustrationLabel: "Drawing of the ChillWork jobs board: open, on-site and awaiting-approval jobs above an AI triage panel.",
     link: "https://chillwork-frontend.vercel.app",
+    dashboardLink: "https://chillwork-dashboard.vercel.app",
     role: "Frontend developer",
     platforms: ["Customer website", "Dispatcher and technician dashboard (phone-first)"],
     problem: [
@@ -160,7 +161,7 @@ export const projectsData: ProjectEntry[] = [
       },
     ],
     status: [
-      "The MVP is live at chillwork-frontend.vercel.app, with the customer site and the dashboard running on one backend.",
+      "The MVP is live: the customer site at chillwork-frontend.vercel.app and the dashboard at chillwork-dashboard.vercel.app, both running on one backend.",
       "Next on the roadmap: service reports, recording payments, rescheduling visits and email notifications.",
     ],
   },

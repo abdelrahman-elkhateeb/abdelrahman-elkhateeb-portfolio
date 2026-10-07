@@ -406,10 +406,10 @@ function WildOasis() {
 export const screens: Record<IllustrationKind, { url: string; Screen: () => React.JSX.Element }> = {
   "mawasem-store": { url: "www.mawasem.org", Screen: MawasemStore },
   "mawasem-dashboard": { url: "mawasem · admin (internal)", Screen: MawasemDashboard },
-  "chillwork": { url: "chillwork-frontend.vercel.app", Screen: ChillworkJobs },
+  "chillwork": { url: "chillwork-dashboard.vercel.app", Screen: ChillworkJobs },
   "chillwork-triage": { url: "chillwork-frontend.vercel.app/requests/new", Screen: ChillworkTriage },
-  "chillwork-schedule": { url: "chillwork-frontend.vercel.app/schedule", Screen: ChillworkSchedule },
-  "chillwork-parts": { url: "chillwork-frontend.vercel.app/jobs", Screen: ChillworkParts },
+  "chillwork-schedule": { url: "chillwork-dashboard.vercel.app/schedule", Screen: ChillworkSchedule },
+  "chillwork-parts": { url: "chillwork-dashboard.vercel.app/jobs", Screen: ChillworkParts },
   "chillwork-invoice": { url: "chillwork-frontend.vercel.app/invoice", Screen: ChillworkInvoice },
   "lumina": { url: "lumina · student / exercises", Screen: Lumina },
   "foodie": { url: "food-ordering-app-pearl-alpha.vercel.app/admin", Screen: Foodie },
