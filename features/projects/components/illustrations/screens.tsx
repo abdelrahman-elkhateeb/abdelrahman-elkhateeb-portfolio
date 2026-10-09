@@ -1,3 +1,4 @@
+import { Fragment } from "react"
 import { cn } from "@/lib/utils"
 import type { IllustrationKind } from "../../types"
 import { Action, Bar, FilterChips, Label, Pill, Sidebar, Surface, TableRow } from "./parts"
@@ -313,9 +314,8 @@ function Weather() {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="size-[2cqw]"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
           Search a city…
         </div>
-        <div className="flex overflow-hidden rounded-[1cqw] border border-foreground/16 text-[length:1.6cqw]">
-          <div className="flex items-center bg-primary/20 px-[1.6cqw] text-accent-light">°C</div>
-          <div className="flex items-center px-[1.6cqw] text-muted-foreground">°F</div>
+        <div className="flex items-center gap-[0.8cqw] rounded-[1cqw] border border-foreground/16 px-[1.6cqw] text-[length:1.6cqw] text-muted-foreground">
+          Units <span className="text-accent-light">°C · km/h · mm</span>
         </div>
       </div>
       <div className="flex min-h-0 flex-1 items-center justify-between gap-[3cqw]">
@@ -341,32 +341,38 @@ function Weather() {
   )
 }
 
-const WEEK = [
-  { day: "SUN", blocks: [["h-[12cqw] bg-primary/22", "CS 401", "Lecture"], ["h-[8cqw] border border-foreground/8 bg-card", "", ""]] },
-  { day: "MON", blocks: [["h-[6cqw]", "", ""], ["h-[14cqw] bg-field", "Lab 3", "C7 · 201"]] },
-  { day: "TUE", blocks: [["h-[9cqw] bg-primary/22", "Math 302", ""], ["h-[9cqw] border border-foreground/8 bg-card", "", ""]] },
-  { day: "WED", blocks: [["h-[3cqw]", "", ""], ["h-[10cqw] border border-dashed border-accent-light/50 text-accent-light", "TA hours", ""]] },
-  { day: "THU", blocks: [["h-[12cqw] bg-primary/22", "CS 401", "Tutorial"]] },
+// [course, room] per slot; null is a free slot.
+const TIMETABLE: { day: string; slots: ([string, string] | null)[] }[] = [
+  { day: "SAT", slots: [null, null, ["Mobile p.13", "A.215"], ["Cloud p.13", "A.212"], ["Mobile p.12", "M.327"]] },
+  { day: "SUN", slots: [["Cloud p.17", "S.518"], ["PM Lecture", "M.205"], ["Cloud Lecture", "A.328"], ["SE II p.12", "M.327"], null] },
+  { day: "MON", slots: [null, null, null, null, null] },
+  { day: "TUE", slots: [["SE II Lecture", "A.328"], ["RM t.12", "A.209"], null, ["Mobile Lecture", "M.205"], null] },
 ]
 
 function StudentGuide() {
   return (
     <div className="flex min-w-0 flex-1 flex-col gap-[2.2cqw] px-[3.4cqw] py-[3cqw]">
       <div className="flex items-center justify-between gap-[2cqw]">
-        <div className="text-[length:2.8cqw] font-medium">This week</div>
-        <FilterChips items={["Schedule", "Rooms", "TA hours", "GPA"]} />
+        <div className="text-[length:2.8cqw] font-medium">Schedule Portal</div>
+        <div className="flex items-center gap-[1cqw] rounded-[1cqw] border border-foreground/16 px-[1.6cqw] py-[0.8cqw] text-[length:1.6cqw]">
+          SE 6th <span className="text-muted-foreground">▾</span>
+        </div>
       </div>
-      <div className="grid min-h-0 flex-1 grid-cols-5 gap-[1.2cqw]">
-        {WEEK.map(({ day, blocks }) => (
-          <div key={day} className="flex flex-col gap-[1cqw]">
-            <Label className="text-[length:1.3cqw]">{day}</Label>
-            {blocks.map(([style, title, detail], i) => (
-              <div key={i} className={cn("rounded-[0.9cqw] p-[1cqw] text-[length:1.5cqw]", style)}>
-                {title}
-                {detail && <div className="text-muted-foreground">{detail}</div>}
-              </div>
-            ))}
-          </div>
+      <div className="grid min-h-0 flex-1 grid-cols-[6cqw_repeat(5,minmax(0,1fr))] gap-[0.8cqw] text-[length:1.3cqw]">
+        <div />
+        {[1, 2, 3, 4, 5].map(slot => <Label key={slot} className="text-[length:1.2cqw]">Slot {slot}</Label>)}
+        {TIMETABLE.map(({ day, slots }) => (
+          <Fragment key={day}>
+            <Label className="self-center text-[length:1.2cqw]">{day}</Label>
+            {slots.map((slot, i) => slot
+              ? (
+                <div key={i} className="min-w-0 rounded-[0.8cqw] bg-primary/22 p-[0.8cqw]">
+                  <div className="truncate">{slot[0]}</div>
+                  <div className="font-mono text-accent-light">{slot[1]}</div>
+                </div>
+              )
+              : <div key={i} className="flex items-center justify-center rounded-[0.8cqw] border border-foreground/8 text-ink-tertiary">Free</div>)}
+          </Fragment>
         ))}
       </div>
     </div>

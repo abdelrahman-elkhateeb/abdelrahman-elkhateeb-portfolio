@@ -236,3 +236,10 @@ Baseline: `6f66831` (`Add ChillWork and Foodie to projects`), clean worktree. Di
 - Removed the old claim about a Stripe webhook: the repo has none (enrolment is a client call after the Checkout redirect).
 - Verified: lint, typecheck, build pass; `/work/lumina` renders the new copy, `scrollWidth` = 375 at 375px. Screenshot capture timed out (pane hidden); six-width matrix and test:e2e not run (text-only change).
 - Follow-up: the Lumina drawing claimed tests ("Run tests", "3 of 3 tests passed"); Lumina's editor only runs code. It now shows a "Run" button, code ending in `console.log(evens)` and an "Output" panel with `[ 2, 4 ]`. The unused `Check` icon was removed from `illustrations/parts.tsx`; the illustration label matches. Verified: lint, typecheck, build, verify:build 5/5; the drawing's code panel does not overflow at 320px or 1280px and the page `scrollWidth` matches the viewport. Screenshot checked at 320px; the other four widths and test:e2e not run.
+
+# Student Guide, Weather Now and Wild Oasis case-study copy (2026-10-09)
+
+- Rewrote the three entries in `features/projects/data.ts` from their repos, adding role, platforms, problem, built, three hard parts each and status.
+- Removed claims the code does not back: Student Guide was listed as React/Tailwind/Vite (it is plain HTML/CSS/JS with Node/Express/MongoDB services, a team project) and its "one schedule shape" (the page toggles seven fixed tables); Weather Now's "separate stores age at different rates"; Wild Oasis's "check-in writes to bookings, cabins and settings" (it updates one booking row). "100+ students, Lighthouse 98+" is kept from the owner and is not verifiable from the repo.
+- Drawings: Student Guide now shows the real schedules page (group picker, days by five slots, course and room per slot, free slots); Weather Now shows the Units menu instead of a °C/°F toggle. Wild Oasis drawing already matched.
+- Verified: lint, typecheck, build, verify:build 5/5; all three pages have `scrollWidth` equal to the viewport and no overflowing boxes at 320px and 1280px; drawings checked by screenshot at 390px. Other widths and test:e2e not run.

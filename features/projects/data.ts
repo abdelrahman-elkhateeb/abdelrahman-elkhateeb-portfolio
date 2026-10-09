@@ -255,20 +255,39 @@ export const projectsData: ProjectEntry[] = [
     name: "Weather Now",
     category: "Weather app",
     description:
-      "City search and geocoding, current conditions, hourly forecasts and unit switching, in a layout that stays readable on a phone.",
+      "Search any city and see current conditions, an hourly forecast for each day and a seven-day outlook, with temperature, wind and rain units you can switch one by one.",
     descriptionShort:
-      "City search, current conditions, hourly forecasts and unit switching.",
+      "City search, current conditions, hourly and seven-day forecasts, switchable units.",
     hardPart:
-      "Cached forecasts and user preferences age at different rates, so they live in separate stores — otherwise stale weather hides behind a stale UI.",
-    tech: ["React", "TanStack Query", "Zustand", "Open-Meteo"],
+      "The forecast is fetched once and cached; switching °C to °F, km/h to mph or mm to inches converts what is on screen instead of asking the API again.",
+    tech: ["React", "TypeScript", "TanStack Query", "Zustand", "Tailwind CSS", "Open-Meteo"],
     illustration: "weather",
-    illustrationLabel: "Drawing of Weather Now: city search, unit switch, current temperature and an hourly forecast row.",
+    illustrationLabel: "Drawing of Weather Now: city search, the units menu, current temperature and an hourly forecast row.",
     link: "https://weather-now-phi-ecru.vercel.app/",
+    role: "Frontend developer",
+    platforms: ["Web app (phone, tablet and desktop)"],
+    problem: [
+      "Checking the weather should take seconds: type a city, see what it is like now, how today goes hour by hour and what the week looks like, in the units you think in.",
+    ],
+    built: [
+      "I built the whole app with React 19 and TypeScript on the free Open-Meteo API: city search with suggestions, current conditions with feels-like, humidity, wind and rain, an hourly forecast you can switch between days, a seven-day outlook, and loading skeletons for each panel.",
+    ],
     hardParts: [
       {
-        title: "Forecasts and preferences age differently",
-        text: "Cached forecasts and user preferences age at different rates, so they live in separate stores — otherwise stale weather hides behind a stale UI.",
+        title: "Switching units never refetches",
+        text: "The forecast is cached by TanStack Query under the city’s coordinates, and the unit choice lives separately in Zustand. Changing temperature, wind or rain units, one at a time or all at once, converts the numbers on screen without another request.",
       },
+      {
+        title: "Search that waits for you",
+        text: "City suggestions are debounced and only start after three letters, so typing doesn’t fire a request per key. The forecast loads only when a city is picked and searched.",
+      },
+      {
+        title: "Shape the data once",
+        text: "The API returns long flat arrays. They are reshaped once, as they arrive, into what the screen needs, with hourly readings already grouped by day, so picking another day in the hourly panel is instant.",
+      },
+    ],
+    status: [
+      "Weather Now is live at weather-now-phi-ecru.vercel.app. It needs no account or API key.",
     ],
   },
   {
@@ -277,20 +296,41 @@ export const projectsData: ProjectEntry[] = [
     name: "Student Guide",
     category: "Student tool",
     description:
-      "Schedules, rooms, TA hours, course resources and GPA tools in one mobile-first interface. Used by 100+ students, Lighthouse 98+.",
+      "A university companion built by a student team: group timetables, office locations, the TA directory, course resources, grade and GPA calculators. Used by 100+ students, Lighthouse 98+.",
     descriptionShort:
-      "Schedules, rooms, TA hours and GPA tools. 100+ students, Lighthouse 98+.",
+      "Timetables, offices, TA directory, grade and GPA tools. 100+ students, Lighthouse 98+.",
     hardPart:
-      "Real timetables are messier than any data model — the work was one schedule shape that fit every department without a special case per course.",
-    tech: ["React", "Tailwind", "Vite", "Vercel"],
+      "One script builds the header for every page, so links, sign-in state and admin-only pages behave the same on twenty pages without copying the menu into each.",
+    tech: ["JavaScript", "HTML", "CSS", "Node.js", "Express", "MongoDB"],
     illustration: "student-guide",
-    illustrationLabel: "Drawing of the Student Guide weekly schedule with lectures, labs and TA hours.",
+    illustrationLabel: "Drawing of the Student Guide schedules page: a group picker above a timetable of days and slots with course and room in each.",
     link: "https://github.com/AhmedHosny2/Student-Guide",
+    role: "Frontend developer in a student team",
+    platforms: ["Website (phone-friendly)"],
+    problem: [
+      "Computer science students had their timetables, office locations, TA office hours and course material spread across PDFs, group chats and notice boards.",
+      "A group of students set out to put it all in one site any student could open on a phone between lectures.",
+    ],
+    built: [
+      "The team split the work into a plain HTML, CSS and JavaScript client and small Node.js services for users, courses and the TA directory on MongoDB.",
+      "On the client I built the shared navigation and its phone menu, the locations, schedules, profile and major-selection pages, and much of the styling and fixes across the other pages.",
+    ],
     hardParts: [
       {
-        title: "One schedule shape for every department",
-        text: "Real timetables are messier than any data model — the work was one schedule shape that fit every department without a special case per course.",
+        title: "One navigation for twenty pages",
+        text: "The header is built by one script instead of being copied into every page. It fixes link paths whether a page sits at the root or in a folder, swaps links for signed-in students, shows admins their requests page, and sends visitors without access back to the login page.",
       },
+      {
+        title: "Seven timetables, one page",
+        text: "Each year and major has its own timetable. Students pick their group from a list and only that table appears, with the course, group and room in every slot.",
+      },
+      {
+        title: "Made for a phone between lectures",
+        text: "Most visits happen on a phone in a corridor, so pages were laid out for small screens first and the navigation folds into a phone menu.",
+      },
+    ],
+    status: [
+      "Student Guide was used by students in the department. The source is on GitHub under a teammate’s account.",
     ],
   },
   {
@@ -299,20 +339,40 @@ export const projectsData: ProjectEntry[] = [
     name: "The Wild Oasis",
     category: "Hotel dashboard",
     description:
-      "Internal dashboard for bookings, cabins, check-in and check-out, with hotel-wide settings on live Supabase data.",
+      "The staff dashboard for a small cabin hotel: bookings, cabins, check-in and check-out, sales and stay charts, and hotel-wide settings on live Supabase data.",
     descriptionShort:
-      "Bookings, cabins, check-in and check-out on live Supabase data.",
+      "Bookings, cabins, check-in and check-out, sales charts on live Supabase data.",
     hardPart:
-      "Check-in writes to bookings, cabins and settings in one move — compound components kept that flow from turning into four near-identical forms.",
-    tech: ["React", "Supabase", "TanStack Query", "React Hook Form"],
+      "Filter, sort and page live in the URL and run inside the Supabase query, so the table downloads one page at a time and the neighbouring pages are already fetched.",
+    tech: ["React", "Supabase", "TanStack Query", "React Hook Form", "styled-components", "Recharts"],
     illustration: "wild-oasis",
     illustrationLabel: "Drawing of The Wild Oasis bookings table with check-in status for each cabin.",
     link: "https://the-wild-oasis-dashboard-peach.vercel.app",
+    role: "Frontend developer",
+    platforms: ["Staff dashboard"],
+    problem: [
+      "A small hotel with a handful of cabins needs its staff to see every booking, welcome guests, take payment and keep prices and rules up to date, without a spreadsheet.",
+    ],
+    built: [
+      "I built the dashboard on Supabase for the database, sign-in and image storage: bookings with filters, sorting and pages, cabin management with photos and discounts, check-in and check-out, a home screen with sales and stay charts for the last 7, 30 or 90 days, hotel settings, staff accounts with avatars, and a dark mode that remembers the choice.",
+      "It was built to practise advanced React patterns: compound components for tables, menus and modals, and custom hooks for every piece of data.",
+    ],
     hardParts: [
       {
-        title: "Check-in touches three tables in one move",
-        text: "Check-in writes to bookings, cabins and settings in one move — compound components kept that flow from turning into four near-identical forms.",
+        title: "Filters that live in the URL",
+        text: "Status filter, sort order and page number are kept in the address bar and passed straight into the Supabase query, so only one page of bookings is downloaded, a filtered view can be bookmarked, and the next and previous pages are fetched ahead of time.",
       },
+      {
+        title: "A check-in that adds up",
+        text: "Breakfast is priced from the hotel settings for each guest and night. Staff must confirm the guest has paid before the button unlocks, and the new status, payment and total are saved in one update.",
+      },
+      {
+        title: "Today’s guests in one query",
+        text: "The home screen asks the database only for guests arriving or leaving today, instead of downloading every booking and filtering in the browser.",
+      },
+    ],
+    status: [
+      "The Wild Oasis is live at the-wild-oasis-dashboard-peach.vercel.app.",
     ],
   },
 ];
