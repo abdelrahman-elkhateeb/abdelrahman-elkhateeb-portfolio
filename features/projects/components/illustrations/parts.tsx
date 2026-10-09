@@ -85,11 +85,3 @@ export function TableRow({ children, className }: { children: ReactNode; classNa
     </div>
   )
 }
-
-export function Check({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className={cn("size-[2cqw]", className)}>
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
-  )
-}

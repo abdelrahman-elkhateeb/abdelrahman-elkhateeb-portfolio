@@ -229,3 +229,10 @@ Baseline: `6f66831` (`Add ChillWork and Foodie to projects`), clean worktree. Di
 - `ProjectEntry` gains optional `dashboardLink`; ChillWork sets it to `https://chillwork-dashboard.vercel.app`, shown as a "Visit dashboard" button beside "Visit live site" and a "Dashboard" fact under "Live" on `/work/chillwork`. Status copy names both URLs.
 - Drawn screens that live in the dashboard (jobs board, schedule, parts) now show `chillwork-dashboard.vercel.app` in their URL bar; triage and invoice stay on the customer site.
 - Verified: lint, typecheck, build, verify:build pass; both links render on `/work/chillwork`; `scrollWidth` = 320 at 320px. Six-width visual matrix and test:e2e not run (one added button and fact row; buttons wrap cleanly at 320px).
+
+# Lumina case-study copy (2026-10-09)
+
+- Rewrote the Lumina entry in `features/projects/data.ts` from the Lumina repo itself: description, role (full-stack), platforms, problem, built, three hard parts (server-side role checks, email + Google sign-in ending in one HttpOnly JWT, uploads streamed to Cloudinary) and status. Tech now lists Node.js and Redux Toolkit.
+- Removed the old claim about a Stripe webhook: the repo has none (enrolment is a client call after the Checkout redirect).
+- Verified: lint, typecheck, build pass; `/work/lumina` renders the new copy, `scrollWidth` = 375 at 375px. Screenshot capture timed out (pane hidden); six-width matrix and test:e2e not run (text-only change).
+- Follow-up: the Lumina drawing claimed tests ("Run tests", "3 of 3 tests passed"); Lumina's editor only runs code. It now shows a "Run" button, code ending in `console.log(evens)` and an "Output" panel with `[ 2, 4 ]`. The unused `Check` icon was removed from `illustrations/parts.tsx`; the illustration label matches. Verified: lint, typecheck, build, verify:build 5/5; the drawing's code panel does not overflow at 320px or 1280px and the page `scrollWidth` matches the viewport. Screenshot checked at 320px; the other four widths and test:e2e not run.

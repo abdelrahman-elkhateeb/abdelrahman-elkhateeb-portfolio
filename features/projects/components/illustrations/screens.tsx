@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 import type { IllustrationKind } from "../../types"
-import { Action, Bar, Check, FilterChips, Label, Pill, Sidebar, Surface, TableRow } from "./parts"
+import { Action, Bar, FilterChips, Label, Pill, Sidebar, Surface, TableRow } from "./parts"
 
 /* Each screen is a simplified drawing of the real product UI in the site palette,
    not a screenshot. Copy inside a drawing is illustrative. */
@@ -237,16 +237,17 @@ function Lumina() {
           <Bar className="w-[95%] bg-foreground/12" />
           <Bar className="w-[85%] bg-foreground/12" />
           <Bar className="w-[70%] bg-foreground/12" />
-          <Action className="mt-auto self-start">Run tests</Action>
+          <Action className="mt-auto self-start">Run</Action>
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-[0.6cqw] bg-background p-[3cqw] font-mono text-[length:1.9cqw] whitespace-pre">
-          <div><span className="text-foreground/30">1  </span><span className="text-primary">const</span> evens = nums.<span className="text-accent-light">filter</span>(</div>
-          <div><span className="text-foreground/30">2  </span>  (n) =&gt; n % <span className="text-accent-light">2</span> === <span className="text-accent-light">0</span></div>
-          <div><span className="text-foreground/30">3  </span>);</div>
-          <div><span className="text-foreground/30">4  </span></div>
-          <div><span className="text-foreground/30">5  </span><span className="text-primary">export default</span> evens;</div>
-          <div className="mt-auto flex items-center gap-[1cqw] border-t border-foreground/8 pt-[1.6cqw] text-[length:1.6cqw] whitespace-normal text-accent-light">
-            <Check />3 of 3 tests passed
+          <div><span className="text-foreground/30">1  </span><span className="text-primary">const</span> nums = [<span className="text-accent-light">1</span>, <span className="text-accent-light">2</span>, <span className="text-accent-light">3</span>, <span className="text-accent-light">4</span>];</div>
+          <div><span className="text-foreground/30">2  </span><span className="text-primary">const</span> evens = nums.<span className="text-accent-light">filter</span>(</div>
+          <div><span className="text-foreground/30">3  </span>  (n) =&gt; n % <span className="text-accent-light">2</span> === <span className="text-accent-light">0</span></div>
+          <div><span className="text-foreground/30">4  </span>);</div>
+          <div><span className="text-foreground/30">5  </span>console.<span className="text-accent-light">log</span>(evens);</div>
+          <div className="mt-auto flex flex-col gap-[0.6cqw] border-t border-foreground/8 pt-[1.6cqw] text-[length:1.6cqw]">
+            <div className="font-sans text-muted-foreground">Output</div>
+            <div className="text-accent-light">[ 2, 4 ]</div>
           </div>
         </div>
       </div>

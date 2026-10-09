@@ -171,21 +171,41 @@ export const projectsData: ProjectEntry[] = [
     name: "Lumina",
     category: "E-learning",
     description:
-      "Role-based dashboards for admins, instructors and students, Stripe checkout that enrols on success, and an in-browser IDE for exercises.",
+      "A full-stack course platform where instructors build video courses, students check their level with a placement test, buy through Stripe and practise in a code editor in the browser.",
     descriptionShort:
-      "Role-based dashboards, Stripe checkout that enrols on success, in-browser IDE.",
+      "Video courses, placement tests, Stripe checkout and a code editor in the browser.",
     hardPart:
-      "Enrolment had to survive a Stripe webhook landing before the student got back, so payment, enrolment and access all resolve from one source of truth.",
-    tech: ["MongoDB", "Express", "React", "Stripe", "OAuth"],
+      "Three roles share one API, so who may create, edit or delete a course, section or lesson is checked on the server for every route, not just hidden in the UI.",
+    tech: ["MongoDB", "Express", "React", "Node.js", "Redux Toolkit", "Stripe"],
     illustration: "lumina",
-    illustrationLabel: "Drawing of a Lumina exercise: role tabs, a lesson and an in-browser code editor with passing tests.",
+    illustrationLabel: "Drawing of a Lumina exercise: role tabs, a lesson and an in-browser code editor with its output.",
     link: "https://github.com/abdelrahman-elkhateeb/Lumina",
-    platforms: ["Admin, instructor and student dashboards"],
+    role: "Full-stack developer",
+    platforms: ["Student website", "Instructor and admin dashboards"],
+    problem: [
+      "Learners buying an online course often can’t tell whether it matches their level until they have paid, and coding courses leave them switching to another tool to try what they just watched.",
+      "Instructors need to publish and update their own courses, while someone above them keeps control of the whole catalogue.",
+    ],
+    built: [
+      "I built both sides alone: the Node.js and Express API on MongoDB, and the React client with Redux Toolkit.",
+      "Instructors create courses with a preview video, price and category, then add sections, video lessons and a placement test. Students browse, take the test, pay by card through Stripe Checkout, and watch lessons in My Learning, with a code editor that runs JavaScript, TypeScript, Python, Java, C# and PHP, and an AI chat assistant built on Gemini.",
+    ],
     hardParts: [
       {
-        title: "One source of truth for payment and access",
-        text: "Enrolment had to survive a Stripe webhook landing before the student got back, so payment, enrolment and access all resolve from one source of truth.",
+        title: "Three roles, one API",
+        text: "Students, instructors and admins all call the same API. Every protected route checks the signed-in user’s role on the server: instructors create courses, sections and lessons, admins moderate and delete them, and students only read what they own.",
       },
+      {
+        title: "Two ways in, one session",
+        text: "Users sign up with email and password or continue with Google. The Google token is verified on the server with Firebase Admin, and both paths end in the same JWT in an HttpOnly cookie, so the rest of the app never knows which one was used.",
+      },
+      {
+        title: "Course video without a media server",
+        text: "Preview videos, lesson videos and course images are streamed from the upload straight to Cloudinary, so the API stores only links and never keeps large files on disk.",
+      },
+    ],
+    status: [
+      "Lumina was built as a complete MERN project. The source for both the API and the client is on GitHub.",
     ],
   },
   {
