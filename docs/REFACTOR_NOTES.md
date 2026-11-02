@@ -1,3 +1,38 @@
+# Stampd project and demo screenshots — 2026-10-17
+
+Baseline: `e442e45`, clean worktree. Scope: add Stampd (github.com/abdelrahman-elkhateeb/stampd-frontend)
+as project 01, and show captures of each live demo on its case page.
+
+## Changes
+
+- Stampd entry in `features/projects/data.ts`, written from the repo's README, design-system README and
+  `docs/backend-integration.md`; new `stampd` drawing in `screens.tsx` (today card, leave balances,
+  approvals). Role is "Sole frontend developer", as confirmed by the owner. Every other project moved
+  down one place.
+- Optional `screenshots` on `ProjectEntry`; `CaseStudy.tsx` renders them as "From the live demo" after
+  the feature figures. The drawings stay; the "drawn, not photographed" rule in AGENTS.md and
+  DESIGN_SYSTEM.md now allows this one section.
+- 13 captures in `public/projects/` (788 KB), taken with Playwright in local Chrome at 1440×900 and
+  saved as WebP: Stampd (component gallery in English and Arabic, Arabic login; dark scheme), Mawasem
+  store, ChillWork customer site, Foodie (home, menu, admin) and Weather Now (Cairo searched).
+- Not captured: Mawasem dashboard (internal), Lumina and Student Guide (no live demo), and the
+  signed-in screens of Stampd, the ChillWork dashboard and The Wild Oasis, which are behind a login.
+  The owner will supply those; add each file under `public/projects/<slug>/` and list it in `data.ts`.
+- Foodie's deep links (`/menu`, `/admin`) 404 on a direct load on Vercel, so they were captured by
+  clicking through from the home page. That is a bug in the Foodie deployment, not here.
+
+## Verification
+
+- ESLint, `tsc --noEmit`, production build and all five `verify:build` HTML tests passed.
+  verify:build now checks nine rows/previews and that every screenshot a case page links exists in
+  `public/`.
+- `test:e2e`: **all 24 browser tests passed** in local Chrome. Counts were updated from 8 to 9, the
+  preview test follows the shifted rows, and the Stampd page (with screenshots) joined the six-width
+  case-page fit check.
+- Manually checked in the browser pane: the Stampd page at 1440px (drawing and two-column screenshot
+  grid, optimized images loaded) and the Foodie page at 375px (single column, no horizontal overflow).
+  No before/after visual matrix was captured: existing pages change only by the added section.
+
 # Hero scroll fix — 2026-09-07
 
 Baseline for this change: `a7b849c`, clean worktree. Scope: the hero section blocked normal page

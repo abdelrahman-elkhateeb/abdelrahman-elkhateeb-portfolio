@@ -42,6 +42,64 @@ function MawasemStore() {
   )
 }
 
+const BALANCES = [["Annual", "18", "w-3/4"], ["Sick", "9", "w-2/5"], ["Remote", "4", "w-1/5"]]
+
+const APPROVALS = [
+  { who: "w-3/5", what: "Annual leave · 3 days" },
+  { who: "w-1/2", what: "Missing checkout fix" },
+  { who: "w-2/5", what: "Business trip · Riyadh" },
+]
+
+function Stampd() {
+  return (
+    <div className="flex min-w-0 flex-1">
+      <Sidebar brand="Stampd" active="Home"
+        items={["Home", "Attendance", "Leave", "Requests", "Approvals", "Calendar"]} />
+      <div className="flex min-w-0 flex-1 flex-col gap-[2.2cqw] px-[3cqw] py-[2.6cqw]">
+        <div className="flex items-center justify-between">
+          <div className="text-[length:2.8cqw] font-medium">Good morning</div>
+          <div className="flex overflow-hidden rounded-[0.8cqw] border border-foreground/16 text-[length:1.5cqw]">
+            <div className="bg-primary/20 px-[1.2cqw] py-[0.5cqw] text-accent-light">EN</div>
+            <div lang="ar" className="px-[1.2cqw] py-[0.5cqw] text-muted-foreground">ع</div>
+          </div>
+        </div>
+        <div className="flex items-center justify-between gap-[2cqw] rounded-[1.2cqw] border border-primary/35 bg-primary/8 px-[2.6cqw] py-[2.2cqw]">
+          <div className="flex flex-col gap-[0.8cqw]">
+            <Label className="text-[length:1.3cqw] text-accent-light">Today · Sun</Label>
+            <div className="font-mono text-[length:4cqw] leading-none">03:42:10</div>
+            <div className="text-[length:1.6cqw] text-muted-foreground">Checked in at 08:58 · on time</div>
+          </div>
+          <Action className="px-[2.4cqw] py-[1.2cqw] text-[length:1.8cqw]">Check out</Action>
+        </div>
+        <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] gap-[1.8cqw]">
+          <Surface className="flex flex-col gap-[1.3cqw] p-[1.8cqw]">
+            <Label className="text-[length:1.3cqw]">Leave balance</Label>
+            {BALANCES.map(([type, days, width]) => (
+              <div key={type} className="flex flex-col gap-[0.6cqw] text-[length:1.6cqw]">
+                <div className="flex justify-between"><span className="text-muted-foreground">{type}</span><span>{days} days</span></div>
+                <div className="h-[0.8cqw] rounded-full bg-foreground/10"><div className={cn("h-full rounded-full bg-primary", width)} /></div>
+              </div>
+            ))}
+          </Surface>
+          <Surface className="flex flex-col p-[1.8cqw]">
+            <Label className="pb-[1cqw] text-[length:1.3cqw]">Waiting for you</Label>
+            {APPROVALS.map(row => (
+              <TableRow key={row.what} className="grid-cols-[3cqw_minmax(0,1fr)_auto] py-[1.1cqw]">
+                <div className="size-[3cqw] rounded-full bg-foreground/12" />
+                <div className="flex min-w-0 flex-col gap-[0.6cqw]">
+                  <Bar className={row.who} />
+                  <div className="truncate text-[length:1.4cqw] text-muted-foreground">{row.what}</div>
+                </div>
+                <Pill className="text-[length:1.3cqw]">Approve</Pill>
+              </TableRow>
+            ))}
+          </Surface>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const ORDER_ROWS = [
   { id: "#1042", season: "Ramadan", status: "Preparing", accent: true, width: "w-3/5" },
   { id: "#1041", season: "Eid", status: "Delivered", accent: false, width: "w-2/5" },
@@ -411,6 +469,7 @@ function WildOasis() {
 }
 
 export const screens: Record<IllustrationKind, { url: string; Screen: () => React.JSX.Element }> = {
+  "stampd": { url: "stampd-frontend.vercel.app/en", Screen: Stampd },
   "mawasem-store": { url: "www.mawasem.org", Screen: MawasemStore },
   "mawasem-dashboard": { url: "mawasem · admin (internal)", Screen: MawasemDashboard },
   "chillwork": { url: "chillwork-dashboard.vercel.app", Screen: ChillworkJobs },

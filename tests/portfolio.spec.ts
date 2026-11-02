@@ -24,7 +24,7 @@ for (const width of [320, 375, 390, 768, 1024, 1440]) {
       elements.filter(element => element.scrollWidth > element.clientWidth + 1).map(element => element.textContent))
     expect(clipped).toEqual([])
     expect(errors).toEqual([])
-    await expect(page.locator(".nx-index-row")).toHaveCount(8)
+    await expect(page.locator(".nx-index-row")).toHaveCount(9)
     // Every row says it opens a case study, on touch widths too (one label per layout).
     for (const row of await page.locator(".nx-index-row").all()) {
       await expect(row.locator(".nx-index-cta:visible")).toHaveText(/Case study/i)
@@ -33,13 +33,13 @@ for (const width of [320, 375, 390, 768, 1024, 1440]) {
     await expect(page.locator(".nx-preview[data-active=true]")).toBeVisible({ visible: width >= 1024 })
   })
 
-  // A full case study (four feature figures) and the internal project with no link.
+  // Demo screenshots, a full case study (four feature figures) and the internal project with no link.
   test(`case-study pages fit at ${width}px`, async ({ page }) => {
     const errors: string[] = []
     page.on("pageerror", error => errors.push(error.message))
     page.on("console", message => { if (message.type() === "error") errors.push(message.text()) })
     await page.setViewportSize({ width, height: 844 })
-    for (const slug of ["chillwork", "mawasem-dashboard"]) {
+    for (const slug of ["stampd", "chillwork", "mawasem-dashboard"]) {
       await page.goto(`/work/${slug}`, { waitUntil: "domcontentloaded" })
       await page.evaluate(() => document.fonts.ready)
       for (const figure of await page.locator("[role=img]").all()) await figure.scrollIntoViewIfNeeded()
@@ -62,15 +62,15 @@ test("the preview follows hover and focus, rows open case studies and the page l
   const active = page.locator(".nx-preview[data-active=true]")
   await rows.first().scrollIntoViewIfNeeded()
   await expect(active).toHaveCount(1)
-  await expect(active.getByRole("img")).toHaveAttribute("aria-label", /Mawasem storefront/)
-  await rows.nth(2).hover()
+  await expect(active.getByRole("img")).toHaveAttribute("aria-label", /Stampd/)
+  await rows.nth(3).hover()
   await expect(active.getByRole("img")).toHaveAttribute("aria-label", /ChillWork/)
   await expect(page.locator(".nx-preview:not([data-active=true])").first()).toHaveAttribute("aria-hidden", "true")
   await expect(active.getByRole("link", { name: "Read the full case study" })).toHaveAttribute("href", "/work/chillwork")
   // Moving off the list keeps the last preview rather than emptying the panel.
   await page.mouse.move(5, 5)
   await expect(active.getByRole("img")).toHaveAttribute("aria-label", /ChillWork/)
-  await rows.nth(4).focus()
+  await rows.nth(5).focus()
   await expect(active.getByRole("img")).toHaveAttribute("aria-label", /Foodie/)
   await page.keyboard.press("Enter")
   await expect(page).toHaveURL(/\/work\/foodie$/)
@@ -81,7 +81,7 @@ test("the preview follows hover and focus, rows open case studies and the page l
   await expect(page).toHaveURL(/\/work\/weather-now$/)
   await page.getByRole("link", { name: "All projects" }).click()
   await expect(page).toHaveURL(/\/#projects$/)
-  await expect(rows).toHaveCount(8)
+  await expect(rows).toHaveCount(9)
   // The layout's Navbar outlives the page, so the spy must re-observe the new sections.
   await page.locator("#skills").scrollIntoViewIfNeeded()
   await expect(nav.getByRole("link", { name: "Tech stack", exact: true })).toHaveAttribute("data-active", "true")
@@ -156,7 +156,7 @@ test("reduced motion keeps content visible and stops ambient motion; no-JS conte
   await staticPage.goto("http://127.0.0.1:3001/", { waitUntil: "domcontentloaded" })
   await expect(staticPage.locator("[data-reveal]").first()).toHaveCSS("opacity", "1")
   await expect(staticPage.getByRole("heading", { name: "Contact", exact: true })).toBeVisible()
-  await expect(staticPage.locator(".nx-index-row")).toHaveCount(8)
+  await expect(staticPage.locator(".nx-index-row")).toHaveCount(9)
   await noJs.close()
 })
 

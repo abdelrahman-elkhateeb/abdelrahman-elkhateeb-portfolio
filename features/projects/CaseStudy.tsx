@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { ArrowLeft } from "lucide-react"
@@ -50,6 +51,7 @@ export default function CaseStudy({ project }: { project: ProjectEntry }) {
   if (project.built) {
     sections.push({ title: "What I built", body: project.built.map(p => <p key={p} className="m-0">{p}</p>) })
   }
+  const hardPartsIndex = sections.length + (project.screenshots ? 1 : 0)
 
   return (
     <article className="bg-background pt-24 pb-20 md:pt-[136px] md:pb-24">
@@ -140,7 +142,29 @@ export default function CaseStudy({ project }: { project: ProjectEntry }) {
           </div>
         )}
 
-        <CaseSection number={pad(sections.length)} title={project.hardParts.length > 1 ? "The hard parts" : "The hard part"}>
+        {project.screenshots && (
+          <Reveal>
+            <section className="flex flex-col gap-8 border-t border-foreground/10 pt-10">
+              <div className="flex flex-col gap-3">
+                <span className="font-mono text-[11px] tracking-[0.2em] text-primary">{pad(sections.length)}</span>
+                <h2 className="m-0 font-sans text-[27px] leading-[1.1] font-medium tracking-[-0.02em] md:text-[34px]">From the live demo</h2>
+              </div>
+              <ul className="m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(min(100%,420px),1fr))] gap-x-8 gap-y-10 p-0">
+                {project.screenshots.map(shot => (
+                  <li key={shot.src} className="flex min-w-0 flex-col gap-3">
+                    {/* Opens the full-size capture; the browser's own viewer is the lightbox. */}
+                    <a href={shot.src} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-lg border border-border bg-image-well transition-colors hover:border-primary/50">
+                      <Image src={shot.src} alt={shot.caption} width={1440} height={900} sizes="(min-width: 1024px) 50vw, 100vw" className="block h-auto w-full" />
+                    </a>
+                    <span className="font-sans text-[14px] leading-[1.55] text-muted-foreground">{shot.caption}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </Reveal>
+        )}
+
+        <CaseSection number={pad(hardPartsIndex)} title={project.hardParts.length > 1 ? "The hard parts" : "The hard part"}>
           <ol className="m-0 flex list-none flex-col p-0">
             {project.hardParts.map((part, i) => (
               <li key={part.title} className="grid grid-cols-[40px_minmax(0,1fr)] gap-2 border-b border-foreground/10 py-6 first:pt-0 last:border-b-0 md:grid-cols-[48px_minmax(0,1fr)]">
@@ -155,7 +179,7 @@ export default function CaseStudy({ project }: { project: ProjectEntry }) {
         </CaseSection>
 
         {project.status && (
-          <CaseSection number={pad(sections.length + 1)} title="Where it is now">
+          <CaseSection number={pad(hardPartsIndex + 1)} title="Where it is now">
             {project.status.map(p => <p key={p} className="m-0">{p}</p>)}
           </CaseSection>
         )}

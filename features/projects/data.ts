@@ -2,6 +2,68 @@ import type { ProjectEntry } from "./types";
 
 export const projectsData: ProjectEntry[] = [
   {
+    slug: "stampd",
+    title: "Stampd — employee ops platform",
+    name: "Stampd",
+    category: "HR operations",
+    description:
+      "Attendance, leave, requests and approvals for teams in the Gulf, in English and Arabic with full right-to-left support, in light and dark.",
+    descriptionShort:
+      "Attendance, leave and approvals for Gulf teams, in English and Arabic.",
+    hardPart:
+      "Arabic is not a translation layer: lint rejects physical left/right classes, so every screen flips for right-to-left by construction.",
+    tech: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "next-intl",
+      "Turborepo",
+    ],
+    illustration: "stampd",
+    illustrationLabel: "Drawing of the Stampd home screen: a today card with a running check-in timer, leave balances and requests waiting for approval.",
+    link: "https://stampd-frontend.vercel.app",
+    role: "Sole frontend developer",
+    platforms: ["Web app (employees on phones, HR on desktop)", "English and Arabic"],
+    problem: [
+      "HR teams in the Gulf need attendance, leave, requests and approvals in one place: employees check in from their phones, managers approve, and HR reviews the whole company from a desk.",
+      "It has to read naturally in Arabic and English, and show every time in the company’s own timezone.",
+    ],
+    built: [
+      "I built the web app in a Turborepo: the Stampd design system and its shared components, the data layer, and the screens for check-in and attendance, leave balances and requests, the manager’s approvals queue, HR attendance corrections, the company calendar, reports with CSV export and company settings.",
+      "Employees, managers and admins sign in to the same app; each role sees only the screens it may use.",
+    ],
+    screenshots: [
+      { src: "/projects/stampd/gallery.webp", caption: "Buttons and fields from the Stampd component gallery, in dark mode." },
+      { src: "/projects/stampd/gallery-status.webp", caption: "Attendance and request statuses: each one carries an icon and a label, never colour alone." },
+      { src: "/projects/stampd/gallery-ar.webp", caption: "The same gallery in Arabic, mirrored right to left." },
+      { src: "/projects/stampd/login-ar.webp", caption: "The Arabic sign-in page." },
+    ],
+    hardParts: [
+      {
+        title: "Arabic by construction",
+        text: "Every route carries its locale, and the server sets the page direction. Lint rejects physical left/right classes, so layouts flip for right-to-left without per-screen fixes. Arabic keeps Latin digits and the Gregorian calendar.",
+      },
+      {
+        title: "No token in the browser",
+        text: "Next.js is the backend-for-frontend: sign-in tokens live in httpOnly cookies, the server calls the API, and a proxy refreshes a token before it expires and turns away routes a role can’t open.",
+      },
+      {
+        title: "Company time, always",
+        text: "Timestamps show in the company’s timezone, never the device’s, and plain calendar days are formatted so they never shift by a day.",
+      },
+      {
+        title: "Never more than the viewer may see",
+        text: "Colleagues on leave show only as “Out”, with no leave type or reason. Destructive actions ask for confirmation, and a rejection needs a reason.",
+      },
+    ],
+    status: [
+      "The web app is deployed at stampd-frontend.vercel.app, and every screen reads and writes the stampd-backend API.",
+      "Notifications and emails come next, once the backend supports them.",
+    ],
+  },
+  {
     slug: "mawasem-store",
     title: "Mawasem — gifting storefront",
     name: "Mawasem storefront",
@@ -22,6 +84,10 @@ export const projectsData: ProjectEntry[] = [
     illustration: "mawasem-store",
     illustrationLabel: "Drawing of the Mawasem storefront: season navigation, a seasonal banner and a product grid.",
     link: "https://www.mawasem.org/",
+    screenshots: [
+      { src: "/projects/mawasem-store/home.webp", caption: "The Arabic storefront home page." },
+      { src: "/projects/mawasem-store/season.webp", caption: "A season page with filters and its product grid." },
+    ],
     role: "Frontend developer",
     platforms: ["Web store", "Phone (responsive)"],
     problem: [
@@ -115,6 +181,11 @@ export const projectsData: ProjectEntry[] = [
     illustrationLabel: "Drawing of the ChillWork jobs board: open, on-site and awaiting-approval jobs above an AI triage panel.",
     link: "https://chillwork-frontend.vercel.app",
     dashboardLink: "https://chillwork-dashboard.vercel.app",
+    screenshots: [
+      { src: "/projects/chillwork/home.webp", caption: "The landing page of the ChillWork customer site." },
+      { src: "/projects/chillwork/apps.webp", caption: "One system, a separate app for each role." },
+      { src: "/projects/chillwork/triage.webp", caption: "How AI triage reads a request before it is saved." },
+    ],
     role: "Frontend developer",
     platforms: ["Customer website", "Dispatcher and technician dashboard (phone-first)"],
     problem: [
@@ -223,6 +294,11 @@ export const projectsData: ProjectEntry[] = [
     illustration: "foodie",
     illustrationLabel: "Drawing of Foodie: live order tracking beside the restaurant’s seven-day activity chart.",
     link: "https://food-ordering-app-pearl-alpha.vercel.app",
+    screenshots: [
+      { src: "/projects/foodie/home.webp", caption: "The Foodie home page." },
+      { src: "/projects/foodie/menu.webp", caption: "The menu with its category filters." },
+      { src: "/projects/foodie/admin.webp", caption: "The admin dashboard: revenue, orders by status and top dishes." },
+    ],
     platforms: ["Ordering website", "Restaurant dashboard"],
     problem: [
       "Restaurants that take orders by phone or through big delivery apps lose control of their menu, their customers and a share of every order, and customers keep calling to ask where their food is.",
@@ -264,6 +340,9 @@ export const projectsData: ProjectEntry[] = [
     illustration: "weather",
     illustrationLabel: "Drawing of Weather Now: city search, the units menu, current temperature and an hourly forecast row.",
     link: "https://weather-now-phi-ecru.vercel.app/",
+    screenshots: [
+      { src: "/projects/weather-now/forecast.webp", caption: "Current weather, hourly and daily forecast for Cairo." },
+    ],
     role: "Frontend developer",
     platforms: ["Web app (phone, tablet and desktop)"],
     problem: [

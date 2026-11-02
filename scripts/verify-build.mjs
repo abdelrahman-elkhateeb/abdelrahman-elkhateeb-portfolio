@@ -1,5 +1,5 @@
 import assert from "node:assert/strict"
-import { readFileSync } from "node:fs"
+import { existsSync, readFileSync } from "node:fs"
 import test from "node:test"
 
 // Checks the actual production HTML. This is an SSR smoke check, not a browser,
@@ -18,22 +18,22 @@ test("all six sections and their content are server-rendered in order", () => {
   assert.equal([...html.matchAll(/<h2\b/g)].length, 5)
 })
 
-test("projects render as an eight-row index linking to case-study pages", () => {
+test("projects render as a nine-row index linking to case-study pages", () => {
   const rows = [...html.matchAll(/<a\b[^>]*class="[^"]*\bnx-index-row\b[^"]*"[^>]*>/g)].map(match => match[0])
-  assert.equal(rows.length, 8)
+  assert.equal(rows.length, 9)
   for (const row of rows) assert.match(row, /href="\/work\/[a-z-]+"/)
   assert.doesNotMatch(html, /\bnx-card-static\b|\bnx-card-image\b/)
   // One drawn preview per project; only the first is exposed before hydration.
-  assert.equal([...html.matchAll(/class="nx-preview\s/g)].length, 8)
-  assert.equal([...html.matchAll(/<div\b[^>]*role="img"/g)].length, 8)
-  assert.equal([...html.matchAll(/<div\b[^>]*aria-hidden="true"[^>]*class="nx-preview\s/g)].length, 7)
+  assert.equal([...html.matchAll(/class="nx-preview\s/g)].length, 9)
+  assert.equal([...html.matchAll(/<div\b[^>]*role="img"/g)].length, 9)
+  assert.equal([...html.matchAll(/<div\b[^>]*aria-hidden="true"[^>]*class="nx-preview\s/g)].length, 8)
 })
 
 test("every project has a prerendered case-study page", () => {
   // Each slug appears twice: its index row and its preview's case-study link.
   const slugs = [...new Set([...html.matchAll(/href="\/work\/([a-z-]+)"/g)].map(match => match[1]))]
-  assert.equal(slugs.length, 8)
-  assert.equal([...html.matchAll(/class="nx-index-cta\b/g)].length, 16)
+  assert.equal(slugs.length, 9)
+  assert.equal([...html.matchAll(/class="nx-index-cta\b/g)].length, 18)
   for (const slug of slugs) {
     const page = read(`work/${slug}.html`)
     assert.equal([...page.matchAll(/<h1\b/g)].length, 1, slug)
@@ -46,6 +46,14 @@ test("every project has a prerendered case-study page", () => {
   assert.equal([...chillwork.matchAll(/<figure\b/g)].length, 4)
   assert.equal([...chillwork.matchAll(/<div\b[^>]*role="img"/g)].length, 6)
   assert.match(read("work/mawasem-dashboard.html"), /Internal tool — no public link/)
+  // Demo screenshots: every capture a page names exists, and a project without any shows no section.
+  assert.match(chillwork, /From the live demo/)
+  assert.doesNotMatch(read("work/mawasem-dashboard.html"), /From the live demo/)
+  for (const slug of slugs) {
+    for (const [, file] of read(`work/${slug}.html`).matchAll(/href="(\/projects\/[^"]+)"/g)) {
+      assert.ok(existsSync(new URL(`../public${file}`, import.meta.url)), file)
+    }
+  }
 })
 
 test("closed navigation does not ship a hidden modal or focusable duplicate links", () => {

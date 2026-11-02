@@ -1,5 +1,6 @@
 /** Drawn product screens in components/illustrations; one per project plus feature close-ups. */
 export type IllustrationKind =
+  | "stampd"
   | "mawasem-store"
   | "mawasem-dashboard"
   | "chillwork"
@@ -17,6 +18,13 @@ export type CaseFeature = {
   illustration: IllustrationKind;
   title: string;
   text: string;
+};
+
+/** A capture of the live demo in public/projects/<slug>/, 1440×900. */
+export type Screenshot = {
+  src: string;
+  /** Caption, also the image's alt text. */
+  caption: string;
 };
 
 export type HardPart = {
@@ -40,7 +48,7 @@ export type ProjectEntry = {
   illustration: IllustrationKind;
   /** Describes the illustration for assistive technology. */
   illustrationLabel: string;
-  /** Absent (not empty) when a project has no public link — see project 2. */
+  /** Absent (not empty) when a project has no public link — see mawasem-dashboard. */
   link?: string;
   /** Second live app of the same project, shown beside `link`. */
   dashboardLink?: string;
@@ -51,6 +59,8 @@ export type ProjectEntry = {
   problem?: string[];
   built?: string[];
   features?: CaseFeature[];
+  /** Captures of the live demo, shown in their own case-page section. */
+  screenshots?: Screenshot[];
   hardParts: HardPart[];
   status?: string[];
 };
